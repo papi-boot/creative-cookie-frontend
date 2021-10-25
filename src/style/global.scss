@@ -1,0 +1,15 @@
+@use "root" as root;
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&family=Work+Sans:wght@100;300;400;500;600;700;800;900&display=swap");
+body {
+  box-sizing: border-box;
+  font-family: root.$primary-font;
+  margin: 0;
+  padding: 0;
+}
+.std-height {
+  height: 100vh;
+}
+
+.body-color-light {
+  // background-color: root.$body-color;
+}
