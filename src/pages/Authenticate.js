@@ -4,7 +4,12 @@ import { Tabs, Tab } from "react-bootstrap";
 import Register from "../pages-component/authenticate/Register";
 import Login from "../pages-component/authenticate/Login";
 const Authenticate = () => {
+  const { authenticateTab, dataReloader } = React.useContext(GlobalDataContext);
   const [currentTab, setCurrentTab] = React.useState("Login");
+  React.useEffect(() => {
+    // @TODO: change authenticate tab
+    setCurrentTab(authenticateTab);
+  }, [authenticateTab, dataReloader]);
   return (
     <Fragment>
       <div className="container std-height d-flex align-items-center justify-content-center flex-column">
@@ -13,12 +18,23 @@ const Authenticate = () => {
           onSelect={(tab) => setCurrentTab(tab)}
           className="mb-3"
         >
-          <Tab eventKey="Login" title={<span className="fw-bold">Login&nbsp;<i className="bi bi-arrow-down-circle-fill"></i></span>}>
-            <Login/>
+          <Tab
+            eventKey="Login"
+            title={
+              <span className="fw-bold">
+                Login&nbsp;<i className="bi bi-arrow-down-circle-fill"></i>
+              </span>
+            }
+          >
+            <Login />
           </Tab>
           <Tab
             eventKey="Register"
-            title={<span className="fw-bold">Register&nbsp;<i className="bi bi-arrow-down-circle-fill"></i></span>}
+            title={
+              <span className="fw-bold">
+                Register&nbsp;<i className="bi bi-arrow-down-circle-fill"></i>
+              </span>
+            }
           >
             <Register />
           </Tab>

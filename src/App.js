@@ -5,9 +5,11 @@ import ProtectedRoute from "./pages/ProtectedRoute";
 import Dashboard from "./pages/Dashboard";
 import Authenticate from "./pages/Authenticate";
 import ToastMessage from "./component/global/ToastMessage";
+import { usePreFetch } from "./api/usePreFetch";
 const App = () => {
   const { isAuthenticated, globalStyle } = React.useContext(GlobalDataContext);
   const history = useHistory();
+  usePreFetch();
   React.useEffect(() => {
     document.body.classList.add("body-color-light");
   }, []);
