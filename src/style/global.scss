@@ -2,6 +2,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&family=Work+Sans:wght@100;300;400;500;600;700;800;900&display=swap");
 body {
   box-sizing: border-box;
+  color: root.$black;
   font-family: root.$primary-font;
   margin: 0;
   padding: 0;
@@ -14,6 +15,13 @@ body {
   // background-color: root.$body-color;
 }
 
-.root > .hello {
-  
+.std-black {
+  color: root.$black;
+}
+
+.std-btn-style {
+  background-color: transparent;
+  color: root.$white;
+  border: none;
+  outline: none;
 }

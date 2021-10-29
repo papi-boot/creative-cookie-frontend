@@ -7,8 +7,14 @@ import { useHistory } from "react-router-dom";
 import SpinnerLoad from "../../component/global/SpinnerLoad";
 import ToolTip from "../../component/global/ToolTip";
 const Login = () => {
-  const { userEmail, useNotify, setGlobalMessage, setIsAuthenticated } =
-    React.useContext(GlobalDataContext);
+  const {
+    userEmail,
+    useNotify,
+    setGlobalMessage,
+    setIsAuthenticated,
+    setDataReloader,
+    dataReloader,
+  } = React.useContext(GlobalDataContext);
   const [showPassword, setShowPassword] = React.useState(false);
   const history = useHistory();
   const logSpinnerLoadRef = React.useRef(null);
@@ -23,18 +29,22 @@ const Login = () => {
     };
     useFetch(params, "POST", "login", setGlobalMessage, useNotify)
       .then((res) => {
+        console.log(res);
         if (res) {
           if (res.success) {
             setGlobalMessage(res.message);
             useNotify(res.message, "success");
             setIsAuthenticated(res.isAuthenticated);
-            logSpinnerLoadRef.current.toggleSpinner();
             resetForm();
+            logSpinnerLoadRef.current.toggleSpinner();
+            setDataReloader(!dataReloader);
             history.push("/dashboard");
           } else {
             setGlobalMessage(res.message);
             useNotify(res.message, "error");
             setIsAuthenticated(res.isAuthenticated);
+            setDataReloader(!dataReloader);
+
             logSpinnerLoadRef.current.toggleSpinner();
           }
         } else {
@@ -46,6 +56,7 @@ const Login = () => {
       .catch((err) => {
         setGlobalMessage(err.mesasage);
         useNotify(err.message, "error");
+        logSpinnerLoadRef.current.toggleSpinner();
       });
   };
 
@@ -94,7 +105,12 @@ const Login = () => {
         </Form.Group>
         <div className="d-flex align-items-center justify-content-between">
           <ToolTip placement="top" text="Show Password">
-            <Button className="fw-bold" size="sm" variant="light" onClick={() => setShowPassword(!showPassword)}>
+            <Button
+              className="fw-bold"
+              size="sm"
+              variant="light"
+              onClick={() => setShowPassword(!showPassword)}
+            >
               <span>
                 <i className="bi bi-eye"></i>
               </span>
