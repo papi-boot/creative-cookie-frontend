@@ -13,6 +13,7 @@ const Login = () => {
     setGlobalMessage,
     setIsAuthenticated,
     setDataReloader,
+    setUserInfo,
     dataReloader,
   } = React.useContext(GlobalDataContext);
   const [showPassword, setShowPassword] = React.useState(false);
@@ -34,20 +35,21 @@ const Login = () => {
           if (res.success) {
             setGlobalMessage(res.message);
             useNotify(res.message, "success");
+            setUserInfo(res.user);
             setIsAuthenticated(res.isAuthenticated);
             resetForm();
-            logSpinnerLoadRef.current.toggleSpinner();
             setDataReloader(!dataReloader);
+            logSpinnerLoadRef.current.toggleSpinner();
             history.push("/dashboard");
           } else {
+            logSpinnerLoadRef.current.toggleSpinner();
             setGlobalMessage(res.message);
             useNotify(res.message, "error");
             setIsAuthenticated(res.isAuthenticated);
             setDataReloader(!dataReloader);
-
-            logSpinnerLoadRef.current.toggleSpinner();
           }
         } else {
+          logSpinnerLoadRef.current.toggleSpinner();
           throw new Error(
             "Somethign went wrong. Plase try again or check your network."
           );
@@ -56,7 +58,6 @@ const Login = () => {
       .catch((err) => {
         setGlobalMessage(err.mesasage);
         useNotify(err.message, "error");
-        logSpinnerLoadRef.current.toggleSpinner();
       });
   };
 

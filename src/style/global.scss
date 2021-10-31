@@ -1,5 +1,24 @@
 @use "root" as root;
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&family=Work+Sans:wght@100;300;400;500;600;700;800;900&display=swap");
+::selection {
+  background-color: root.$black;
+  color: root.$white;
+  padding: root.$spacing-1;
+}
+::-moz-selection {
+  background-color: root.$black;
+  color: root.$white;
+  padding: root.$spacing-1;
+}
+::-webkit-selection {
+  background-color: root.$black;
+  color: root.$white;
+  padding: root.$spacing-1;
+}
+html {
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
 body {
   box-sizing: border-box;
   color: root.$black;
@@ -7,16 +26,17 @@ body {
   margin: 0;
   padding: 0;
 }
+
 .std-height {
   height: 100vh;
 }
 
 .body-color-light {
-  // background-color: root.$body-color;
+  background-color: root.$body-color;
 }
 
 .std-black {
-  color: root.$black;
+  color: root.$black !important;
 }
 
 .std-btn-style {
@@ -24,4 +44,14 @@ body {
   color: root.$white;
   border: none;
   outline: none;
+}
+
+.post-container-gap {
+  margin: root.$spacing-5 * 5 0;
+}
+
+@mixin post-container-gap-down-48rem {
+  .post-container-gap {
+    margin: root.$spacing-5 * 2 0 root.$spacing-5 * 5 0;
+  }
 }

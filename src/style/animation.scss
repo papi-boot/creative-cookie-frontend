@@ -1,0 +1,27 @@
+@use "root" as root;
+
+.shine {
+  animation: 1.1s ease infinite placeholderShimmer;
+  background: rgb(230, 230, 230);
+  background-image: linear-gradient(
+    to right,
+    rgb(230, 230, 230) 0%,
+    rgb(210, 210, 210) 20%,
+    rgb(230, 230, 230) 40%,
+    rgb(230, 230, 230) 100%
+  );
+  background-repeat: no-repeat;
+  background-size: 800px 104px;
+  display: inline-block;
+  position: relative;
+}
+
+@keyframes placeholderShimmer {
+  0% {
+    background-position: -468px 0;
+  }
+
+  100% {
+    background-position: 468px 0;
+  }
+}

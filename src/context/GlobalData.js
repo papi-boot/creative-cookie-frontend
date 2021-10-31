@@ -11,22 +11,31 @@ const GlobalDataProvider = (props) => {
   const [globalStyle, setGlobalStyle] = React.useState(lightTheme);
   const [dataReloader, setDataReloader] = React.useState(false);
   const [authenticateTab, setAuthenticateTab] = React.useState("Login");
+  const [isPostSubmitted, setIsPostSubmitted] = React.useState(false);
+  const [post, setPost] = React.useState([]);
+  const [postReloader, setPostReloader] = React.useState(false);
   const value = {
     isAuthenticated,
     globalMessage,
     globalStyle,
     userEmail,
     userInfo,
+    post,
+    postReloader,
     dataReloader,
     authenticateTab,
+    isPostSubmitted,
+    setPost,
+    setIsPostSubmitted,
     setIsAuthenticated,
+    setPostReloader,
     setDataReloader,
     setUserEmail,
     setUserInfo,
     setAuthenticateTab,
     setGlobalMessage,
     setGlobalStyle,
-    useNotify
+    useNotify,
   };
   return (
     <GlobalDataContext.Provider value={value}>
