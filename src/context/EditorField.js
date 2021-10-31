@@ -63,7 +63,6 @@ const EditorField = React.forwardRef((props, ref) => {
               className="mx-1"
               onClick={() => {
                 addTagSequence();
-                console.log(tagsArray);
               }}
             >
               <span>

@@ -5,7 +5,6 @@ import { GlobalDataContext } from "../../context/GlobalData";
 import { formatDistanceToNow } from "date-fns";
 const DashboardPost = () => {
   const { post, userInfo } = React.useContext(GlobalDataContext);
-  console.log(JSON.parse(post[0].post_tag));
   const removeArrowDropdownRef = React.useRef(null);
   React.useEffect(() => {
     console.log(removeArrowDropdownRef.current);
