@@ -23,11 +23,16 @@ const ShowPostModal = React.forwardRef((props, ref) => {
           <Modal.Title>
             <ToolTip
               placement="bottom"
-              text={`Thread post by ${
-                showPostDetail.user_full_name
-              } - ${formatDistanceToNow(new Date(showPostDetail.post_created_at), {
-                addSuffix: true,
-              })}`}
+              text={`Thread post by ${showPostDetail.user_full_name} - ${
+                showPostDetail
+                  ? formatDistanceToNow(
+                      new Date(showPostDetail.post_created_at),
+                      {
+                        addSuffix: true,
+                      }
+                    )
+                  : ""
+              }`}
             >
               <div
                 className="show-post-header"
