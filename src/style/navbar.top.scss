@@ -22,8 +22,16 @@
 }
 
 .link-active {
+  align-items: center;
+  display: flex;
   background-color: root.$primary-color;
   border-radius: root.$spacing-2;
   color: root.$white !important;
   padding: root.$spacing-2;
+}
+
+@mixin navtop-down-48rem {
+  .nav-top {
+    display: none;
+  }
 }

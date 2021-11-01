@@ -1,0 +1,22 @@
+@use "root" as root;
+
+.nav-bottom {
+  display: none;
+}
+
+.write-post-wrapper {
+  background-color: #2465fb;
+  clip-path: circle(37% at 41% 39%);
+  height: root.$spacing-5 * 4;
+  overflow: hidden;
+  position: absolute;
+  right: -.5rem;
+  top: -3.5rem;
+  width: root.$spacing-5 * 4;
+}
+
+@mixin navbottom-down-48rem {
+  .nav-bottom {
+    display: inline-flex;
+  }
+}

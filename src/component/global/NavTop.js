@@ -5,6 +5,7 @@ import { Navbar, NavDropdown, Badge } from "react-bootstrap";
 import { GlobalDataContext } from "../../context/GlobalData";
 import { useFetch } from "../../api/useFetch";
 import SpinnerLoad from "./SpinnerLoad";
+import WritePostModal from "./WritePostModal";
 const NavTop = () => {
   const history = useHistory();
   const {
@@ -14,8 +15,9 @@ const NavTop = () => {
     setIsAuthenticated,
     setDataReloader,
     dataReloader,
-    setUserInfo
+    setUserInfo,
   } = React.useContext(GlobalDataContext);
+  const writePostModalRef = React.useRef(null);
   const nvTopSpinnerLoadRef = React.useRef(null);
   const logOutRequest = (e) => {
     nvTopSpinnerLoadRef.current.toggleSpinner();
@@ -43,13 +45,15 @@ const NavTop = () => {
         useNotify(err.message, "error");
       });
   };
+
+  // @TODO: toggle modal open write POST
+  const openWritePost = () => {
+    writePostModalRef.current.toggleModal();
+  };
   return (
     <Fragment>
-      <Navbar
-        bg="light"
-        sticky="top"
-        className="main-nav nav-top border-bottom"
-      >
+      <WritePostModal ref={writePostModalRef} />
+      <Navbar bg="light" fixed="top" className="main-nav nav-top border-bottom">
         <div className="container d-flex align-items-center justify-content-between">
           <div className="navbar-brand">
             <h4 className="fw-bold m-0 std-black">Creative Cookie</h4>
@@ -62,20 +66,24 @@ const NavTop = () => {
                   className="nav_link"
                   to="/dashboard"
                 >
-                  <span>
+                  <span className="d-flex align-items-center">
                     <i className="bi bi-house-door-fill"></i>&nbsp;Home
                   </span>
                 </NavLink>
               </li>
               <li className="nav_item">
-                <NavLink
-                  activeClassName="link-active"
-                  className="nav_link"
-                  to="/write-post"
-                >
-                  <span>
-                    <i className="bi bi-pencil-square"></i>&nbsp;Write
-                  </span>
+                <NavLink className="nav_link" to="#write-post">
+                  <button
+                    className="std-btn-style std-black"
+                    onClick={() => openWritePost()}
+                  >
+                    <span
+                      className="d-flex align-items-center"
+                      style={{ fontWeight: "500" }}
+                    >
+                      <i className="bi bi-pencil-square"></i>&nbsp;Write
+                    </span>
+                  </button>
                 </NavLink>
               </li>
               <li className="nav_item">
@@ -84,9 +92,13 @@ const NavTop = () => {
                   className="nav_link"
                   to="/notifacation"
                 >
-                  <div style={{ position: "relative" }}>
-                    <span>
-                      <i className="bi bi-bell"></i>&nbsp;Notification&nbsp;
+                  <div
+                    className="d-flex align-items-center"
+                    style={{ position: "relative" }}
+                  >
+                    <span className="d-flex align-items-center">
+                      <i className="bi bi-bell-fill"></i>
+                      &nbsp;Notification&nbsp;
                     </span>
                     <Badge
                       pill
@@ -106,12 +118,25 @@ const NavTop = () => {
 
               <NavDropdown
                 menuVariant="dark"
-                className="p-0"
+                className="p-0 mx-3"
                 title={
-                  <span className="fw-bold std-black">
-                    <i className="bi bi-person-circle"></i>&nbsp;
-                    {userInfo.user_full_name}
-                  </span>
+                  <div className="d-flex align-items-center">
+                    <span className="d-flex align-items-center fw-bold">
+                      <i className="bi bi-person-circle"></i>&nbsp;
+                      <div
+
+                        style={{
+                          overflow: "hidden",
+                          width: "5rem",
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        {userInfo.user_full_name}
+                      </div>
+                      <i className="bi bi-chevron-down"></i>
+                    </span>
+                  </div>
                 }
               >
                 <NavDropdown.Item>

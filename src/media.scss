@@ -1,0 +1,41 @@
+// 320px < mobile screen
+@media screen and (max-width: 20rem) {
+}
+
+// 576px < mobile screen or portrait
+@media screen and (max-width: 36rem) {
+}
+
+// > 576px
+@media screen and (min-width: 36rem) {
+}
+
+// 768px <
+@media screen and (max-width: 48rem) {
+  @include dashboard-post-down-48rem();
+  @include navtop-down-48rem();
+  @include navbottom-down-48rem();
+  @include post-container-gap-down-48rem();
+}
+// > 768px
+@media screen and (min-width: 48rem) {
+}
+
+// > 992px
+@media screen and (min-width: 62rem) {
+}
+
+// 1024px <
+@media screen and (max-width: 64rem) {
+}
+// > 1024px
+@media screen and (min-width: 64rem) {
+}
+
+// > 1200px
+@media screen and (min-width: 75rem) {
+}
+
+// >  1400 px
+@media screen and (min-width: 87.5rem) {
+}

@@ -1,0 +1,85 @@
+@use "root" as root;
+
+.post-card-wrapper {
+  background-color: root.$solid-white;
+  border-radius: root.$spacing-2;
+  height: 15rem;
+  margin: root.$spacing-5 * 2 auto;
+  overflow: hidden;
+  padding: root.$spacing-3;
+  position: relative;
+  width: 50%;
+  > .post-header {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    > .post-created-by-wrapper {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .post-menu-btn-wrapper {
+      border-radius: 20%;
+      padding: 0 root.$spacing-1;
+
+      &:hover {
+        background-color: root.$gray-light;
+      }
+      &:focus-within {
+        background-color: root.$gray-light;
+      }
+      > .post-menu-btn {
+      }
+    }
+  }
+  > .post-body-wrapper {
+    > .post-content {
+    }
+  }
+  > .post-content-fade-wrapper {
+    background-image: linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 1),
+      rgba(255, 255, 255, 0.4)
+    );
+    bottom: 0;
+    filter: blur(root.$spacing-5);
+    height: root.$spacing-5 * 3;
+    left: 0;
+    position: absolute;
+    right: 0;
+  }
+  > .post-footer {
+    background-color: root.$white;
+    align-items: center;
+    bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    left: 0;
+    position: absolute;
+    right: 0;
+  }
+}
+.post-menu-btn {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: root.$black !important;
+  font-size: 1.1rem !important;
+  outline: none !important;
+  padding: 0 root.$spacing-1 !important;
+}
+
+.post-footer-btn {
+  &:hover {
+    background-color: rgb(230, 230, 230);
+    color: root.$primary-color !important;
+  }
+}
+
+@mixin dashboard-post-down-48rem {
+  .post-card-wrapper {
+    margin: root.$spacing-5 * 1  0 root.$spacing-5 * 2 0;
+    width: 100%;
+  }
+}
