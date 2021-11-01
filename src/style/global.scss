@@ -50,8 +50,15 @@ body {
   margin: root.$spacing-5 * 5 0;
 }
 
+.show-post-header {
+  width: max-content;
+}
+
 @mixin post-container-gap-down-48rem {
   .post-container-gap {
     margin: root.$spacing-5 * 2 0 root.$spacing-5 * 5 0;
+  }
+  .show-post-header {
+    width: 12rem;
   }
 }
