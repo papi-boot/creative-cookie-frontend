@@ -24,7 +24,7 @@ const ShowPostModal = React.forwardRef((props, ref) => {
             <ToolTip
               placement="bottom"
               text={`Thread post by ${showPostDetail.user_full_name} - ${
-                showPostDetail
+                showPostDetail.post_created_at
                   ? formatDistanceToNow(
                       new Date(showPostDetail.post_created_at),
                       {
