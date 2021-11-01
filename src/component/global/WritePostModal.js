@@ -55,6 +55,7 @@ const WritePostModal = React.forwardRef((props, ref) => {
         show={show}
         onHide={close}
         size="xl"
+        backdrop="static"
         enforceFocus={false}
         animation={true}
       >

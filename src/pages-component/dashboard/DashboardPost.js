@@ -1,11 +1,22 @@
 import React, { Fragment } from "react";
 import { DropdownButton, Dropdown, Badge } from "react-bootstrap";
-import ToolTip from "../../component/global/ToolTip";
 import { GlobalDataContext } from "../../context/GlobalData";
 import { formatDistanceToNow } from "date-fns";
+import EditPostModal from "../../component/global/EditPostModal";
+import DeletePostModal from "../../component/global/DeletePostModal";
+import ShowPostModal from "../../component/dashboard/ShowPostModal";
+import ToolTip from "../../component/global/ToolTip";
 const DashboardPost = () => {
-  const { post, userInfo } = React.useContext(GlobalDataContext);
+  const {
+    post,
+    userInfo,
+    setShowPostDetail,
+    setEditPostDetail,
+  } = React.useContext(GlobalDataContext);
   const removeArrowDropdownRef = React.useRef(null);
+  const showPostModalRef = React.useRef(null);
+  const editPostModalRef = React.useRef(null);
+  const deletePostModalRef = React.useRef(null);
   React.useEffect(() => {
     console.log(removeArrowDropdownRef.current);
     if (removeArrowDropdownRef.current) {
@@ -20,6 +31,27 @@ const DashboardPost = () => {
       });
     }
   }, [post]);
+  // @TODO: show post modal
+  const openShowPostModal = (post_detail) => {
+    setShowPostDetail(post_detail);
+    showPostModalRef.current.toggleModal();
+  };
+
+  // @TODO: open edit post modal
+  const openEditPostModal = (_post_id, _post_content, _post_tag) => {
+    setEditPostDetail({
+      post_id: _post_id,
+      post_content: _post_content,
+      post_tag: JSON.parse(_post_tag),
+    });
+    editPostModalRef.current.toggleModal();
+  };
+
+  // @TODO: open delete post modal
+  const openDeletePostModal = (post_id) => {
+    deletePostModalRef.current.toggleModal(post_id);
+  };
+  // @TODO: iterate post;
   const dashboardPostList = () => {
     return post.map((item) => (
       <div className="post-card-wrapper border">
@@ -33,9 +65,9 @@ const DashboardPost = () => {
                 whiteSpace: "nowrap",
               }}
             >
-              <span>
-                <i className="bi bi-person-circle"></i>&nbsp;
-                {item.user_full_name}
+              <span className="fw-bold">
+                <i className="bi bi-check-circle-fill text-primary"></i>&nbsp;
+                {item.user_full_name}&nbsp;
               </span>
             </h6>
           </div>
@@ -59,12 +91,22 @@ const DashboardPost = () => {
                     </span>
                     &nbsp;Post Options
                   </Dropdown.Header>
-                  <Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() =>
+                      openEditPostModal(
+                        item.post_id,
+                        item.post_content,
+                        item.post_tag
+                      )
+                    }
+                  >
                     <span>
                       <i className="bi bi-pencil-square"></i>&nbsp;Edit
                     </span>
                   </Dropdown.Item>
-                  <Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => openDeletePostModal(item.post_id)}
+                  >
                     <span>
                       <i className="bi bi-trash-fill"></i>&nbsp;Delete
                     </span>
@@ -88,6 +130,15 @@ const DashboardPost = () => {
             {formatDistanceToNow(new Date(item.post_created_at), {
               addSuffix: true,
             })}
+            &nbsp;
+            {new Date(item.post_created_at) < new Date(item.post_updated_at) ? (
+              <span>
+                <i className="bi bi-dot"></i>
+                Edited
+              </span>
+            ) : (
+              ""
+            )}
           </span>
         </div>
         <div className="post-tag-wrapper d-flex align-items-center flex-wrap">
@@ -106,7 +157,7 @@ const DashboardPost = () => {
         <div className="post-content-fade-wrapper"></div>
         <div className="post-footer border-top">
           <div className="w-100 d-flex justify-content-center">
-            <ToolTip placement="top" text="Thumbs up">
+            <ToolTip placement="top" text="Like">
               <button className="w-100 std-btn-style std-black p-1 post-footer-btn">
                 <span style={{ fontSize: "1.1rem" }}>
                   <i className="bi bi-hand-thumbs-up-fill"></i>
@@ -115,7 +166,7 @@ const DashboardPost = () => {
             </ToolTip>
           </div>
           <div className="w-100 d-flex justify-content-center">
-            <ToolTip placement="top" text="Thumbs down">
+            <ToolTip placement="top" text="Dislike">
               <button className="w-100 std-btn-style std-black p-1 post-footer-btn">
                 <span style={{ fontSize: "1.1rem" }}>
                   <i className="bi bi-hand-thumbs-down-fill"></i>
@@ -134,7 +185,10 @@ const DashboardPost = () => {
           </div>
           <div className="w-100 d-flex justify-content-center">
             <ToolTip placement="top" text="View Post">
-              <button className="w-100 std-btn-style std-black p-1 post-footer-btn">
+              <button
+                className="w-100 std-btn-style std-black p-1 post-footer-btn"
+                onClick={() => openShowPostModal(item)}
+              >
                 <span style={{ fontSize: "1.1rem" }}>
                   <i className="bi bi-box-arrow-up-right"></i>
                 </span>
@@ -146,7 +200,14 @@ const DashboardPost = () => {
     ));
   };
 
-  return <Fragment>{dashboardPostList()}</Fragment>;
+  return (
+    <Fragment>
+      <ShowPostModal ref={showPostModalRef} />
+      <EditPostModal ref={editPostModalRef} />
+      <DeletePostModal ref={deletePostModalRef} />
+      {dashboardPostList()}
+    </Fragment>
+  );
 };
 
 export default DashboardPost;

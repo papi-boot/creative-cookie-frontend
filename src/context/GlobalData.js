@@ -14,6 +14,12 @@ const GlobalDataProvider = (props) => {
   const [isPostSubmitted, setIsPostSubmitted] = React.useState(false);
   const [post, setPost] = React.useState([]);
   const [postReloader, setPostReloader] = React.useState(false);
+  const [editPostDetail, setEditPostDetail] = React.useState({
+    post_id: "",
+    post_content: "",
+    post_tag: [],
+  });
+  const [showPostDetail, setShowPostDetail] = React.useState({});
   const value = {
     isAuthenticated,
     globalMessage,
@@ -21,6 +27,8 @@ const GlobalDataProvider = (props) => {
     userEmail,
     userInfo,
     post,
+    editPostDetail,
+    showPostDetail,
     postReloader,
     dataReloader,
     authenticateTab,
@@ -32,6 +40,8 @@ const GlobalDataProvider = (props) => {
     setDataReloader,
     setUserEmail,
     setUserInfo,
+    setShowPostDetail,
+    setEditPostDetail,
     setAuthenticateTab,
     setGlobalMessage,
     setGlobalStyle,

@@ -6,6 +6,7 @@ import { GlobalDataContext } from "../../context/GlobalData";
 import { useFetch } from "../../api/useFetch";
 import SpinnerLoad from "./SpinnerLoad";
 import WritePostModal from "./WritePostModal";
+import ToolTip from "./ToolTip";
 const NavTop = () => {
   const history = useHistory();
   const {
@@ -90,7 +91,7 @@ const NavTop = () => {
                 <NavLink
                   activeClassName="link-active"
                   className="nav_link"
-                  to="/notifacation"
+                  to="/notification"
                 >
                   <div
                     className="d-flex align-items-center"
@@ -120,23 +121,25 @@ const NavTop = () => {
                 menuVariant="dark"
                 className="p-0 mx-3"
                 title={
-                  <div className="d-flex align-items-center">
-                    <span className="d-flex align-items-center fw-bold">
-                      <i className="bi bi-person-circle"></i>&nbsp;
-                      <div
-
-                        style={{
-                          overflow: "hidden",
-                          width: "5rem",
-                          textOverflow: "ellipsis",
-                          whiteSpace: "nowrap",
-                        }}
-                      >
-                        {userInfo.user_full_name}
-                      </div>
-                      <i className="bi bi-chevron-down"></i>
-                    </span>
-                  </div>
+                  <ToolTip placement="bottom" text={userInfo.user_full_name}>
+                    <div className="d-flex align-items-center">
+                      <span className="d-flex align-items-center fw-bold">
+                        <i className="bi bi-person-circle"></i>&nbsp;
+                        <div
+                          style={{
+                            overflow: "hidden",
+                            width: "max-content",
+                            maxWidth: "3.5rem",
+                            textOverflow: "ellipsis",
+                            whiteSpace: "nowrap",
+                          }}
+                        >
+                          {userInfo.user_full_name}
+                        </div>
+                        <i className="bi bi-chevron-down"></i>
+                      </span>
+                    </div>
+                  </ToolTip>
                 }
               >
                 <NavDropdown.Item>

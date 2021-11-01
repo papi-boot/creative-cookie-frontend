@@ -4,17 +4,14 @@ import { Editor } from "@tinymce/tinymce-react";
 import SpinnerLoad from "../component/global/SpinnerLoad";
 import { Button, Form, Badge } from "react-bootstrap";
 import { v4 as uuidV4 } from "uuid";
-import { useFetch } from "../api/useFetch";
 import { GlobalDataContext } from "./GlobalData";
+import ToolTip from "../component/global/ToolTip";
 const EditorField = React.forwardRef((props, ref) => {
-  const {
-    useNotify,
-    setGlobalMessage,
-    setIsPostSubmitted,
-    isPostSubmitted,
-  } = React.useContext(GlobalDataContext);
+  const { editPostDetail, setEditPostDetail } = React.useContext(
+    GlobalDataContext
+  );
   const [showLoading, setShowLoading] = React.useState(true);
-  const [tagsArray, setTagsArray] = React.useState([]);
+  const [tagsArray, setTagsArray] = React.useState(editPostDetail.post_tag);
   const [editorFieldContent, setEditorFieldContent] = React.useState("");
   const editorRef = React.useRef(null);
   const tagTextContentRef = React.useRef(null);
@@ -57,18 +54,37 @@ const EditorField = React.forwardRef((props, ref) => {
             />
           </Form.Group>
           <Form.Group>
-            <Button
-              size="sm"
-              variant="primary"
-              className="mx-1"
-              onClick={() => {
-                addTagSequence();
-              }}
-            >
-              <span>
-                Add Tag&nbsp;<i className="bi bi-plus"></i>
-              </span>
-            </Button>
+            <ToolTip placement="top" text="Add Tag">
+              <Button
+                size="sm"
+                variant="primary"
+                className="mx-1"
+                onClick={() => {
+                  addTagSequence();
+                }}
+              >
+                <span>
+                  <i className="bi bi-plus"></i>
+                </span>
+              </Button>
+            </ToolTip>
+            <ToolTip placement="top" text="Reset Form">
+              <Button
+                size="sm"
+                variant="danger"
+                onClick={() =>
+                  setEditPostDetail({
+                    post_id: "",
+                    post_content: "",
+                    post_tag: [],
+                  })
+                }
+              >
+                <span>
+                  <i className="bi bi-arrow-clockwise"></i>
+                </span>
+              </Button>
+            </ToolTip>
           </Form.Group>
         </div>
       ) : (
@@ -97,6 +113,7 @@ const EditorField = React.forwardRef((props, ref) => {
       </div>
       <Editor
         tinymceScriptSrc={`${process.env.PUBLIC_URL}/tinymce/tinymce.min.js`}
+        initialValue={editPostDetail.post_content}
         onInit={(evt, editor) => {
           editorRef.current = editor;
           if (editorRef.current) {
@@ -151,7 +168,7 @@ const EditorField = React.forwardRef((props, ref) => {
           branding: false,
           resize: false,
           object_resizing: true,
-          content_css: [`${process.env.PUBLIC_URL}/prism/prism.css`].join("\n")
+          content_css: [`${process.env.PUBLIC_URL}/prism/prism.css`].join("\n"),
         }}
       />
     </Fragment>
