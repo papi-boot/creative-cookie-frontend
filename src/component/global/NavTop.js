@@ -17,6 +17,7 @@ const NavTop = () => {
     setDataReloader,
     dataReloader,
     setUserInfo,
+    postLimit
   } = React.useContext(GlobalDataContext);
   const writePostModalRef = React.useRef(null);
   const nvTopSpinnerLoadRef = React.useRef(null);
@@ -31,7 +32,7 @@ const NavTop = () => {
             useNotify(res.message, "success");
             setIsAuthenticated(res.isAuthenticated);
             setUserInfo(res.user);
-            history.push("/authenticate");
+            history.replace("/authenticate");
           } else {
             nvTopSpinnerLoadRef.current.toggleSpinner();
             throw new Error("Something went wrong. Please try again or later");
@@ -65,7 +66,7 @@ const NavTop = () => {
                 <NavLink
                   activeClassName="link-active"
                   className="nav_link"
-                  to="/dashboard"
+                  to="dashboard"
                 >
                   <span className="d-flex align-items-center">
                     <i className="bi bi-house-door-fill"></i>&nbsp;Home

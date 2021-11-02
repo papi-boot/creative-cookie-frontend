@@ -15,6 +15,7 @@ const Login = () => {
     setDataReloader,
     setUserInfo,
     dataReloader,
+    postLimit,
   } = React.useContext(GlobalDataContext);
   const [showPassword, setShowPassword] = React.useState(false);
   const history = useHistory();
@@ -40,7 +41,7 @@ const Login = () => {
             resetForm();
             setDataReloader(!dataReloader);
             logSpinnerLoadRef.current.toggleSpinner();
-            history.push("/dashboard");
+            history.replace("/dashboard");
           } else {
             logSpinnerLoadRef.current.toggleSpinner();
             setGlobalMessage(res.message);

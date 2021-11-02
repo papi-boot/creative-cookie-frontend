@@ -1,10 +1,11 @@
 import React, { Fragment } from "react";
-import { DropdownButton, Dropdown, Badge } from "react-bootstrap";
+import { DropdownButton, Dropdown, Badge, Button } from "react-bootstrap";
 import { GlobalDataContext } from "../../context/GlobalData";
 import { formatDistanceToNow } from "date-fns";
 import EditPostModal from "../../component/global/EditPostModal";
 import DeletePostModal from "../../component/global/DeletePostModal";
 import ShowPostModal from "../../component/dashboard/ShowPostModal";
+import SpinnerLoad from "../../component/global/SpinnerLoad";
 import ToolTip from "../../component/global/ToolTip";
 const DashboardPost = () => {
   const {
@@ -12,13 +13,18 @@ const DashboardPost = () => {
     userInfo,
     setShowPostDetail,
     setEditPostDetail,
+    postReloader,
+    setPostReloader,
+    setPostLimit,
+    postLimit,
+    loadMorePostRef,
+    btnLoadMoreRef,
   } = React.useContext(GlobalDataContext);
   const removeArrowDropdownRef = React.useRef(null);
   const showPostModalRef = React.useRef(null);
   const editPostModalRef = React.useRef(null);
   const deletePostModalRef = React.useRef(null);
   React.useEffect(() => {
-    console.log(removeArrowDropdownRef.current);
     if (removeArrowDropdownRef.current) {
       removeArrowDropdownRef.current.firstChild.classList.remove(
         "dropdown-toggle"
@@ -166,15 +172,6 @@ const DashboardPost = () => {
             </ToolTip>
           </div>
           <div className="w-100 d-flex justify-content-center">
-            <ToolTip placement="top" text="Dislike">
-              <button className="w-100 std-btn-style std-black p-1 post-footer-btn">
-                <span style={{ fontSize: "1.1rem" }}>
-                  <i className="bi bi-hand-thumbs-down-fill"></i>
-                </span>
-              </button>
-            </ToolTip>
-          </div>
-          <div className="w-100 d-flex justify-content-center">
             <ToolTip placement="top" text="Comments">
               <button className="w-100 std-btn-style std-black p-1 post-footer-btn">
                 <span style={{ fontSize: "1.1rem" }}>
@@ -199,13 +196,31 @@ const DashboardPost = () => {
       </div>
     ));
   };
-
   return (
     <Fragment>
       <ShowPostModal ref={showPostModalRef} />
       <EditPostModal ref={editPostModalRef} />
       <DeletePostModal ref={deletePostModalRef} />
       {dashboardPostList()}
+      <div className="d-flex align-items-center justify-content-center">
+        {post.length > 0 ? (
+          <Button
+            ref={btnLoadMoreRef}
+            variant="dark"
+            size="sm"
+            onClick={() => {
+              loadMorePostRef.current.toggleSpinner();
+              setPostLimit(postLimit + 5);
+              setPostReloader(!postReloader);
+            }}
+          >
+            Load more&nbsp;
+            <SpinnerLoad animation="border" size="sm" ref={loadMorePostRef} />
+          </Button>
+        ) : (
+          ""
+        )}
+      </div>
     </Fragment>
   );
 };

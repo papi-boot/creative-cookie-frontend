@@ -169,6 +169,7 @@ const EditorField = React.forwardRef((props, ref) => {
           resize: false,
           object_resizing: true,
           content_css: [`${process.env.PUBLIC_URL}/prism/prism.css`].join("\n"),
+          codesample_languages: [{ text: "Auto", value: "javascript" }],
         }}
       />
     </Fragment>
