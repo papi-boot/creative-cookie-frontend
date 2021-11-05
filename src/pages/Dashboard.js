@@ -29,7 +29,7 @@ const Dashboard = () => {
     Prism.highlightAll();
     fetch(
       process.env.NODE_ENV === "production"
-        ? "https://creative-cookie.herokuapp.com"
+        ? "https://creative-cookie.herokuapp.com/post"
         : "http://localhost:3030/post",
       {
         method: "GET",
