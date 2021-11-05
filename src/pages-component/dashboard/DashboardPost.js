@@ -1,7 +1,15 @@
+/*eslint-disable react-hooks/rules-of-hooks*/
 import React, { Fragment } from "react";
-import { DropdownButton, Dropdown, Badge, Button } from "react-bootstrap";
+import {
+  DropdownButton,
+  Dropdown,
+  Badge,
+  Button,
+  Spinner,
+} from "react-bootstrap";
 import { GlobalDataContext } from "../../context/GlobalData";
 import { formatDistanceToNow } from "date-fns";
+import { useFetch } from "../../api/useFetch";
 import EditPostModal from "../../component/global/EditPostModal";
 import DeletePostModal from "../../component/global/DeletePostModal";
 import ShowPostModal from "../../component/dashboard/ShowPostModal";
@@ -10,8 +18,10 @@ import ToolTip from "../../component/global/ToolTip";
 const DashboardPost = () => {
   const {
     post,
+    postLike,
     userInfo,
     setShowPostDetail,
+    showPostDetail,
     setEditPostDetail,
     postReloader,
     setPostReloader,
@@ -19,6 +29,9 @@ const DashboardPost = () => {
     postLimit,
     loadMorePostRef,
     btnLoadMoreRef,
+    setGlobalMessage,
+    useNotify,
+    likeSpinnerLoadRef,
   } = React.useContext(GlobalDataContext);
   const removeArrowDropdownRef = React.useRef(null);
   const showPostModalRef = React.useRef(null);
@@ -37,9 +50,18 @@ const DashboardPost = () => {
       });
     }
   }, [post]);
+
   // @TODO: show post modal
-  const openShowPostModal = (post_detail) => {
-    setShowPostDetail(post_detail);
+  const openShowPostModal = (postItem) => {
+    const filterLikes = postLike.filter(
+      (postLikeItem) => postLikeItem.plr_post_ref === postItem.post_id
+    );
+    setShowPostDetail({
+      post: postItem,
+      post_like: filterLikes,
+      post_comment: [],
+    });
+    console.log(showPostDetail);
     showPostModalRef.current.toggleModal();
   };
 
@@ -57,10 +79,63 @@ const DashboardPost = () => {
   const openDeletePostModal = (post_id) => {
     deletePostModalRef.current.toggleModal(post_id);
   };
+
+  // @TODO: like post request
+  const likePostRequest = (item, index) => {
+    likeSpinnerLoadRef.current[index].classList.remove("d-none");
+    console.log(likeSpinnerLoadRef);
+    const params = {
+      post_id: item.post_id,
+      plr_status: true,
+    };
+    useFetch(params, "POST", "post-like", setGlobalMessage, useNotify)
+      .then((res) => {
+        if (res) {
+          if (res.success) {
+            setGlobalMessage(res.message);
+            setPostReloader(!postReloader);
+            useNotify(res.message, "success");
+            likeSpinnerLoadRef.current[index].classList.add("d-none");
+          } else {
+            useNotify(res.message, "error");
+            likeSpinnerLoadRef.current[index].classList.add("d-none");
+          }
+        } else {
+          throw new Error("Something went wrong. Please try again or later");
+        }
+      })
+      .catch((err) => {
+        setGlobalMessage(err.message);
+        useNotify(err.message, "error");
+        likeSpinnerLoadRef.current[index].classList.add("d-none");
+      });
+  };
+
+  // @TODO: Count likes
+  const countLikes = (postItem) => {
+    const filterCountLike = postLike.filter(
+      (postLikeItem) => postLikeItem.plr_post_ref === postItem.post_id
+    );
+    return filterCountLike;
+  };
+  // @TODO: check like status
+  const checkLikeStatus = (item) => {
+    if (
+      postLike.find(
+        (postItem) =>
+          postItem.plr_post_ref === item.post_id &&
+          postItem.plr_user_ref === userInfo.user_id
+      )
+    ) {
+      return "text-primary";
+    } else {
+      return "";
+    }
+  };
   // @TODO: iterate post;
   const dashboardPostList = () => {
-    return post.map((item) => (
-      <div className="post-card-wrapper border">
+    return post.map((item, index) => (
+      <div className="post-card-wrapper border" key={item.post_id}>
         <div className="post-header border-bottom py-1">
           <div className="post-created-by-wrapper me-1">
             <h6
@@ -164,9 +239,23 @@ const DashboardPost = () => {
         <div className="post-footer border-top">
           <div className="w-100 d-flex justify-content-center">
             <ToolTip placement="top" text="Like">
-              <button className="w-100 std-btn-style std-black p-1 post-footer-btn">
-                <span style={{ fontSize: "1.1rem" }}>
+              <button
+                className="w-100 std-btn-style std-black p-1 post-footer-btn"
+                onClick={() => likePostRequest(item, index)}
+              >
+                <span
+                  className={checkLikeStatus(item)}
+                  style={{ fontSize: "1.1rem" }}
+                >
                   <i className="bi bi-hand-thumbs-up-fill"></i>
+                  &nbsp;
+                  <span className="fw-bold">
+                    {countLikes(item).length > 0 ? countLikes(item).length : ""}
+                  </span>
+                  &nbsp;
+                  <span className="like-spinner d-none">
+                    <Spinner animation="grow" size="sm" />
+                  </span>
                 </span>
               </button>
             </ToolTip>
@@ -184,7 +273,7 @@ const DashboardPost = () => {
             <ToolTip placement="top" text="View Post">
               <button
                 className="w-100 std-btn-style std-black p-1 post-footer-btn"
-                onClick={() => openShowPostModal(item)}
+                onClick={() => openShowPostModal(item, index)}
               >
                 <span style={{ fontSize: "1.1rem" }}>
                   <i className="bi bi-box-arrow-up-right"></i>

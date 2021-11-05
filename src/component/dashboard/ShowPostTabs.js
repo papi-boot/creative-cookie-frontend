@@ -40,7 +40,8 @@ const ShowPostTabs = () => {
           <Nav.Item>
             <Nav.Link eventKey="like">
               <span>
-                <i className="bi bi-hand-thumbs-up-fill"></i>
+                <i className="bi bi-hand-thumbs-up-fill"></i>&nbsp;
+                {showPostDetail.post_like.length}
               </span>
             </Nav.Link>
           </Nav.Item>
@@ -51,13 +52,29 @@ const ShowPostTabs = () => {
               <div
                 className="show-post-content"
                 dangerouslySetInnerHTML={{
-                  __html: showPostDetail.post_content,
+                  __html: showPostDetail.post.post_content,
                 }}
               ></div>
             </Container>
           </Tab.Pane>
           <Tab.Pane eventKey="comment"></Tab.Pane>
-          <Tab.Pane eventKey="like"></Tab.Pane>
+          <Tab.Pane eventKey="like" className="py-3">
+            <Container>
+              {showPostDetail.post_like.map((item) => (
+                <div className="row my-2">
+                  <div className="col-lg-4" key={item.plr_id}></div>
+                  <div key={item.plr_id} className="col-lg-4">
+                    <span className="fw-bold">
+                      <i className="bi bi-check-circle-fill text-primary"></i>
+                      &nbsp;
+                      {item.user_full_name}
+                    </span>
+                  </div>
+                  <div className="col-lg-4" key={item.plr_id}></div>
+                </div>
+              ))}
+            </Container>
+          </Tab.Pane>
         </Tab.Content>
       </Tab.Container>
     </Fragment>

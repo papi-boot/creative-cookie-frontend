@@ -20,6 +20,8 @@ const Dashboard = () => {
     btnLoadMoreRef,
     setLastPostLimit,
     lastPostLimit,
+    setPostLike,
+    likeSpinnerLoadRef
   } = React.useContext(GlobalDataContext);
   const [showPlaceholder, setShowPlaceholder] = React.useState(true);
   React.useEffect(() => {
@@ -42,9 +44,11 @@ const Dashboard = () => {
           if (res.success) {
             setGlobalMessage(res.message);
             setPost(res.post);
+            setPostLike(res.post_like);
             setShowPlaceholder(false);
             Prism.highlightAll();
-
+            const likeSpinner = document.querySelectorAll(".like-spinner");
+            likeSpinnerLoadRef.current = likeSpinner;
             if (res.post.length > lastPostLimit) {
               loadMorePostRef.current.toggleSpinner();
               setLastPostLimit(res.post.length);

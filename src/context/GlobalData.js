@@ -15,15 +15,17 @@ const GlobalDataProvider = (props) => {
   const [authenticateTab, setAuthenticateTab] = React.useState("Login");
   const [isPostSubmitted, setIsPostSubmitted] = React.useState(false);
   const [post, setPost] = React.useState([]);
+  const [postLike, setPostLike] = React.useState([]);
   const [postReloader, setPostReloader] = React.useState(false);
   const [editPostDetail, setEditPostDetail] = React.useState({
     post_id: "",
     post_content: "",
     post_tag: [],
   });
-  const [showPostDetail, setShowPostDetail] = React.useState({});
+  const [showPostDetail, setShowPostDetail] = React.useState({post: {}, post_like: [], post_commnet: []});
   const loadMorePostRef = React.useRef(null);
   const btnLoadMoreRef = React.useRef(null);
+  const likeSpinnerLoadRef = React.useRef([]);
   const value = {
     isAuthenticated,
     globalMessage,
@@ -31,6 +33,7 @@ const GlobalDataProvider = (props) => {
     userEmail,
     userInfo,
     post,
+    postLike,
     postLimit,
     lastPostLimit,
     editPostDetail,
@@ -42,6 +45,7 @@ const GlobalDataProvider = (props) => {
     setPost,
     setLastPostLimit,
     setPostLimit,
+    setPostLike,
     setIsPostSubmitted,
     setIsAuthenticated,
     setPostReloader,
@@ -56,6 +60,7 @@ const GlobalDataProvider = (props) => {
     useNotify,
     loadMorePostRef,
     btnLoadMoreRef,
+    likeSpinnerLoadRef
   };
   return (
     <GlobalDataContext.Provider value={value}>

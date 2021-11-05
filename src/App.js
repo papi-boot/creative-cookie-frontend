@@ -18,6 +18,7 @@ const App = () => {
 
   return (
     <Fragment>
+      <ToastMessage />
       <Switch>
         <Route
           exact
@@ -36,7 +37,6 @@ const App = () => {
             <NavTop />
           </header>
           <Container>
-            <ToastMessage />
             <ProtectedRoute exact path="/dashboard" component={Dashboard} />
             <ProtectedRoute
               exact

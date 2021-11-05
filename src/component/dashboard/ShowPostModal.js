@@ -23,10 +23,10 @@ const ShowPostModal = React.forwardRef((props, ref) => {
           <Modal.Title>
             <ToolTip
               placement="bottom"
-              text={`Thread post by ${showPostDetail.user_full_name} - ${
-                showPostDetail.post_created_at
+              text={`Thread post by ${showPostDetail.post.user_full_name} - ${
+                showPostDetail.post.post_created_at
                   ? formatDistanceToNow(
-                      new Date(showPostDetail.post_created_at),
+                      new Date(showPostDetail.post.post_created_at),
                       {
                         addSuffix: true,
                       }
@@ -52,11 +52,11 @@ const ShowPostModal = React.forwardRef((props, ref) => {
                 >
                   <i className="bi bi-chat-text-fill text-primary"></i>
                   &nbsp;Thread post by&nbsp;
-                  {showPostDetail.user_full_name}&nbsp;
+                  {showPostDetail.post.user_full_name}&nbsp;
                   <i className="bi bi-clock"></i>&nbsp;
-                  {showPostDetail.post_created_at
+                  {showPostDetail.post.post_created_at
                     ? formatDistanceToNow(
-                        new Date(showPostDetail.post_created_at),
+                        new Date(showPostDetail.post.post_created_at),
                         {
                           addSuffix: true,
                         }
