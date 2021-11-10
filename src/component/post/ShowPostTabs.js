@@ -1,17 +1,20 @@
 import React, { Fragment } from "react";
-import { Tab, Nav, Container } from "react-bootstrap";
+import { Tab, Nav } from "react-bootstrap";
 import { GlobalDataContext } from "../../context/GlobalData";
+import PostContentTab from "./PostContentTab";
+import LikeTab from "./LikeTab";
+import CommentTab from "./CommentTab";
 const ShowPostTabs = () => {
   const { showPostDetail } = React.useContext(GlobalDataContext);
   const [currentTab, setCurrentTab] = React.useState("post-thread");
-  const style = {
-    fontSize: "1rem",
-  };
+
   return (
     <Fragment>
       <Tab.Container
         defaultActiveKey={currentTab}
-        onSelect={(key) => setCurrentTab(key)}
+        onSelect={(key) => {
+          setCurrentTab(key);
+        }}
       >
         <Nav
           variant="pills"
@@ -32,14 +35,15 @@ const ShowPostTabs = () => {
           </Nav.Item>
           <Nav.Item>
             <Nav.Link eventKey="comment">
-              <span>
-                <i className="bi bi-chat-fill"></i>
+              <span className="fw-bold">
+                <i className="bi bi-chat-fill"></i>&nbsp;
+                {showPostDetail.post_comment.length}
               </span>
             </Nav.Link>
           </Nav.Item>
           <Nav.Item>
             <Nav.Link eventKey="like">
-              <span>
+              <span className="fw-bold">
                 <i className="bi bi-hand-thumbs-up-fill"></i>&nbsp;
                 {showPostDetail.post_like.length}
               </span>
@@ -48,32 +52,13 @@ const ShowPostTabs = () => {
         </Nav>
         <Tab.Content className="mt-5">
           <Tab.Pane eventKey="post-thread" className="py-2">
-            <Container>
-              <div
-                className="show-post-content"
-                dangerouslySetInnerHTML={{
-                  __html: showPostDetail.post.post_content,
-                }}
-              ></div>
-            </Container>
+            <PostContentTab />
           </Tab.Pane>
-          <Tab.Pane eventKey="comment"></Tab.Pane>
+          <Tab.Pane eventKey="comment" style={{ overflow: "hidden" }}>
+            <CommentTab />
+          </Tab.Pane>
           <Tab.Pane eventKey="like" className="py-3">
-            <Container>
-              {showPostDetail.post_like.map((item) => (
-                <div className="row my-2">
-                  <div className="col-lg-4" key={item.plr_id}></div>
-                  <div key={item.plr_id} className="col-lg-4">
-                    <span className="fw-bold">
-                      <i className="bi bi-check-circle-fill text-primary"></i>
-                      &nbsp;
-                      {item.user_full_name}
-                    </span>
-                  </div>
-                  <div className="col-lg-4" key={item.plr_id}></div>
-                </div>
-              ))}
-            </Container>
+            <LikeTab />
           </Tab.Pane>
         </Tab.Content>
       </Tab.Container>

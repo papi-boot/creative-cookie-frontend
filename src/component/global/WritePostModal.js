@@ -7,7 +7,12 @@ import { useFetch } from "../../api/useFetch";
 import EditorField from "../../context/EditorField";
 import SpinnerLoad from "./SpinnerLoad";
 const WritePostModal = React.forwardRef((props, ref) => {
-  const { setGlobalMessage, useNotify, setPostReloader, postReloader } = React.useContext(GlobalDataContext);
+  const {
+    setGlobalMessage,
+    useNotify,
+    setPostReloader,
+    postReloader,
+  } = React.useContext(GlobalDataContext);
   const [show, setShow] = React.useState(false);
   const close = () => setShow(!show);
   const editorFieldRef = React.useRef(null);
@@ -70,11 +75,6 @@ const WritePostModal = React.forwardRef((props, ref) => {
           <EditorField ref={editorFieldRef} />
         </Modal.Body>
         <Modal.Footer>
-          <Button size="sm">
-            <span>
-              Save Draft&nbsp;<i className="bi bi-archive"></i>
-            </span>
-          </Button>
           <Button
             size="sm"
             variant="success"

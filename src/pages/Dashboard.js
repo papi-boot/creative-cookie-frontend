@@ -2,13 +2,12 @@
 /* eslint-disable react-hooks/exhaustive-deps*/
 import React, { Fragment } from "react";
 import { GlobalDataContext } from "../context/GlobalData";
-import { withRouter, useLocation } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { useQuery } from "../api/useQuery";
 import Prism from "prismjs";
 import DashboardPost from "../pages-component/dashboard/DashboardPost";
 import PlaceHolderPost from "../component/global/PlaceHolderPost";
 const Dashboard = () => {
-  const queryParams = useQuery();
   const {
     setPost,
     post,
@@ -17,13 +16,20 @@ const Dashboard = () => {
     postReloader,
     postLimit,
     loadMorePostRef,
+    postOneItem,
+    postLike,
+    postComment,
     btnLoadMoreRef,
     setLastPostLimit,
     lastPostLimit,
     setPostLike,
-    likeSpinnerLoadRef
+    showPostDetail,
+    setShowPostDetail,
+    setPostComment,
+    likeSpinnerLoadRef,
   } = React.useContext(GlobalDataContext);
   const [showPlaceholder, setShowPlaceholder] = React.useState(true);
+  const [showPostReloader, setShowPostReloader] = React.useState(false);
   React.useEffect(() => {
     document.body.classList.add("body-color-light");
     Prism.highlightAll();
@@ -45,6 +51,7 @@ const Dashboard = () => {
             setGlobalMessage(res.message);
             setPost(res.post);
             setPostLike(res.post_like);
+            setPostComment(res.post_comment);
             setShowPlaceholder(false);
             Prism.highlightAll();
             const likeSpinner = document.querySelectorAll(".like-spinner");
@@ -57,6 +64,7 @@ const Dashboard = () => {
               loadMorePostRef.current.toggleSpinner();
               btnLoadMoreRef.current.classList.add("d-none");
             }
+            setShowPostReloader(!showPostReloader);
           } else {
             setGlobalMessage(res.message);
             useNotify(res.message, "success");
@@ -67,12 +75,29 @@ const Dashboard = () => {
           throw new Error("Something went wrong. Please try again or later");
         }
       })
-      .catch();
+      .catch((err) => {
+        setGlobalMessage(err.message);
+        useNotify(err.message, "success");
+      });
   }, [postReloader]);
+
+  React.useEffect(() => {
+    const filterComment = postComment.filter(
+      (postCommentItem) =>
+        postCommentItem.comment_post_ref === postOneItem.post_id
+    );
+    console.log(`Pre COMMENT: ${postComment.length}`);
+    console.log(`Filtered COMMENT: ${filterComment.length}`);
+    setShowPostDetail({
+      ...showPostDetail,
+      post: postOneItem,
+      post_comment: filterComment,
+    });
+  }, [showPostReloader]);
 
   return (
     <Fragment>
-      <section className="main-content post-container-gap">
+      <section className="main-content post-container-gap" style={{marginTop: "5rem"}}>
         {showPlaceholder ? <PlaceHolderPost /> : <DashboardPost />}
       </section>
     </Fragment>

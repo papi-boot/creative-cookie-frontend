@@ -1,4 +1,6 @@
 /*eslint-disable react-hooks/rules-of-hooks*/
+/*eslint-disable react-hooks/exhaustive-deps*/
+
 import React, { Fragment } from "react";
 import {
   DropdownButton,
@@ -12,16 +14,18 @@ import { formatDistanceToNow } from "date-fns";
 import { useFetch } from "../../api/useFetch";
 import EditPostModal from "../../component/global/EditPostModal";
 import DeletePostModal from "../../component/global/DeletePostModal";
-import ShowPostModal from "../../component/dashboard/ShowPostModal";
+import ShowPostModal from "../../component/post/ShowPostModal";
 import SpinnerLoad from "../../component/global/SpinnerLoad";
 import ToolTip from "../../component/global/ToolTip";
 const DashboardPost = () => {
   const {
     post,
     postLike,
+    postComment,
     userInfo,
     setShowPostDetail,
     showPostDetail,
+    setPostOneItem,
     setEditPostDetail,
     postReloader,
     setPostReloader,
@@ -49,19 +53,22 @@ const DashboardPost = () => {
         item.classList.add("post-menu-btn");
       });
     }
-  }, [post]);
+  }, [post, postReloader]);
 
   // @TODO: show post modal
   const openShowPostModal = (postItem) => {
+    setPostOneItem(postItem);
     const filterLikes = postLike.filter(
       (postLikeItem) => postLikeItem.plr_post_ref === postItem.post_id
+    );
+    const filterComment = postComment.filter(
+      (postCommentItem) => postCommentItem.comment_post_ref === postItem.post_id
     );
     setShowPostDetail({
       post: postItem,
       post_like: filterLikes,
-      post_comment: [],
+      post_comment: filterComment,
     });
-    console.log(showPostDetail);
     showPostModalRef.current.toggleModal();
   };
 
@@ -94,7 +101,6 @@ const DashboardPost = () => {
           if (res.success) {
             setGlobalMessage(res.message);
             setPostReloader(!postReloader);
-            useNotify(res.message, "success");
             likeSpinnerLoadRef.current[index].classList.add("d-none");
           } else {
             useNotify(res.message, "error");
@@ -117,6 +123,13 @@ const DashboardPost = () => {
       (postLikeItem) => postLikeItem.plr_post_ref === postItem.post_id
     );
     return filterCountLike;
+  };
+
+  const commentCount = (postItem) => {
+    const filterCommentCount = postComment.filter(
+      (postCommentItem) => postCommentItem.comment_post_ref === postItem.post_id
+    );
+    return filterCommentCount;
   };
   // @TODO: check like status
   const checkLikeStatus = (item) => {
@@ -192,16 +205,15 @@ const DashboardPost = () => {
                       <i className="bi bi-trash-fill"></i>&nbsp;Delete
                     </span>
                   </Dropdown.Item>
-                  <Dropdown.Divider></Dropdown.Divider>
                 </Fragment>
               ) : (
-                ""
+                <Dropdown.Item>
+                  <span>
+                    <i className="bi bi-exclamation-circle-fill"></i>
+                    &nbsp;Report
+                  </span>
+                </Dropdown.Item>
               )}
-              <Dropdown.Item>
-                <span>
-                  <i className="bi bi-share-fill"></i>&nbsp;Share Post URL
-                </span>
-              </Dropdown.Item>
             </DropdownButton>
           </div>
         </div>
@@ -263,8 +275,11 @@ const DashboardPost = () => {
           <div className="w-100 d-flex justify-content-center">
             <ToolTip placement="top" text="Comments">
               <button className="w-100 std-btn-style std-black p-1 post-footer-btn">
-                <span style={{ fontSize: "1.1rem" }}>
-                  <i className="bi bi-chat-fill"></i>
+                <span className="fw-bold" style={{ fontSize: "1.1rem" }}>
+                  <i className="bi bi-chat-fill"></i>&nbsp;
+                  {commentCount(item).length > 0
+                    ? commentCount(item).length
+                    : ""}
                 </span>
               </button>
             </ToolTip>

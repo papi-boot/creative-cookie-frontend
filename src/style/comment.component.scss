@@ -1,0 +1,25 @@
+@use "root" as root;
+
+.comment-card-wrapper {
+  border: 1px solid root.$gray-light;
+  border-radius: root.$spacing-2;
+  margin: root.$spacing-4 * 2 auto;
+  padding: root.$spacing-2;
+  width: 50%;
+}
+
+.comment-menu-btn {
+  background: transparent;
+  border: none;
+  outline: none;
+
+  &::before {
+    content: none !important;
+  }
+}
+
+@mixin comment-card-wrapper-down-48rem {
+  .comment-card-wrapper {
+    width: 100%;
+  }
+}

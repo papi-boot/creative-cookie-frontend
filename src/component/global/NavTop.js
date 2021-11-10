@@ -4,6 +4,7 @@ import { NavLink, useHistory } from "react-router-dom";
 import { Navbar, NavDropdown, Badge } from "react-bootstrap";
 import { GlobalDataContext } from "../../context/GlobalData";
 import { useFetch } from "../../api/useFetch";
+import CreativeCookieLogo from "../../assets/logo/creativecookie.png";
 import SpinnerLoad from "./SpinnerLoad";
 import WritePostModal from "./WritePostModal";
 import ToolTip from "./ToolTip";
@@ -17,7 +18,7 @@ const NavTop = () => {
     setDataReloader,
     dataReloader,
     setUserInfo,
-    postLimit
+    postLimit,
   } = React.useContext(GlobalDataContext);
   const writePostModalRef = React.useRef(null);
   const nvTopSpinnerLoadRef = React.useRef(null);
@@ -55,10 +56,21 @@ const NavTop = () => {
   return (
     <Fragment>
       <WritePostModal ref={writePostModalRef} />
+      <div className="mobile-navbar d-flex align-items-center justify-content-center p-2 bg-light position-fixed top-0 w-100" style={{zIndex: "1"}}>
+        <img
+          src={CreativeCookieLogo}
+          alt="Creative Cookie"
+          style={{ width: "5rem" }}
+        />
+      </div>
       <Navbar bg="light" fixed="top" className="main-nav nav-top border-bottom">
         <div className="container d-flex align-items-center justify-content-between">
           <div className="navbar-brand">
-            <h4 className="fw-bold m-0 std-black">Creative Cookie</h4>
+            <img
+              src={CreativeCookieLogo}
+              alt="Creative Cookie"
+              style={{ width: "6rem" }}
+            />
           </div>
           <div className="nav-list-wrapper">
             <ul className="nav-list d-flex align-items-center m-0 p-0">
