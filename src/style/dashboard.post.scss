@@ -77,9 +77,16 @@
   }
 }
 
+.mobile-navbar {
+  display: none;
+}
+
 @mixin dashboard-post-down-48rem {
   .post-card-wrapper {
-    margin: root.$spacing-5 * 1  0 root.$spacing-5 * 2 0;
+    margin: root.$spacing-5 * 2  0 root.$spacing-5 * 2 0;
     width: 100%;
+  }
+  .mobile-navbar {
+    display: block;
   }
 }

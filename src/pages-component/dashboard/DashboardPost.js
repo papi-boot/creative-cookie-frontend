@@ -1,24 +1,47 @@
+/*eslint-disable react-hooks/rules-of-hooks*/
+/*eslint-disable react-hooks/exhaustive-deps*/
+
 import React, { Fragment } from "react";
-import { DropdownButton, Dropdown, Badge } from "react-bootstrap";
+import {
+  DropdownButton,
+  Dropdown,
+  Badge,
+  Button,
+  Spinner,
+} from "react-bootstrap";
 import { GlobalDataContext } from "../../context/GlobalData";
 import { formatDistanceToNow } from "date-fns";
+import { useFetch } from "../../api/useFetch";
 import EditPostModal from "../../component/global/EditPostModal";
 import DeletePostModal from "../../component/global/DeletePostModal";
-import ShowPostModal from "../../component/dashboard/ShowPostModal";
+import ShowPostModal from "../../component/post/ShowPostModal";
+import SpinnerLoad from "../../component/global/SpinnerLoad";
 import ToolTip from "../../component/global/ToolTip";
 const DashboardPost = () => {
   const {
     post,
+    postLike,
+    postComment,
     userInfo,
     setShowPostDetail,
+    showPostDetail,
+    setPostOneItem,
     setEditPostDetail,
+    postReloader,
+    setPostReloader,
+    setPostLimit,
+    postLimit,
+    loadMorePostRef,
+    btnLoadMoreRef,
+    setGlobalMessage,
+    useNotify,
+    likeSpinnerLoadRef,
   } = React.useContext(GlobalDataContext);
   const removeArrowDropdownRef = React.useRef(null);
   const showPostModalRef = React.useRef(null);
   const editPostModalRef = React.useRef(null);
   const deletePostModalRef = React.useRef(null);
   React.useEffect(() => {
-    console.log(removeArrowDropdownRef.current);
     if (removeArrowDropdownRef.current) {
       removeArrowDropdownRef.current.firstChild.classList.remove(
         "dropdown-toggle"
@@ -30,10 +53,22 @@ const DashboardPost = () => {
         item.classList.add("post-menu-btn");
       });
     }
-  }, [post]);
+  }, [post, postReloader]);
+
   // @TODO: show post modal
-  const openShowPostModal = (post_detail) => {
-    setShowPostDetail(post_detail);
+  const openShowPostModal = (postItem) => {
+    setPostOneItem(postItem);
+    const filterLikes = postLike.filter(
+      (postLikeItem) => postLikeItem.plr_post_ref === postItem.post_id
+    );
+    const filterComment = postComment.filter(
+      (postCommentItem) => postCommentItem.comment_post_ref === postItem.post_id
+    );
+    setShowPostDetail({
+      post: postItem,
+      post_like: filterLikes,
+      post_comment: filterComment,
+    });
     showPostModalRef.current.toggleModal();
   };
 
@@ -51,10 +86,69 @@ const DashboardPost = () => {
   const openDeletePostModal = (post_id) => {
     deletePostModalRef.current.toggleModal(post_id);
   };
+
+  // @TODO: like post request
+  const likePostRequest = (item, index) => {
+    likeSpinnerLoadRef.current[index].classList.remove("d-none");
+    console.log(likeSpinnerLoadRef);
+    const params = {
+      post_id: item.post_id,
+      plr_status: true,
+    };
+    useFetch(params, "POST", "post-like", setGlobalMessage, useNotify)
+      .then((res) => {
+        if (res) {
+          if (res.success) {
+            setGlobalMessage(res.message);
+            setPostReloader(!postReloader);
+            likeSpinnerLoadRef.current[index].classList.add("d-none");
+          } else {
+            useNotify(res.message, "error");
+            likeSpinnerLoadRef.current[index].classList.add("d-none");
+          }
+        } else {
+          throw new Error("Something went wrong. Please try again or later");
+        }
+      })
+      .catch((err) => {
+        setGlobalMessage(err.message);
+        useNotify(err.message, "error");
+        likeSpinnerLoadRef.current[index].classList.add("d-none");
+      });
+  };
+
+  // @TODO: Count likes
+  const countLikes = (postItem) => {
+    const filterCountLike = postLike.filter(
+      (postLikeItem) => postLikeItem.plr_post_ref === postItem.post_id
+    );
+    return filterCountLike;
+  };
+
+  const commentCount = (postItem) => {
+    const filterCommentCount = postComment.filter(
+      (postCommentItem) => postCommentItem.comment_post_ref === postItem.post_id
+    );
+    return filterCommentCount;
+  };
+  // @TODO: check like status
+  const checkLikeStatus = (item) => {
+    if (
+      postLike.find(
+        (postItem) =>
+          postItem.plr_post_ref === item.post_id &&
+          postItem.plr_user_ref === userInfo.user_id
+      )
+    ) {
+      return "text-primary";
+    } else {
+      return "";
+    }
+  };
   // @TODO: iterate post;
   const dashboardPostList = () => {
-    return post.map((item) => (
-      <div className="post-card-wrapper border">
+    return post.map((item, index) => (
+      <div className="post-card-wrapper border" key={item.post_id}>
         <div className="post-header border-bottom py-1">
           <div className="post-created-by-wrapper me-1">
             <h6
@@ -111,16 +205,15 @@ const DashboardPost = () => {
                       <i className="bi bi-trash-fill"></i>&nbsp;Delete
                     </span>
                   </Dropdown.Item>
-                  <Dropdown.Divider></Dropdown.Divider>
                 </Fragment>
               ) : (
-                ""
+                <Dropdown.Item>
+                  <span>
+                    <i className="bi bi-exclamation-circle-fill"></i>
+                    &nbsp;Report
+                  </span>
+                </Dropdown.Item>
               )}
-              <Dropdown.Item>
-                <span>
-                  <i className="bi bi-share-fill"></i>&nbsp;Share Post URL
-                </span>
-              </Dropdown.Item>
             </DropdownButton>
           </div>
         </div>
@@ -158,18 +251,23 @@ const DashboardPost = () => {
         <div className="post-footer border-top">
           <div className="w-100 d-flex justify-content-center">
             <ToolTip placement="top" text="Like">
-              <button className="w-100 std-btn-style std-black p-1 post-footer-btn">
-                <span style={{ fontSize: "1.1rem" }}>
+              <button
+                className="w-100 std-btn-style std-black p-1 post-footer-btn"
+                onClick={() => likePostRequest(item, index)}
+              >
+                <span
+                  className={checkLikeStatus(item)}
+                  style={{ fontSize: "1.1rem" }}
+                >
                   <i className="bi bi-hand-thumbs-up-fill"></i>
-                </span>
-              </button>
-            </ToolTip>
-          </div>
-          <div className="w-100 d-flex justify-content-center">
-            <ToolTip placement="top" text="Dislike">
-              <button className="w-100 std-btn-style std-black p-1 post-footer-btn">
-                <span style={{ fontSize: "1.1rem" }}>
-                  <i className="bi bi-hand-thumbs-down-fill"></i>
+                  &nbsp;
+                  <span className="fw-bold">
+                    {countLikes(item).length > 0 ? countLikes(item).length : ""}
+                  </span>
+                  &nbsp;
+                  <span className="like-spinner d-none">
+                    <Spinner animation="grow" size="sm" />
+                  </span>
                 </span>
               </button>
             </ToolTip>
@@ -177,8 +275,11 @@ const DashboardPost = () => {
           <div className="w-100 d-flex justify-content-center">
             <ToolTip placement="top" text="Comments">
               <button className="w-100 std-btn-style std-black p-1 post-footer-btn">
-                <span style={{ fontSize: "1.1rem" }}>
-                  <i className="bi bi-chat-fill"></i>
+                <span className="fw-bold" style={{ fontSize: "1.1rem" }}>
+                  <i className="bi bi-chat-fill"></i>&nbsp;
+                  {commentCount(item).length > 0
+                    ? commentCount(item).length
+                    : ""}
                 </span>
               </button>
             </ToolTip>
@@ -187,7 +288,7 @@ const DashboardPost = () => {
             <ToolTip placement="top" text="View Post">
               <button
                 className="w-100 std-btn-style std-black p-1 post-footer-btn"
-                onClick={() => openShowPostModal(item)}
+                onClick={() => openShowPostModal(item, index)}
               >
                 <span style={{ fontSize: "1.1rem" }}>
                   <i className="bi bi-box-arrow-up-right"></i>
@@ -199,13 +300,31 @@ const DashboardPost = () => {
       </div>
     ));
   };
-
   return (
     <Fragment>
       <ShowPostModal ref={showPostModalRef} />
       <EditPostModal ref={editPostModalRef} />
       <DeletePostModal ref={deletePostModalRef} />
       {dashboardPostList()}
+      <div className="d-flex align-items-center justify-content-center">
+        {post.length > 0 ? (
+          <Button
+            ref={btnLoadMoreRef}
+            variant="dark"
+            size="sm"
+            onClick={() => {
+              loadMorePostRef.current.toggleSpinner();
+              setPostLimit(postLimit + 5);
+              setPostReloader(!postReloader);
+            }}
+          >
+            Load more&nbsp;
+            <SpinnerLoad animation="border" size="sm" ref={loadMorePostRef} />
+          </Button>
+        ) : (
+          ""
+        )}
+      </div>
     </Fragment>
   );
 };

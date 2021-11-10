@@ -16,6 +16,7 @@
   @include navtop-down-48rem();
   @include navbottom-down-48rem();
   @include post-container-gap-down-48rem();
+  @include comment-card-wrapper-down-48rem();
 }
 // > 768px
 @media screen and (min-width: 48rem) {

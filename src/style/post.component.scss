@@ -1,0 +1,12 @@
+@use "root" as root;
+
+.comment-field-opener-wrapper {
+  align-items: center;
+  bottom: 3.1rem;
+  display: flex;
+  justify-content: end;
+  position: fixed;
+  right: .5rem;
+  width: 100%;
+  z-index: 2;
+}

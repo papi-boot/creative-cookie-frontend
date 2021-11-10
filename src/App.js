@@ -12,12 +12,13 @@ import NavTop from "./component/global/NavTop";
 import NavBottom from "./component/global/NavBottom";
 import { usePreFetch } from "./api/usePreFetch";
 const App = () => {
-  const { isAuthenticated, globalStyle } = React.useContext(GlobalDataContext);
+  const { isAuthenticated, globalStyle, postLimit } = React.useContext(GlobalDataContext);
   const history = useHistory();
   usePreFetch();
 
   return (
     <Fragment>
+      <ToastMessage />
       <Switch>
         <Route
           exact
@@ -36,7 +37,6 @@ const App = () => {
             <NavTop />
           </header>
           <Container>
-            <ToastMessage />
             <ProtectedRoute exact path="/dashboard" component={Dashboard} />
             <ProtectedRoute
               exact

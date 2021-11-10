@@ -12,6 +12,7 @@ export const usePreFetch = () => {
     setUserInfo,
     setGlobalMessage,
     useNotify,
+    postLimit
   } = React.useContext(GlobalDataContext);
   const history = useHistory();
   React.useLayoutEffect(() => {
@@ -24,9 +25,9 @@ export const usePreFetch = () => {
             useNotify(res.message, "success");
             setIsAuthenticated(res.isAuthenticated);
             setUserInfo(res.user);
-            history.push("/dashboard");
+            history.replace("dashboard");
           } else {
-            history.push("/authenticate");
+            history.replace("/authenticate");
           }
         } else {
           throw new Error(

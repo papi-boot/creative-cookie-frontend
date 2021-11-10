@@ -16,6 +16,24 @@
   position: relative;
 }
 
+.custom-spinner-load {
+  animation: spinBorder 1s infinite ease;
+  border: root.$spacing-3 transparent solid;
+  border-radius: 50%;
+  border-top: root.$spacing-3 solid root.$primary-color;
+  border-right: root.$spacing-3 solid root.$primary-color;
+}
+
+@keyframes spinBorder {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 @keyframes placeholderShimmer {
   0% {
     background-position: -468px 0;

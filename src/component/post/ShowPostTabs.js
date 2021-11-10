@@ -1,22 +1,30 @@
 import React, { Fragment } from "react";
 import { Tab, Nav } from "react-bootstrap";
 import { GlobalDataContext } from "../../context/GlobalData";
+import PostContentTab from "./PostContentTab";
+import LikeTab from "./LikeTab";
+import CommentTab from "./CommentTab";
 const ShowPostTabs = () => {
   const { showPostDetail } = React.useContext(GlobalDataContext);
   const [currentTab, setCurrentTab] = React.useState("post-thread");
-  const style = {
-    fontSize: "1rem",
-  };
+
   return (
     <Fragment>
       <Tab.Container
         defaultActiveKey={currentTab}
-        onSelect={(key) => setCurrentTab(key)}
+        onSelect={(key) => {
+          setCurrentTab(key);
+        }}
       >
         <Nav
           variant="pills"
           className="position-fixed d-flex align-item-center justify-content-center py-1 border-bottom"
-          style={{ backgroundColor: "#fff", top: "4rem", width: "100%" }}
+          style={{
+            backgroundColor: "#fff",
+            top: "4rem",
+            width: "100%",
+            zIndex: "1",
+          }}
         >
           <Nav.Item>
             <Nav.Link eventKey="post-thread">
@@ -27,36 +35,31 @@ const ShowPostTabs = () => {
           </Nav.Item>
           <Nav.Item>
             <Nav.Link eventKey="comment">
-              <span>
-                <i className="bi bi-chat-fill"></i>
+              <span className="fw-bold">
+                <i className="bi bi-chat-fill"></i>&nbsp;
+                {showPostDetail.post_comment.length}
               </span>
             </Nav.Link>
           </Nav.Item>
           <Nav.Item>
             <Nav.Link eventKey="like">
-              <span>
-                <i className="bi bi-hand-thumbs-up-fill"></i>
-              </span>
-            </Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link eventKey="dislike">
-              <span>
-                <i className="bi bi-hand-thumbs-down-fill"></i>
+              <span className="fw-bold">
+                <i className="bi bi-hand-thumbs-up-fill"></i>&nbsp;
+                {showPostDetail.post_like.length}
               </span>
             </Nav.Link>
           </Nav.Item>
         </Nav>
         <Tab.Content className="mt-5">
-          <Tab.Pane eventKey="post-thread" className="p-2">
-            <div
-              className="show-post-content"
-              dangerouslySetInnerHTML={{ __html: showPostDetail.post_content }}
-            ></div>
+          <Tab.Pane eventKey="post-thread" className="py-2">
+            <PostContentTab />
           </Tab.Pane>
-          <Tab.Pane eventKey="comment"></Tab.Pane>
-          <Tab.Pane eventKey="like"></Tab.Pane>
-          <Tab.Pane eventKey="dislike"></Tab.Pane>
+          <Tab.Pane eventKey="comment" style={{ overflow: "hidden" }}>
+            <CommentTab />
+          </Tab.Pane>
+          <Tab.Pane eventKey="like" className="py-3">
+            <LikeTab />
+          </Tab.Pane>
         </Tab.Content>
       </Tab.Container>
     </Fragment>
