@@ -26,6 +26,7 @@ const GlobalDataProvider = (props) => {
   const [showPostDetail, setShowPostDetail] = React.useState({post: {}, post_like: [], post_commnet: []});
   const [postOneItem, setPostOneItem] = React.useState({});
   const [showCommentModal, setShowCommentModal] = React.useState(false);
+  const [showEditCommentModal, setShowEditCommentModal] = React.useState(false);
   const loadMorePostRef = React.useRef(null);
   const btnLoadMoreRef = React.useRef(null);
   const likeSpinnerLoadRef = React.useRef([]);
@@ -37,6 +38,7 @@ const GlobalDataProvider = (props) => {
     userInfo,
     post,
     showCommentModal,
+    showEditCommentModal,
     postLike,
     postComment,
     postLimit,
@@ -62,6 +64,7 @@ const GlobalDataProvider = (props) => {
     setUserInfo,
     setShowPostDetail,
     setShowCommentModal,
+    setShowEditCommentModal,
     setEditPostDetail,
     setAuthenticateTab,
     setGlobalMessage,

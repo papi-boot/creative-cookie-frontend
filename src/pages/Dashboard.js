@@ -86,8 +86,6 @@ const Dashboard = () => {
       (postCommentItem) =>
         postCommentItem.comment_post_ref === postOneItem.post_id
     );
-    console.log(`Pre COMMENT: ${postComment.length}`);
-    console.log(`Filtered COMMENT: ${filterComment.length}`);
     setShowPostDetail({
       ...showPostDetail,
       post: postOneItem,

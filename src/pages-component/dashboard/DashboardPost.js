@@ -140,9 +140,9 @@ const DashboardPost = () => {
           postItem.plr_user_ref === userInfo.user_id
       )
     ) {
-      return "text-primary";
+      return "bi bi-hand-thumbs-up-fill text-primary";
     } else {
-      return "";
+      return "bi bi-hand-thumbs-up";
     }
   };
   // @TODO: iterate post;
@@ -255,11 +255,8 @@ const DashboardPost = () => {
                 className="w-100 std-btn-style std-black p-1 post-footer-btn"
                 onClick={() => likePostRequest(item, index)}
               >
-                <span
-                  className={checkLikeStatus(item)}
-                  style={{ fontSize: "1.1rem" }}
-                >
-                  <i className="bi bi-hand-thumbs-up-fill"></i>
+                <span style={{ fontSize: "1.1rem" }}>
+                  <i className={checkLikeStatus(item)}></i>
                   &nbsp;
                   <span className="fw-bold">
                     {countLikes(item).length > 0 ? countLikes(item).length : ""}
