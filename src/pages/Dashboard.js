@@ -116,6 +116,9 @@ const Dashboard = () => {
     useSocket().on("add comment", (value) => {
       newPostNotifyRef.current.toggleDataReloader();
     });
+    useSocket().on("edit comment", (value) => {
+      newPostNotifyRef.current.toggleDataReloader();
+    });
     useSocket().on("delete comment", (value) => {
       newPostNotifyRef.current.toggleDataReloader();
     });

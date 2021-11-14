@@ -3,6 +3,7 @@ import React, { Fragment } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { Spinner } from "react-bootstrap";
 import { useFetch } from "api/useFetch.js";
+import { useSocket } from "api/useSocket";
 import { GlobalDataContext } from "context/GlobalData";
 const EditCommentEditor = React.forwardRef(
   ({ commentID, commentContent }, ref) => {
@@ -32,6 +33,7 @@ const EditCommentEditor = React.forwardRef(
                 useNotify(res.message, "success");
                 setPostReloader(!postReloader);
                 setShowEditCommentModal(!showEditCommentModal);
+                useSocket().emit("edit comment", "Edit Comment");
               } else {
                 setGlobalMessage(res.message);
                 useNotify(res.message, "error");
