@@ -2,6 +2,7 @@
 import React, { Fragment } from "react";
 import { Modal, Button } from "react-bootstrap";
 import { useFetch } from "api/useFetch";
+import { useSocket } from "api/useSocket";
 import { GlobalDataContext } from "context/GlobalData";
 import SpinnerLoad from "component/global/SpinnerLoad";
 const CommentDeleteModal = React.forwardRef((props, ref) => {
@@ -36,6 +37,7 @@ const CommentDeleteModal = React.forwardRef((props, ref) => {
             useNotify(res.message, "success");
             setPostReloader(!postReloader);
             deleteCommentBtnSpinLoadRef.current.toggleSpinner();
+            useSocket().emit("delete comment", "Delete Comment");
             close();
           } else {
             setGlobalMessage(res.message);

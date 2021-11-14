@@ -4,6 +4,7 @@ import React, { Fragment } from "react";
 import { GlobalDataContext } from "../context/GlobalData";
 import { withRouter } from "react-router-dom";
 import { useQuery } from "../api/useQuery";
+import { useSocket } from "api/useSocket";
 import Prism from "prismjs";
 import DashboardPost from "../pages-component/dashboard/DashboardPost";
 import PlaceHolderPost from "../component/global/PlaceHolderPost";
@@ -27,6 +28,8 @@ const Dashboard = () => {
     setShowPostDetail,
     setPostComment,
     likeSpinnerLoadRef,
+    setPostReloader,
+    newPostNotifyRef,
   } = React.useContext(GlobalDataContext);
   const [showPlaceholder, setShowPlaceholder] = React.useState(true);
   const [showPostReloader, setShowPostReloader] = React.useState(false);
@@ -48,6 +51,7 @@ const Dashboard = () => {
       .then((res) => {
         if (res) {
           if (res.success) {
+            useSocket().emit("pre connect", "Pre Connect");
             setGlobalMessage(res.message);
             setPost(res.post);
             setPostLike(res.post_like);
@@ -93,9 +97,41 @@ const Dashboard = () => {
     });
   }, [showPostReloader]);
 
+  // @TODO: register socket Listener
+  React.useEffect(() => {
+    useSocket().on("pre connect", (value) => {});
+    useSocket().on("new post", (value) => {
+      newPostNotifyRef.current.openToast();
+      newPostNotifyRef.current.toggleDataReloader();
+    });
+    useSocket().on("edit post", (value) => {
+      newPostNotifyRef.current.toggleDataReloader();
+    });
+    useSocket().on("delete post", (value) => {
+      newPostNotifyRef.current.toggleDataReloader();
+    });
+    useSocket().on("like post", (value) => {
+      newPostNotifyRef.current.toggleDataReloader();
+    });
+    useSocket().on("add comment", (value) => {
+      newPostNotifyRef.current.toggleDataReloader();
+    });
+    useSocket().on("delete comment", (value) => {
+      newPostNotifyRef.current.toggleDataReloader();
+    });
+    useSocket().on("connect again", (value) => {
+      useSocket().on("connect", () => {
+        return;
+      });
+    });
+  }, []);
+
   return (
     <Fragment>
-      <section className="main-content post-container-gap" style={{marginTop: "5rem"}}>
+      <section
+        className="main-content post-container-gap"
+        style={{ marginTop: "5rem" }}
+      >
         {showPlaceholder ? <PlaceHolderPost /> : <DashboardPost />}
       </section>
     </Fragment>

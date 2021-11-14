@@ -1,7 +1,11 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { Fragment } from "react";
 import { Switch, Route, useHistory } from "react-router-dom";
 import { GlobalDataContext } from "./context/GlobalData";
 import { Container } from "react-bootstrap";
+import { usePreFetch } from "./api/usePreFetch";
+import { useSocket } from "api/useSocket";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import Dashboard from "./pages/Dashboard";
 import Authenticate from "./pages/Authenticate";
@@ -10,12 +14,19 @@ import NotificationPage from "./pages/NotificationPage";
 import Profile from "./pages/Profile";
 import NavTop from "./component/global/NavTop";
 import NavBottom from "./component/global/NavBottom";
-import { usePreFetch } from "./api/usePreFetch";
+import NewPostNotify from "component/socket/NewPostNotify";
 const App = () => {
-  const { isAuthenticated, globalStyle, postLimit } = React.useContext(GlobalDataContext);
+  const {
+    isAuthenticated,
+    globalStyle,
+    postLimit,
+    newPostNotifyRef,
+    postReloader,
+    setPostReloader,
+  } = React.useContext(GlobalDataContext);
   const history = useHistory();
   usePreFetch();
-
+  
   return (
     <Fragment>
       <ToastMessage />
@@ -33,6 +44,7 @@ const App = () => {
         />
         <Route exact path="/authenticate" component={Authenticate} />
         <div className="main">
+          <NewPostNotify ref={newPostNotifyRef} />
           <header className="main-header">
             <NavTop />
           </header>

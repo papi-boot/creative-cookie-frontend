@@ -1,0 +1,27 @@
+@use "root" as root;
+
+.new-post-notify-wrapper {
+  background: transparent;
+  bottom: 4rem;
+  align-items: center;
+  display: flex;
+  height: 0;
+  justify-content: center;
+  left: 0;
+  overflow-x: hidden;
+  position: fixed;
+  right: 0;
+  transition: root.$transition-1;
+  width: 100%;
+  z-index: 2000;
+
+  > .new-post-badge {
+    margin-right: 1rem;
+  }
+  &.toast-up {
+    height: 8%;
+  }
+  &.toast-down {
+    height: 0;
+  }
+}
