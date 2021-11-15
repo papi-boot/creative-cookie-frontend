@@ -3,8 +3,9 @@ import React, { Fragment } from "react";
 import { Modal } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import { GlobalDataContext } from "../../context/GlobalData";
-import { useFetch } from "../../api/useFetch";
-import EditorField from "../../context/EditorField";
+import { useFetch } from "api/useFetch";
+import { useSocket } from "api/useSocket";
+import EditorField from "context/EditorField";
 import SpinnerLoad from "./SpinnerLoad";
 const EditPostModal = React.forwardRef((props, ref) => {
   const {
@@ -45,6 +46,7 @@ const EditPostModal = React.forwardRef((props, ref) => {
             setPostReloader(!postReloader);
             setEditPostDetail({ post_id: "", post_content: "", post_tag: [] });
             saveChangesSpinnerLoadRef.current.toggleSpinner();
+            useSocket().emit("edit post", "Edit Post");
             close();
           } else {
             setGlobalMessage(res.message);

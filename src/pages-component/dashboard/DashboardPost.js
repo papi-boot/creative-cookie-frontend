@@ -1,6 +1,5 @@
 /*eslint-disable react-hooks/rules-of-hooks*/
 /*eslint-disable react-hooks/exhaustive-deps*/
-
 import React, { Fragment } from "react";
 import {
   DropdownButton,
@@ -9,14 +8,15 @@ import {
   Button,
   Spinner,
 } from "react-bootstrap";
-import { GlobalDataContext } from "../../context/GlobalData";
+import { GlobalDataContext } from "context/GlobalData";
 import { formatDistanceToNow } from "date-fns";
-import { useFetch } from "../../api/useFetch";
-import EditPostModal from "../../component/global/EditPostModal";
-import DeletePostModal from "../../component/global/DeletePostModal";
-import ShowPostModal from "../../component/post/ShowPostModal";
-import SpinnerLoad from "../../component/global/SpinnerLoad";
-import ToolTip from "../../component/global/ToolTip";
+import { useFetch } from "api/useFetch";
+import { useSocket } from "api/useSocket";
+import EditPostModal from "component/global/EditPostModal";
+import DeletePostModal from "component/global/DeletePostModal";
+import ShowPostModal from "component/post/ShowPostModal";
+import SpinnerLoad from "component/global/SpinnerLoad";
+import ToolTip from "component/global/ToolTip";
 const DashboardPost = () => {
   const {
     post,
@@ -90,7 +90,6 @@ const DashboardPost = () => {
   // @TODO: like post request
   const likePostRequest = (item, index) => {
     likeSpinnerLoadRef.current[index].classList.remove("d-none");
-    console.log(likeSpinnerLoadRef);
     const params = {
       post_id: item.post_id,
       plr_status: true,
@@ -102,6 +101,7 @@ const DashboardPost = () => {
             setGlobalMessage(res.message);
             setPostReloader(!postReloader);
             likeSpinnerLoadRef.current[index].classList.add("d-none");
+            useSocket().emit("like post", "Like Post");
           } else {
             useNotify(res.message, "error");
             likeSpinnerLoadRef.current[index].classList.add("d-none");
@@ -140,9 +140,9 @@ const DashboardPost = () => {
           postItem.plr_user_ref === userInfo.user_id
       )
     ) {
-      return "text-primary";
+      return "bi bi-hand-thumbs-up-fill text-primary";
     } else {
-      return "";
+      return "bi bi-hand-thumbs-up";
     }
   };
   // @TODO: iterate post;
@@ -255,11 +255,8 @@ const DashboardPost = () => {
                 className="w-100 std-btn-style std-black p-1 post-footer-btn"
                 onClick={() => likePostRequest(item, index)}
               >
-                <span
-                  className={checkLikeStatus(item)}
-                  style={{ fontSize: "1.1rem" }}
-                >
-                  <i className="bi bi-hand-thumbs-up-fill"></i>
+                <span style={{ fontSize: "1.1rem" }}>
+                  <i className={checkLikeStatus(item)}></i>
                   &nbsp;
                   <span className="fw-bold">
                     {countLikes(item).length > 0 ? countLikes(item).length : ""}

@@ -4,6 +4,7 @@ import { Spinner } from "react-bootstrap";
 import { Editor } from "@tinymce/tinymce-react";
 import { GlobalDataContext } from "context/GlobalData";
 import { useFetch } from "api/useFetch";
+import { useSocket } from "api/useSocket";
 const CommentEditor = React.forwardRef((props, ref) => {
   const {
     showPostDetail,
@@ -31,6 +32,7 @@ const CommentEditor = React.forwardRef((props, ref) => {
               useNotify(res.message, "success");
               setShowCommentModal(!showCommentModal);
               setPostReloader(!postReloader);
+              useSocket().emit("add comment", "Add Comment");
             } else {
               setGlobalMessage(res.message);
               useNotify(res.message, "error");

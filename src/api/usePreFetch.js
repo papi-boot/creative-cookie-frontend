@@ -12,7 +12,7 @@ export const usePreFetch = () => {
     setUserInfo,
     setGlobalMessage,
     useNotify,
-    postLimit
+    postLimit,
   } = React.useContext(GlobalDataContext);
   const history = useHistory();
   React.useLayoutEffect(() => {

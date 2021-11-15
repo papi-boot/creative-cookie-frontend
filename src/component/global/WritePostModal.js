@@ -4,6 +4,7 @@ import React, { Fragment } from "react";
 import { Modal, Button } from "react-bootstrap";
 import { GlobalDataContext } from "../../context/GlobalData";
 import { useFetch } from "../../api/useFetch";
+import { useSocket } from "api/useSocket";
 import EditorField from "../../context/EditorField";
 import SpinnerLoad from "./SpinnerLoad";
 const WritePostModal = React.forwardRef((props, ref) => {
@@ -12,6 +13,7 @@ const WritePostModal = React.forwardRef((props, ref) => {
     useNotify,
     setPostReloader,
     postReloader,
+    newPostToastRef,
   } = React.useContext(GlobalDataContext);
   const [show, setShow] = React.useState(false);
   const close = () => setShow(!show);
@@ -37,6 +39,7 @@ const WritePostModal = React.forwardRef((props, ref) => {
             setGlobalMessage(res.message);
             useNotify(res.message, "success");
             setPostReloader(!postReloader);
+            useSocket().emit("new post", "Added New Post");
             spinnerLoadPublishPostRef.current.toggleSpinner();
             close();
           } else {
@@ -54,6 +57,7 @@ const WritePostModal = React.forwardRef((props, ref) => {
         useNotify(err.message, "error");
       });
   };
+
   return (
     <Fragment>
       <Modal
