@@ -12,21 +12,50 @@ import Authenticate from "./pages/Authenticate";
 import ToastMessage from "./component/global/ToastMessage";
 import NotificationPage from "./pages/NotificationPage";
 import Profile from "./pages/Profile";
+import PostContent from "./pages/PostContent";
 import NavTop from "./component/global/NavTop";
 import NavBottom from "./component/global/NavBottom";
 import NewPostNotify from "component/socket/NewPostNotify";
 const App = () => {
-  const {
-    isAuthenticated,
-    globalStyle,
-    postLimit,
-    newPostNotifyRef,
-    postReloader,
-    setPostReloader,
-  } = React.useContext(GlobalDataContext);
+  const { isAuthenticated, newPostNotifyRef, postReloader } = React.useContext(
+    GlobalDataContext
+  );
   const history = useHistory();
   usePreFetch();
-  
+  React.useEffect(() => {
+    useSocket().emit("pre connect", "Pre Connect");
+  }, [postReloader]);
+  // @TODO: register socket Listener
+  React.useEffect(() => {
+    useSocket().on("pre connect", (value) => {});
+    useSocket().on("new post", (value) => {
+      newPostNotifyRef.current.openToast();
+      newPostNotifyRef.current.toggleDataReloader();
+    });
+    useSocket().on("edit post", (value) => {
+      newPostNotifyRef.current.toggleDataReloader();
+    });
+    useSocket().on("delete post", (value) => {
+      newPostNotifyRef.current.toggleDataReloader();
+    });
+    useSocket().on("like post", (value) => {
+      newPostNotifyRef.current.toggleDataReloader();
+    });
+    useSocket().on("add comment", (value) => {
+      newPostNotifyRef.current.toggleDataReloader();
+    });
+    useSocket().on("edit comment", (value) => {
+      newPostNotifyRef.current.toggleDataReloader();
+    });
+    useSocket().on("delete comment", (value) => {
+      newPostNotifyRef.current.toggleDataReloader();
+    });
+    useSocket().on("connect again", (value) => {
+      useSocket().on("connect", () => {
+        return;
+      });
+    });
+  }, []);
   return (
     <Fragment>
       <ToastMessage />
@@ -56,6 +85,7 @@ const App = () => {
               component={NotificationPage}
             />
             <ProtectedRoute exact path="/profile" component={Profile} />
+            <ProtectedRoute exact path="/post/:post_id" component={PostContent}/>
           </Container>
           <NavBottom />
         </div>

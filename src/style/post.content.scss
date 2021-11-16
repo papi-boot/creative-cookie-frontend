@@ -1,0 +1,14 @@
+@use "root" as root;
+
+.post-content-wrapper {
+  margin: root.$spacing-5 * 5 0;
+}
+
+.post-content-active{
+  cursor: pointer;
+}
+@mixin post-content-down-48rem {
+  .post-content-wrapper {
+    margin: root.$spacing-5 * 3 0 root.$spacing-5 * 5 0;
+  }
+}

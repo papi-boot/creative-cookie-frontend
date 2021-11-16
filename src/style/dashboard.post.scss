@@ -3,7 +3,7 @@
 .post-card-wrapper {
   background-color: root.$solid-white;
   border-radius: root.$spacing-2;
-  height: 15rem;
+  height: 11rem;
   margin: root.$spacing-5 * 2 auto;
   overflow: hidden;
   padding: root.$spacing-3;
@@ -58,6 +58,10 @@
     left: 0;
     position: absolute;
     right: 0;
+  }
+
+  &.post-wrapper-max-height{
+    height: 18rem;
   }
 }
 .post-menu-btn {

@@ -8,7 +8,6 @@ import ToolTip from "component/global/ToolTip";
 import SpinnerLoad from "component/global/SpinnerLoad";
 const CommentTab = () => {
   const {
-    showPostDetail,
     showCommentModal,
     setShowCommentModal,
   } = React.useContext(GlobalDataContext);
@@ -32,11 +31,7 @@ const CommentTab = () => {
   };
 
   // @TODO: comment iterate
-  const commentList = () => {
-    return showPostDetail.post_comment.map((item) => (
-      <div key={item.comment_id}></div>
-    ));
-  };
+
   return (
     <Fragment>
       <Modal

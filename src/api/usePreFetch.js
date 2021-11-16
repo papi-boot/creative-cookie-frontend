@@ -2,17 +2,15 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React from "react";
 import { useFetch } from "./useFetch";
-import { GlobalDataContext } from "../context/GlobalData";
+import { GlobalDataContext } from "context/GlobalData";
 import { useHistory } from "react-router-dom";
 export const usePreFetch = () => {
   const {
     dataReloader,
-    setDataReloader,
     setIsAuthenticated,
     setUserInfo,
     setGlobalMessage,
     useNotify,
-    postLimit,
   } = React.useContext(GlobalDataContext);
   const history = useHistory();
   React.useLayoutEffect(() => {

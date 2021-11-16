@@ -1,6 +1,6 @@
 import React from "react";
 import { useNotify } from "../api/useNotify";
-import { lightTheme, darkTheme } from "../style/root";
+import { lightTheme } from "../style/root";
 export const GlobalDataContext = React.createContext();
 
 const GlobalDataProvider = (props) => {
@@ -17,6 +17,7 @@ const GlobalDataProvider = (props) => {
   const [post, setPost] = React.useState([]);
   const [postLike, setPostLike] = React.useState([]);
   const [postComment, setPostComment] = React.useState([]);
+  const [notification, setNotification] = React.useState([]);
   const [postReloader, setPostReloader] = React.useState(false);
   const [editPostDetail, setEditPostDetail] = React.useState({
     post_id: "",
@@ -47,6 +48,7 @@ const GlobalDataProvider = (props) => {
     postLike,
     postComment,
     postLimit,
+    notification,
     postOneItem,
     lastPostLimit,
     editPostDetail,
@@ -61,6 +63,7 @@ const GlobalDataProvider = (props) => {
     setPostLimit,
     setPostLike,
     setPostComment,
+    setNotification,
     setIsPostSubmitted,
     setIsAuthenticated,
     setPostReloader,

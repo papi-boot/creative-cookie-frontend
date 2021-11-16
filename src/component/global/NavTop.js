@@ -15,10 +15,8 @@ const NavTop = () => {
     setGlobalMessage,
     useNotify,
     setIsAuthenticated,
-    setDataReloader,
-    dataReloader,
     setUserInfo,
-    postLimit,
+    notification,
   } = React.useContext(GlobalDataContext);
   const writePostModalRef = React.useRef(null);
   const nvTopSpinnerLoadRef = React.useRef(null);
@@ -53,10 +51,21 @@ const NavTop = () => {
   const openWritePost = () => {
     writePostModalRef.current.toggleModal();
   };
+
+  //@TODO: filter notifications
+  const getNotification = () => {
+    const filterNotif = notification.filter(
+      (item) => item.post_created_by === userInfo.user_id
+    );
+    return filterNotif;
+  };
   return (
     <Fragment>
       <WritePostModal ref={writePostModalRef} />
-      <div className="mobile-navbar d-flex align-items-center justify-content-center p-2 bg-light position-fixed top-0 w-100" style={{zIndex: "1"}}>
+      <div
+        className="mobile-navbar d-flex align-items-center justify-content-center p-2 bg-light position-fixed top-0 w-100"
+        style={{ zIndex: "1" }}
+      >
         <img
           src={CreativeCookieLogo}
           alt="Creative Cookie"
@@ -78,7 +87,7 @@ const NavTop = () => {
                 <NavLink
                   activeClassName="link-active"
                   className="nav_link"
-                  to="dashboard"
+                  to="/dashboard"
                 >
                   <span className="d-flex align-items-center">
                     <i className="bi bi-house-door-fill"></i>&nbsp;Home
@@ -124,7 +133,7 @@ const NavTop = () => {
                       bg="danger"
                       size="sm"
                     >
-                      3
+                      {getNotification().length}
                     </Badge>
                   </div>
                 </NavLink>

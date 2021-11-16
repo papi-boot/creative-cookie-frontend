@@ -24,7 +24,6 @@ const DashboardPost = () => {
     postComment,
     userInfo,
     setShowPostDetail,
-    showPostDetail,
     setPostOneItem,
     setEditPostDetail,
     postReloader,
@@ -148,7 +147,12 @@ const DashboardPost = () => {
   // @TODO: iterate post;
   const dashboardPostList = () => {
     return post.map((item, index) => (
-      <div className="post-card-wrapper border" key={item.post_id}>
+      <div
+        className={`post-card-wrapper border ${
+          item.post_content.length > 200 ? "post-wrapper-max-height" : ""
+        }`}
+        key={item.post_id}
+      >
         <div className="post-header border-bottom py-1">
           <div className="post-created-by-wrapper me-1">
             <h6
