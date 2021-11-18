@@ -55,7 +55,10 @@ const NavTop = () => {
   //@TODO: filter notifications
   const getNotification = () => {
     const filterNotif = notification.filter(
-      (item) => item.post_created_by === userInfo.user_id
+      (item) =>
+        item.post_created_by === userInfo.user_id &&
+        item.notif_is_open === false &&
+        item.notif_user_ref !== userInfo.user_id
     );
     return filterNotif;
   };
@@ -123,25 +126,30 @@ const NavTop = () => {
                       <i className="bi bi-bell-fill"></i>
                       &nbsp;Notification&nbsp;
                     </span>
-                    <Badge
-                      pill
-                      style={{
-                        position: "absolute",
-                        top: "-.3rem",
-                        right: "-1rem",
-                      }}
-                      bg="danger"
-                      size="sm"
-                    >
-                      {getNotification().length}
-                    </Badge>
+                    {getNotification().length > 0 ? (
+                      <Badge
+                        pill
+                        style={{
+                          position: "absolute",
+                          top: "-.3rem",
+                          right: "-1rem",
+                        }}
+                        bg="danger"
+                        size="sm"
+                      >
+                        {getNotification().length}
+                      </Badge>
+                    ) : (
+                      ""
+                    )}
                   </div>
                 </NavLink>
               </li>
 
               <NavDropdown
+                bsPrefix="profile-dropdown"
                 menuVariant="dark"
-                className="p-0 mx-3"
+                className="ms-3"
                 title={
                   <ToolTip placement="bottom" text={userInfo.user_full_name}>
                     <div className="d-flex align-items-center">

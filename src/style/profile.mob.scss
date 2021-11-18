@@ -1,0 +1,11 @@
+@use "root" as root;
+
+.profile-mob-list-settings {
+  margin: root.$spacing-5 * 4 0 0 0;
+}
+
+@mixin profile-mob-down-48rem {
+  .profile-mob-list-settings {
+    margin: root.$spacing-5 * 3 0 0 0;
+  }
+}

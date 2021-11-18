@@ -8,7 +8,7 @@
   background-color: root.$white;
   border-radius: root.$spacing-2;
   margin: root.$spacing-5 auto;
-  width: 100%;
+  width: 50%;
 }
 
 .notif-active {
@@ -20,7 +20,7 @@
 }
 @mixin notification-down-48rem {
   .notification-section {
-    margin: 2.7rem 0 0 0;
+    margin: 4rem 0;
   }
   .notification-card-wrapper {
     width: 100%;

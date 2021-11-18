@@ -29,6 +29,7 @@ const GlobalDataProvider = (props) => {
     post_like: [],
     post_commnet: [],
   });
+  const [notifID, setNotifID] = React.useState("");
   const [postOneItem, setPostOneItem] = React.useState({});
   const [showCommentModal, setShowCommentModal] = React.useState(false);
   const [showEditCommentModal, setShowEditCommentModal] = React.useState(false);
@@ -36,6 +37,8 @@ const GlobalDataProvider = (props) => {
   const btnLoadMoreRef = React.useRef(null);
   const newPostNotifyRef = React.useRef(null);
   const likeSpinnerLoadRef = React.useRef([]);
+  const [currentURL, setCurrentURL] = React.useState("/dashboard");
+  const [showCreatePostBtnMob, setShowCreatePostBtnMob] = React.useState(true);
   const value = {
     isAuthenticated,
     globalMessage,
@@ -48,6 +51,7 @@ const GlobalDataProvider = (props) => {
     postLike,
     postComment,
     postLimit,
+    currentURL,
     notification,
     postOneItem,
     lastPostLimit,
@@ -57,10 +61,13 @@ const GlobalDataProvider = (props) => {
     dataReloader,
     authenticateTab,
     isPostSubmitted,
+    showCreatePostBtnMob,
     setPost,
     setPostOneItem,
     setLastPostLimit,
     setPostLimit,
+    notifID,
+    setNotifID,
     setPostLike,
     setPostComment,
     setNotification,
@@ -70,6 +77,7 @@ const GlobalDataProvider = (props) => {
     setDataReloader,
     setUserEmail,
     setUserInfo,
+    setShowCreatePostBtnMob,
     setShowPostDetail,
     setShowCommentModal,
     setShowEditCommentModal,
@@ -77,6 +85,7 @@ const GlobalDataProvider = (props) => {
     setAuthenticateTab,
     setGlobalMessage,
     setGlobalStyle,
+    setCurrentURL,
     useNotify,
     loadMorePostRef,
     btnLoadMoreRef,

@@ -40,19 +40,7 @@ const DashboardPost = () => {
   const showPostModalRef = React.useRef(null);
   const editPostModalRef = React.useRef(null);
   const deletePostModalRef = React.useRef(null);
-  React.useEffect(() => {
-    if (removeArrowDropdownRef.current) {
-      removeArrowDropdownRef.current.firstChild.classList.remove(
-        "dropdown-toggle"
-      );
-      removeArrowDropdownRef.current.firstChild.classList.add("post-menu-btn");
-      const menuBtn = document.querySelectorAll(".dropdown-toggle");
-      menuBtn.forEach((item, i) => {
-        item.classList.remove("dropdown-toggle");
-        item.classList.add("post-menu-btn");
-      });
-    }
-  }, [post, postReloader]);
+
 
   // @TODO: show post modal
   const openShowPostModal = (postItem) => {
@@ -172,6 +160,7 @@ const DashboardPost = () => {
           <div className="post-menu-btn-wrapper ms-1">
             <DropdownButton
               ref={removeArrowDropdownRef}
+              bsPrefix="comment-menu-btn"
               drop="start"
               size="sm"
               menuVariant="dark"

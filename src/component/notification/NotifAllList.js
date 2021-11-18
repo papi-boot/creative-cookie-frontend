@@ -3,23 +3,38 @@ import { GlobalDataContext } from "context/GlobalData";
 import { formatDistanceToNow } from "date-fns";
 import { Link } from "react-router-dom";
 const NotifAllList = () => {
-  const { notification, userInfo } = React.useContext(GlobalDataContext);
+  const {
+    notification,
+    userInfo,
+    setNotifID,
+    postReloader,
+    setPostReloader,
+  } = React.useContext(GlobalDataContext);
   // @get notification
   const getNotification = () =>
-    notification.filter((notif) => notif.post_created_by === userInfo.user_id);
+    notification.filter(
+      (notif) =>
+        notif.post_created_by === userInfo.user_id &&
+        notif.notif_user_ref !== userInfo.user_id
+    );
   return (
     <Fragment>
       {getNotification().length > 0 ? (
         getNotification().map((item) => (
-          <Link
+          <div
             key={item.notif_id}
-            to={`/post/${item.post_id}?ct=${item.notif_type}`}
-            style={{ textDecoration: "none" }}
+            className={`notification-card-wrapper border p-3 ${
+              item.notif_is_open ? "" : "notif-not-open"
+            }`}
           >
-            <div
-              className={`notification-card-wrapper border p-3 ${
-                !item.notif_is_open ? "" : "notif-not-open"
-              }`}
+            <Link
+              key={item.notif_id}
+              to={`/post/${item.post_id}?ct=${item.notif_type}`}
+              style={{ textDecoration: "none" }}
+              onClick={() => {
+                setNotifID(item.notif_id);
+                setPostReloader(!postReloader);
+              }}
             >
               <div className="notif-header-wrapper overflow-hidden d-flex align-items-center justify-content-between">
                 <div className="notif-header-title">
@@ -80,8 +95,8 @@ const NotifAllList = () => {
                   ""
                 )}
               </div>
-            </div>
-          </Link>
+            </Link>
+          </div>
         ))
       ) : (
         <div className="my-4">

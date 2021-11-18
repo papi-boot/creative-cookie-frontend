@@ -26,10 +26,15 @@ const Dashboard = () => {
     setPostComment,
     likeSpinnerLoadRef,
     setNotification,
+    setShowCreatePostBtnMob,
+    setCurrentURL
   } = React.useContext(GlobalDataContext);
   const [showPlaceholder, setShowPlaceholder] = React.useState(true);
   const [showPostReloader, setShowPostReloader] = React.useState(false);
   React.useEffect(() => {
+    setCurrentURL(window.location.pathname);
+    localStorage.setItem("URL", window.location.pathname);
+    setShowCreatePostBtnMob(true);
     document.body.classList.add("body-color-light");
     Prism.highlightAll();
     fetch(

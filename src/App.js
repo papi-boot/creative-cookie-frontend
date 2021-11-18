@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { Fragment } from "react";
-import { Switch, Route, useHistory } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import { GlobalDataContext } from "./context/GlobalData";
 import { Container } from "react-bootstrap";
 import { usePreFetch } from "./api/usePreFetch";
@@ -12,15 +12,15 @@ import Authenticate from "./pages/Authenticate";
 import ToastMessage from "./component/global/ToastMessage";
 import NotificationPage from "./pages/NotificationPage";
 import Profile from "./pages/Profile";
+import ProfileListMobile from "./pages/ProfileListMobile";
 import PostContent from "./pages/PostContent";
 import NavTop from "./component/global/NavTop";
 import NavBottom from "./component/global/NavBottom";
 import NewPostNotify from "component/socket/NewPostNotify";
 const App = () => {
-  const { isAuthenticated, newPostNotifyRef, postReloader } = React.useContext(
+  const {newPostNotifyRef, postReloader } = React.useContext(
     GlobalDataContext
   );
-  const history = useHistory();
   usePreFetch();
   React.useEffect(() => {
     useSocket().emit("pre connect", "Pre Connect");
@@ -60,17 +60,6 @@ const App = () => {
     <Fragment>
       <ToastMessage />
       <Switch>
-        <Route
-          exact
-          path="/"
-          render={() => {
-            if (isAuthenticated) {
-              return history.push("/dashboard");
-            } else {
-              return history.push("/authenticate");
-            }
-          }}
-        />
         <Route exact path="/authenticate" component={Authenticate} />
         <div className="main">
           <NewPostNotify ref={newPostNotifyRef} />
@@ -85,7 +74,12 @@ const App = () => {
               component={NotificationPage}
             />
             <ProtectedRoute exact path="/profile" component={Profile} />
-            <ProtectedRoute exact path="/post/:post_id" component={PostContent}/>
+            <ProtectedRoute exact path="/profile-mob" component={ProfileListMobile} />
+            <ProtectedRoute
+              exact
+              path="/post/:post_id"
+              component={PostContent}
+            />
           </Container>
           <NavBottom />
         </div>

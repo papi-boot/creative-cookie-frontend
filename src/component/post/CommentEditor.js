@@ -46,6 +46,33 @@ const CommentEditor = React.forwardRef((props, ref) => {
           useNotify(err.message, "error");
         });
     },
+    submitCommentRequestFromNotif(postID) {
+      const params = {
+        post_id: postID,
+        comment_content: commentEditorContent,
+      };
+      useFetch(params, "POST", "comment", setGlobalMessage, useNotify)
+        .then((res) => {
+          if (res) {
+            if (res.success) {
+              setGlobalMessage(res.message);
+              useNotify(res.message, "success");
+              setShowCommentModal(!showCommentModal);
+              setPostReloader(!postReloader);
+              useSocket().emit("add comment", "Add Comment");
+            } else {
+              setGlobalMessage(res.message);
+              useNotify(res.message, "error");
+            }
+          } else {
+            throw new Error("Something went wrong. Please try again later.");
+          }
+        })
+        .catch((err) => {
+          setGlobalMessage(err.message);
+          useNotify(err.message, "error");
+        });
+    },
   }));
   return (
     <Fragment>
@@ -72,8 +99,7 @@ const CommentEditor = React.forwardRef((props, ref) => {
         }}
         init={{
           plugins:
-            "quickbars autosave autoresize blockquote anchor code emoticons charmap wordcount codesample lists advlist table hr pagebreak nonbreaking print image media imagetools autolink link preview fullscreen visualblocks spellchecker visualchars help searchreplace",
-          autosave_restore_when_empty: true,
+            "quickbars autoresize blockquote anchor code emoticons charmap wordcount codesample lists advlist table hr pagebreak nonbreaking print image media imagetools autolink link preview fullscreen visualblocks spellchecker visualchars help searchreplace",
           min_height: 200,
           placeholder: "Write a comment...",
           width: "100%",
