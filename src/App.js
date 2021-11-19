@@ -7,6 +7,7 @@ import { Container } from "react-bootstrap";
 import { usePreFetch } from "./api/usePreFetch";
 import { useSocket } from "api/useSocket";
 import ProtectedRoute from "./pages/ProtectedRoute";
+import EditorField from "context/EditorField";
 import Dashboard from "./pages/Dashboard";
 import Authenticate from "./pages/Authenticate";
 import ToastMessage from "./component/global/ToastMessage";
@@ -18,7 +19,7 @@ import NavTop from "./component/global/NavTop";
 import NavBottom from "./component/global/NavBottom";
 import NewPostNotify from "component/socket/NewPostNotify";
 const App = () => {
-  const {newPostNotifyRef, postReloader } = React.useContext(
+  const { newPostNotifyRef, postReloader } = React.useContext(
     GlobalDataContext
   );
   usePreFetch();
@@ -62,6 +63,9 @@ const App = () => {
       <Switch>
         <Route exact path="/authenticate" component={Authenticate} />
         <div className="main">
+          <div className="d-none">
+            <EditorField/>
+          </div>
           <NewPostNotify ref={newPostNotifyRef} />
           <header className="main-header">
             <NavTop />
@@ -73,12 +77,17 @@ const App = () => {
               path="/notification"
               component={NotificationPage}
             />
-            <ProtectedRoute exact path="/profile" component={Profile} />
-            <ProtectedRoute exact path="/profile-mob" component={ProfileListMobile} />
             <ProtectedRoute
               exact
               path="/post/:post_id"
               component={PostContent}
+            />
+            ;
+            <ProtectedRoute exact path="/profile" component={Profile} />
+            <ProtectedRoute
+              exact
+              path="/profile-mob"
+              component={ProfileListMobile}
             />
           </Container>
           <NavBottom />

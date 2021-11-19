@@ -30,7 +30,6 @@ const Login = () => {
     };
     useFetch(params, "POST", "login", setGlobalMessage, useNotify)
       .then((res) => {
-        console.log(res);
         if (res) {
           if (res.success) {
             setGlobalMessage(res.message);
