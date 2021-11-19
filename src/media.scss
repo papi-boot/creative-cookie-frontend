@@ -25,6 +25,20 @@
 
 }
 
+// 992px <
+@media screen and (max-width: 62rem){
+  img {
+     display: block;
+     height: auto;
+     margin: 0 auto;
+     width: 90%;
+   }
+   iframe {
+     display: block;
+     margin: 0 auto;
+     width: 100% !important;
+   }
+}
 // > 992px
 @media screen and (min-width: 62rem) {
 }

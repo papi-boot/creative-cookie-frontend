@@ -8,6 +8,7 @@ const PostContentTab = () => {
       <Container>
         <div
           className="show-post-content"
+          style={{ overflowX: "hidden" }}
           dangerouslySetInnerHTML={{ __html: showPostDetail.post.post_content }}
         ></div>
       </Container>

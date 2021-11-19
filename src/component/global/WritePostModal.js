@@ -65,6 +65,7 @@ const WritePostModal = React.forwardRef((props, ref) => {
         backdrop="static"
         enforceFocus={false}
         animation={true}
+        scrollable
       >
         <Modal.Header closeButton>
           <Modal.Title>

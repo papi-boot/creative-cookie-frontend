@@ -4,23 +4,14 @@ import { Button, Modal, Container } from "react-bootstrap";
 import { GlobalDataContext } from "context/GlobalData";
 import CommentEditor from "./CommentEditor";
 import CommentList from "./CommentList";
-import ToolTip from "component/global/ToolTip";
 import SpinnerLoad from "component/global/SpinnerLoad";
-const CommentTab = () => {
-  const {
-    showCommentModal,
-    setShowCommentModal,
-  } = React.useContext(GlobalDataContext);
-  const [toggleCommentField, setToggleCommentField] = React.useState(false);
+const CommentTab = React.forwardRef((props, ref) => {
+  const { showCommentModal, setShowCommentModal } = React.useContext(
+    GlobalDataContext
+  );
   const commentEditorRef = React.useRef(null);
   const commentBtnSpinnerLoadRef = React.useRef(null);
   const close = () => {
-    setShowCommentModal(!showCommentModal);
-  };
-
-  // @TODO: Toggle Comment View
-  const toggleCommentFieldView = () => {
-    setToggleCommentField(!toggleCommentField);
     setShowCommentModal(!showCommentModal);
   };
 
@@ -30,8 +21,11 @@ const CommentTab = () => {
     commentEditorRef.current.submitCommentRequest();
   };
 
-  // @TODO: comment iterate
-
+  React.useImperativeHandle(ref, () => ({
+    toggleModal() {
+      setShowCommentModal(!showCommentModal);
+    },
+  }));
   return (
     <Fragment>
       <Modal
@@ -72,25 +66,7 @@ const CommentTab = () => {
       <Container>
         <CommentList />
       </Container>
-      <div
-        className={`comment-field-opener-wrapper ${
-          toggleCommentField ? "up" : ""
-        } `}
-      >
-        <ToolTip placement="top" text="Write a comment">
-          <Button
-            variant="primary"
-            className="comment-field-opener"
-            type="button"
-            onClick={() => toggleCommentFieldView()}
-          >
-            <span>
-              <i className="bi bi-pencil-square"></i>
-            </span>
-          </Button>
-        </ToolTip>
-      </div>
     </Fragment>
   );
-};
+});
 export default CommentTab;

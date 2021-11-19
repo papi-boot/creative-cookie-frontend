@@ -36,7 +36,7 @@ const PostContentComment = ({ onePostDetail }) => {
     <Fragment>
       <EditCommentModal ref={editCommentModalRef} />
       <CommentDeleteModal ref={commentDeleteModalRef} />
-      <CommentModal ref={commentModalRef} onePostDetail={onePostDetail}/>
+      <CommentModal ref={commentModalRef} onePostDetail={onePostDetail} />
       <div className="post-content-write-comment-wrapper d-flex align-items-center justify-content-center p-0 my-0 w-100 position-fixed">
         <ToolTip placement="top" text="Write a Comment">
           <Button
@@ -70,12 +70,8 @@ const PostContentComment = ({ onePostDetail }) => {
           ) : (
             <Fragment>
               {onePostDetail.post_comment.map((item) => (
-                <div
-                  className="comment-card-wrapper up"
-                  key={item.comment_id}
-                  style={{ boxShadow: "3px 5px 10px rgba(70,70,70,.2)" }}
-                >
-                  <div className="comment-header d-flex align-items-center justify-content-between border-bottom">
+                <div className="comment-card-wrapper up" key={item.comment_id} style={{background: "#fff"}}>
+                  <div className="comment-header d-flex align-items-center justify-content-between border-bottom" >
                     <div
                       className="comment-user-name"
                       style={{

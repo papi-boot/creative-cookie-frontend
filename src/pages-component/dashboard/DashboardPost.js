@@ -141,7 +141,7 @@ const DashboardPost = () => {
         }`}
         key={item.post_id}
       >
-        <div className="post-header border-bottom py-1">
+        <div className="post-header border-bottom">
           <div className="post-created-by-wrapper me-1">
             <h6
               className="m-0 post-created-by"
@@ -210,7 +210,7 @@ const DashboardPost = () => {
             </DropdownButton>
           </div>
         </div>
-        <div className="post-date my-2">
+        <div className="post-date my-2 px-2">
           <span style={{ fontSize: ".8rem" }}>
             <i className="bi bi-clock"></i>&nbsp;
             {formatDistanceToNow(new Date(item.post_created_at), {
@@ -227,7 +227,7 @@ const DashboardPost = () => {
             )}
           </span>
         </div>
-        <div className="post-tag-wrapper d-flex align-items-center flex-wrap">
+        <div className="post-tag-wrapper d-flex align-items-center flex-wrap px-2">
           {JSON.parse(item.post_tag).map((tag_item) => (
             <Badge className="mx-1 my-1" size="sm" bg="dark" key={tag_item.seq}>
               {tag_item.tag_text}
