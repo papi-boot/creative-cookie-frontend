@@ -19,9 +19,7 @@ import NavTop from "./component/global/NavTop";
 import NavBottom from "./component/global/NavBottom";
 import NewPostNotify from "component/socket/NewPostNotify";
 const App = () => {
-  const { newPostNotifyRef, postReloader } = React.useContext(
-    GlobalDataContext
-  );
+  const { newPostNotifyRef, postReloader } = React.useContext(GlobalDataContext);
   usePreFetch();
   React.useEffect(() => {
     useSocket().emit("pre connect", "Pre Connect");
@@ -63,32 +61,16 @@ const App = () => {
       <Switch>
         <Route exact path="/authenticate" component={Authenticate} />
         <div className="main">
-          <div className="d-none">
-            <EditorField/>
-          </div>
           <NewPostNotify ref={newPostNotifyRef} />
           <header className="main-header">
             <NavTop />
           </header>
           <Container>
             <ProtectedRoute exact path="/dashboard" component={Dashboard} />
-            <ProtectedRoute
-              exact
-              path="/notification"
-              component={NotificationPage}
-            />
-            <ProtectedRoute
-              exact
-              path="/post/:post_id"
-              component={PostContent}
-            />
-            ;
+            <ProtectedRoute exact path="/notification" component={NotificationPage} />
+            <ProtectedRoute exact path="/post" component={PostContent} />
             <ProtectedRoute exact path="/profile" component={Profile} />
-            <ProtectedRoute
-              exact
-              path="/profile-mob"
-              component={ProfileListMobile}
-            />
+            <ProtectedRoute exact path="/profile-mob" component={ProfileListMobile} />
           </Container>
           <NavBottom />
         </div>

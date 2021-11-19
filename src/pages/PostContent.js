@@ -1,30 +1,34 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { Fragment } from "react";
-import { withRouter, useParams } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import { useFetch } from "api/useFetch";
+import { useQuery } from "api/useQuery";
 import { GlobalDataContext } from "context/GlobalData";
 import Prism from "prismjs";
 import PostContentTab from "pages-component/post-content/PostContentTab";
 const PostContent = () => {
-  const { post_id } = useParams();
+  let query = useQuery();
   const {
     postReloader,
     setGlobalMessage,
     setNotification,
     useNotify,
     notifID,
-    setCurrentURL
+    setCurrentURL,
   } = React.useContext(GlobalDataContext);
   const [onePostDetail, setOnePostDetail] = React.useState({});
   // @TODO: Fetch Data;
   React.useEffect(() => {
     setCurrentURL(`${window.location.pathname}${window.location.search}`);
-    localStorage.setItem("URL", `${window.location.pathname}${window.location.search}`);
+    localStorage.setItem(
+      "URL",
+      `${window.location.pathname}${window.location.search}`
+    );
     document.body.classList.add("body-color-light");
     const params = {
-      post_id,
+      post_id: query.get("pid"),
     };
     useFetch(params, "POST", "one-post", setGlobalMessage, useNotify)
       .then((res) => {

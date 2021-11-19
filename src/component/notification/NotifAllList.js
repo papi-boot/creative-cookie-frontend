@@ -7,8 +7,6 @@ const NotifAllList = () => {
     notification,
     userInfo,
     setNotifID,
-    postReloader,
-    setPostReloader,
   } = React.useContext(GlobalDataContext);
   // @get notification
   const getNotification = () =>
@@ -29,11 +27,10 @@ const NotifAllList = () => {
           >
             <Link
               key={item.notif_id}
-              to={`/post/${item.post_id}?ct=${item.notif_type}`}
+              to={`/post?pid=${item.post_id}&ct=${item.notif_type}`}
               style={{ textDecoration: "none" }}
               onClick={() => {
                 setNotifID(item.notif_id);
-                setPostReloader(!postReloader);
               }}
             >
               <div className="notif-header-wrapper overflow-hidden d-flex align-items-center justify-content-between">
