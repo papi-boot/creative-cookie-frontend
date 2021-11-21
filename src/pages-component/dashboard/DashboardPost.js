@@ -214,10 +214,9 @@ const DashboardPost = () => {
                   </Dropdown.Item>
                 </Fragment>
               ) : (
-                <Dropdown.Item>
+                <Dropdown.Item onClick={() => openMenuOtherCanvas(item)}>
                   <span>
-                    <i className="bi bi-exclamation-circle-fill"></i>
-                    &nbsp;Report
+                    <i className="bi bi-reply-fill"></i>&nbsp;Others
                   </span>
                 </Dropdown.Item>
               )}
