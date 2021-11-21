@@ -31,6 +31,7 @@ const GlobalDataProvider = (props) => {
   });
   const [notifID, setNotifID] = React.useState("");
   const [postOneItem, setPostOneItem] = React.useState({});
+  const [sharePostDetail, setSharePostDetail] = React.useState({});
   const [showCommentModal, setShowCommentModal] = React.useState(false);
   const [showEditCommentModal, setShowEditCommentModal] = React.useState(false);
   const loadMorePostRef = React.useRef(null);
@@ -63,6 +64,8 @@ const GlobalDataProvider = (props) => {
     authenticateTab,
     isPostSubmitted,
     showCreatePostBtnMob,
+    sharePostDetail,
+    setSharePostDetail,
     setPost,
     setPostOneItem,
     setLastPostLimit,

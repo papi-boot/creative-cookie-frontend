@@ -17,6 +17,7 @@ import DeletePostModal from "component/global/DeletePostModal";
 import ShowPostModal from "component/post/ShowPostModal";
 import SpinnerLoad from "component/global/SpinnerLoad";
 import ToolTip from "component/global/ToolTip";
+import MenuOtherCanvas from "component/post/MenuOtherCanvas";
 const DashboardPost = () => {
   const {
     post,
@@ -35,12 +36,13 @@ const DashboardPost = () => {
     setGlobalMessage,
     useNotify,
     likeSpinnerLoadRef,
+    setSharePostDetail,
   } = React.useContext(GlobalDataContext);
   const removeArrowDropdownRef = React.useRef(null);
   const showPostModalRef = React.useRef(null);
   const editPostModalRef = React.useRef(null);
   const deletePostModalRef = React.useRef(null);
-
+  const menuOtherCanvasRef = React.useRef(null);
 
   // @TODO: show post modal
   const openShowPostModal = (postItem) => {
@@ -132,6 +134,12 @@ const DashboardPost = () => {
       return "bi bi-hand-thumbs-up";
     }
   };
+
+  // @TODO: open menu other canvas
+  const openMenuOtherCanvas = (item) => {
+    menuOtherCanvasRef.current.toggleCanvas();
+    setSharePostDetail(item);
+  };
   // @TODO: iterate post;
   const dashboardPostList = () => {
     return post.map((item, index) => (
@@ -169,6 +177,7 @@ const DashboardPost = () => {
                   <i className="bi bi-three-dots-vertical"></i>
                 </span>
               }
+              style={{ zIndex: "3" }}
             >
               {userInfo.user_id === item.post_created_by ? (
                 <Fragment>
@@ -196,6 +205,11 @@ const DashboardPost = () => {
                   >
                     <span>
                       <i className="bi bi-trash-fill"></i>&nbsp;Delete
+                    </span>
+                  </Dropdown.Item>
+                  <Dropdown.Item onClick={() => openMenuOtherCanvas(item)}>
+                    <span>
+                      <i className="bi bi-reply-fill"></i>&nbsp;Others
                     </span>
                   </Dropdown.Item>
                 </Fragment>
@@ -295,6 +309,7 @@ const DashboardPost = () => {
       <ShowPostModal ref={showPostModalRef} />
       <EditPostModal ref={editPostModalRef} />
       <DeletePostModal ref={deletePostModalRef} />
+      <MenuOtherCanvas ref={menuOtherCanvasRef} />
       {dashboardPostList()}
       <div className="d-flex align-items-center justify-content-center">
         {post.length > 0 ? (

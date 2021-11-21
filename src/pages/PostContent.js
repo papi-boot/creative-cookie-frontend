@@ -38,6 +38,7 @@ const PostContent = () => {
             setOnePostDetail(res);
             Prism.highlightAll();
           } else {
+            useNotify(res.message, "error");
             // Should render 404 page not found
           }
         } else {
