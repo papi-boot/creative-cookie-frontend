@@ -1,11 +1,10 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, { Fragment } from "react";
 import {
   EmailShareButton,
   EmailIcon,
   FacebookShareButton,
   FacebookIcon,
-  FacebookMessengerShareButton,
-  FacebookMessengerIcon,
   LinkedinShareButton,
   LinkedinIcon,
   PinterestShareButton,
@@ -20,15 +19,25 @@ import {
   TwitterIcon,
 } from "react-share";
 import { GlobalDataContext } from "context/GlobalData";
+import { Button } from "react-bootstrap";
 import ToolTip from "component/global/ToolTip";
 const MenuShareList = () => {
-  const { sharePostDetail } = React.useContext(GlobalDataContext);
+  const { sharePostDetail, useNotify } = React.useContext(GlobalDataContext);
   const [url, setUrl] = React.useState(
     `https://www.creative-cookie.studio/post?pid=${sharePostDetail.post_id}&ct="Post"`
   );
   const [quote, setQuote] = React.useState(
     `Thread post by ${sharePostDetail.user_full_name}`
   );
+  const copyPostLinkTextAreaRef = React.useRef(null);
+
+  // @TODO: copy link
+  const copyPostLinkEvent = () => {
+    copyPostLinkTextAreaRef.current.textContent = url;
+    copyPostLinkTextAreaRef.current.select();
+    window.document.execCommand("copy");
+    useNotify("Link copy to clipboard", "info");
+  };
   return (
     <Fragment>
       <section className="share-link-item d-flex align-items-center flex-wrap py-3">
@@ -46,16 +55,6 @@ const MenuShareList = () => {
           <TwitterShareButton title={quote} url={url} className="mx-1 my-1">
             <TwitterIcon size={40} round />
           </TwitterShareButton>
-        </ToolTip>
-        <ToolTip placement="top" text="Messenger">
-          <FacebookMessengerShareButton
-            appId="1686894018180067"
-            redirectUri={url}
-            url={url}
-            className="mx-1 my-1"
-          >
-            <FacebookMessengerIcon size={40} round />
-          </FacebookMessengerShareButton>
         </ToolTip>
         <ToolTip placement="top" text="LinkedIn">
           <LinkedinShareButton
@@ -84,12 +83,12 @@ const MenuShareList = () => {
         </ToolTip>
         <ToolTip placement="top" text="Telegram">
           <TelegramShareButton className="mx-1 my-1" url={url} title={quote}>
-            <TelegramIcon size={40} round/>
+            <TelegramIcon size={40} round />
           </TelegramShareButton>
         </ToolTip>
         <ToolTip placement="top" text="Tumblr">
           <TumblrShareButton className="mx-1 my-1" url={url} title={quote}>
-            <TumblrIcon size={40} round/>
+            <TumblrIcon size={40} round />
           </TumblrShareButton>
         </ToolTip>
         <ToolTip placement="top" text="Email">
@@ -101,6 +100,26 @@ const MenuShareList = () => {
             <EmailIcon size={40} round />
           </EmailShareButton>
         </ToolTip>
+        <div className="m-1" style={{ clipPath: "circle(46% at 50% 49%)" }}>
+          <ToolTip placement="top" text="Copy Link">
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={(e) => copyPostLinkEvent(e)}
+            >
+              <span>
+                <i
+                  className="bi bi-link-45deg"
+                  style={{ fontSize: "1.3rem" }}
+                ></i>
+              </span>
+            </Button>
+          </ToolTip>
+          <textarea
+            style={{ left: "-100%", position: "absolute" }}
+            ref={copyPostLinkTextAreaRef}
+          ></textarea>
+        </div>
       </section>
     </Fragment>
   );

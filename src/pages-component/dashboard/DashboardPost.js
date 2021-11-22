@@ -181,12 +181,6 @@ const DashboardPost = () => {
             >
               {userInfo.user_id === item.post_created_by ? (
                 <Fragment>
-                  <Dropdown.Header>
-                    <span>
-                      <i className="bi bi-gear"></i>
-                    </span>
-                    &nbsp;Post Options
-                  </Dropdown.Header>
                   <Dropdown.Item
                     onClick={() =>
                       openEditPostModal(
@@ -196,26 +190,26 @@ const DashboardPost = () => {
                       )
                     }
                   >
-                    <span>
+                    <span style={{ fontSize: ".9rem" }}>
                       <i className="bi bi-pencil-square"></i>&nbsp;Edit
                     </span>
                   </Dropdown.Item>
                   <Dropdown.Item
                     onClick={() => openDeletePostModal(item.post_id)}
                   >
-                    <span>
+                    <span style={{ fontSize: ".9rem" }}>
                       <i className="bi bi-trash-fill"></i>&nbsp;Delete
                     </span>
                   </Dropdown.Item>
                   <Dropdown.Item onClick={() => openMenuOtherCanvas(item)}>
-                    <span>
+                    <span style={{ fontSize: ".9rem" }}>
                       <i className="bi bi-reply-fill"></i>&nbsp;Others
                     </span>
                   </Dropdown.Item>
                 </Fragment>
               ) : (
                 <Dropdown.Item onClick={() => openMenuOtherCanvas(item)}>
-                  <span>
+                  <span style={{ fontSize: ".9rem" }}>
                     <i className="bi bi-reply-fill"></i>&nbsp;Others
                   </span>
                 </Dropdown.Item>
