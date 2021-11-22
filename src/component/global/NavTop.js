@@ -15,10 +15,8 @@ const NavTop = () => {
     setGlobalMessage,
     useNotify,
     setIsAuthenticated,
-    setDataReloader,
-    dataReloader,
     setUserInfo,
-    postLimit,
+    notification,
   } = React.useContext(GlobalDataContext);
   const writePostModalRef = React.useRef(null);
   const nvTopSpinnerLoadRef = React.useRef(null);
@@ -53,10 +51,24 @@ const NavTop = () => {
   const openWritePost = () => {
     writePostModalRef.current.toggleModal();
   };
+
+  //@TODO: filter notifications
+  const getNotification = () => {
+    const filterNotif = notification.filter(
+      (item) =>
+        item.post_created_by === userInfo.user_id &&
+        item.notif_is_open === false &&
+        item.notif_user_ref !== userInfo.user_id
+    );
+    return filterNotif;
+  };
   return (
     <Fragment>
       <WritePostModal ref={writePostModalRef} />
-      <div className="mobile-navbar d-flex align-items-center justify-content-center p-2 bg-light position-fixed top-0 w-100" style={{zIndex: "1"}}>
+      <div
+        className="mobile-navbar d-flex align-items-center justify-content-center p-2 bg-light position-fixed top-0 w-100"
+        style={{ zIndex: "1" }}
+      >
         <img
           src={CreativeCookieLogo}
           alt="Creative Cookie"
@@ -78,7 +90,7 @@ const NavTop = () => {
                 <NavLink
                   activeClassName="link-active"
                   className="nav_link"
-                  to="dashboard"
+                  to="/dashboard"
                 >
                   <span className="d-flex align-items-center">
                     <i className="bi bi-house-door-fill"></i>&nbsp;Home
@@ -114,25 +126,30 @@ const NavTop = () => {
                       <i className="bi bi-bell-fill"></i>
                       &nbsp;Notification&nbsp;
                     </span>
-                    <Badge
-                      pill
-                      style={{
-                        position: "absolute",
-                        top: "-.3rem",
-                        right: "-1rem",
-                      }}
-                      bg="danger"
-                      size="sm"
-                    >
-                      3
-                    </Badge>
+                    {getNotification().length > 0 ? (
+                      <Badge
+                        pill
+                        style={{
+                          position: "absolute",
+                          top: "-.3rem",
+                          right: "-1rem",
+                        }}
+                        bg="danger"
+                        size="sm"
+                      >
+                        {getNotification().length}
+                      </Badge>
+                    ) : (
+                      ""
+                    )}
                   </div>
                 </NavLink>
               </li>
 
               <NavDropdown
+                bsPrefix="profile-dropdown"
                 menuVariant="dark"
-                className="p-0 mx-3"
+                className="ms-3"
                 title={
                   <ToolTip placement="bottom" text={userInfo.user_full_name}>
                     <div className="d-flex align-items-center">

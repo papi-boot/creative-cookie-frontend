@@ -54,11 +54,27 @@ body {
   width: max-content;
 }
 
+.profile-dropdown {
+  color: root.$black;
+  text-decoration: none;
+  &::after {
+    content: none !important;
+  }
+}
+.banner-img-wrapper {
+  display: block;
+}
 @mixin post-container-gap-down-48rem {
   .post-container-gap {
     margin: root.$spacing-5 * 2 0 root.$spacing-5 * 5 0;
   }
   .show-post-header {
     width: 12rem;
+  }
+  .banner-img-wrapper {
+    height: 30rem;
+    width: 100%;
+    background-size: contain;
+    background-attachment: fixed;
   }
 }

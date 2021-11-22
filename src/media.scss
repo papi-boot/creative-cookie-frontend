@@ -17,11 +17,28 @@
   @include navbottom-down-48rem();
   @include post-container-gap-down-48rem();
   @include comment-card-wrapper-down-48rem();
+  @include notification-down-48rem();
+  @include post-content-down-48rem();
 }
 // > 768px
 @media screen and (min-width: 48rem) {
+
 }
 
+// 992px <
+@media screen and (max-width: 62rem){
+  img {
+     display: block;
+     height: auto;
+     margin: 0 auto;
+     width: 90%;
+   }
+   iframe {
+     display: block;
+     margin: 0 auto;
+     width: 100% !important;
+   }
+}
 // > 992px
 @media screen and (min-width: 62rem) {
 }

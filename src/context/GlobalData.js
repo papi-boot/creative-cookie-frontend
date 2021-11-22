@@ -1,6 +1,6 @@
 import React from "react";
 import { useNotify } from "../api/useNotify";
-import { lightTheme, darkTheme } from "../style/root";
+import { lightTheme } from "../style/root";
 export const GlobalDataContext = React.createContext();
 
 const GlobalDataProvider = (props) => {
@@ -17,6 +17,7 @@ const GlobalDataProvider = (props) => {
   const [post, setPost] = React.useState([]);
   const [postLike, setPostLike] = React.useState([]);
   const [postComment, setPostComment] = React.useState([]);
+  const [notification, setNotification] = React.useState([]);
   const [postReloader, setPostReloader] = React.useState(false);
   const [editPostDetail, setEditPostDetail] = React.useState({
     post_id: "",
@@ -28,13 +29,18 @@ const GlobalDataProvider = (props) => {
     post_like: [],
     post_commnet: [],
   });
+  const [notifID, setNotifID] = React.useState("");
   const [postOneItem, setPostOneItem] = React.useState({});
+  const [sharePostDetail, setSharePostDetail] = React.useState({});
   const [showCommentModal, setShowCommentModal] = React.useState(false);
   const [showEditCommentModal, setShowEditCommentModal] = React.useState(false);
   const loadMorePostRef = React.useRef(null);
   const btnLoadMoreRef = React.useRef(null);
   const newPostNotifyRef = React.useRef(null);
+  const commentModalRef = React.useRef(null);
   const likeSpinnerLoadRef = React.useRef([]);
+  const [currentURL, setCurrentURL] = React.useState("/dashboard");
+  const [showCreatePostBtnMob, setShowCreatePostBtnMob] = React.useState(true);
   const value = {
     isAuthenticated,
     globalMessage,
@@ -47,6 +53,8 @@ const GlobalDataProvider = (props) => {
     postLike,
     postComment,
     postLimit,
+    currentURL,
+    notification,
     postOneItem,
     lastPostLimit,
     editPostDetail,
@@ -55,18 +63,25 @@ const GlobalDataProvider = (props) => {
     dataReloader,
     authenticateTab,
     isPostSubmitted,
+    showCreatePostBtnMob,
+    sharePostDetail,
+    setSharePostDetail,
     setPost,
     setPostOneItem,
     setLastPostLimit,
     setPostLimit,
+    notifID,
+    setNotifID,
     setPostLike,
     setPostComment,
+    setNotification,
     setIsPostSubmitted,
     setIsAuthenticated,
     setPostReloader,
     setDataReloader,
     setUserEmail,
     setUserInfo,
+    setShowCreatePostBtnMob,
     setShowPostDetail,
     setShowCommentModal,
     setShowEditCommentModal,
@@ -74,11 +89,13 @@ const GlobalDataProvider = (props) => {
     setAuthenticateTab,
     setGlobalMessage,
     setGlobalStyle,
+    setCurrentURL,
     useNotify,
     loadMorePostRef,
     btnLoadMoreRef,
     newPostNotifyRef,
     likeSpinnerLoadRef,
+    commentModalRef
   };
   return (
     <GlobalDataContext.Provider value={value}>

@@ -13,13 +13,11 @@ const WritePostModal = React.forwardRef((props, ref) => {
     useNotify,
     setPostReloader,
     postReloader,
-    newPostToastRef,
   } = React.useContext(GlobalDataContext);
   const [show, setShow] = React.useState(false);
   const close = () => setShow(!show);
   const editorFieldRef = React.useRef(null);
   const spinnerLoadPublishPostRef = React.useRef(null);
-  const spinnerLoadSaveDraftRef = React.useRef(null);
   React.useImperativeHandle(ref, () => ({
     toggleModal() {
       setShow(!show);
@@ -67,6 +65,7 @@ const WritePostModal = React.forwardRef((props, ref) => {
         backdrop="static"
         enforceFocus={false}
         animation={true}
+        scrollable
       >
         <Modal.Header closeButton>
           <Modal.Title>

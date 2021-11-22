@@ -1,24 +1,21 @@
 /* eslint-disable react-hooks/rules-of-hooks*/
 /* eslint-disable react-hooks/exhaustive-deps*/
 import React, { Fragment } from "react";
-import { GlobalDataContext } from "../context/GlobalData";
+import { GlobalDataContext } from "context/GlobalData";
 import { withRouter } from "react-router-dom";
-import { useQuery } from "../api/useQuery";
-import { useSocket } from "api/useSocket";
+import { useFetch } from "api/useFetch";
 import Prism from "prismjs";
-import DashboardPost from "../pages-component/dashboard/DashboardPost";
-import PlaceHolderPost from "../component/global/PlaceHolderPost";
+import DashboardPost from "pages-component/dashboard/DashboardPost";
+import PlaceHolderPost from "component/global/PlaceHolderPost";
 const Dashboard = () => {
   const {
     setPost,
-    post,
     setGlobalMessage,
     useNotify,
     postReloader,
     postLimit,
     loadMorePostRef,
     postOneItem,
-    postLike,
     postComment,
     btnLoadMoreRef,
     setLastPostLimit,
@@ -28,12 +25,16 @@ const Dashboard = () => {
     setShowPostDetail,
     setPostComment,
     likeSpinnerLoadRef,
-    setPostReloader,
-    newPostNotifyRef,
+    setNotification,
+    setShowCreatePostBtnMob,
+    setCurrentURL
   } = React.useContext(GlobalDataContext);
   const [showPlaceholder, setShowPlaceholder] = React.useState(true);
   const [showPostReloader, setShowPostReloader] = React.useState(false);
   React.useEffect(() => {
+    setCurrentURL(window.location.pathname);
+    localStorage.setItem("URL", window.location.pathname);
+    setShowCreatePostBtnMob(true);
     document.body.classList.add("body-color-light");
     Prism.highlightAll();
     fetch(
@@ -51,7 +52,6 @@ const Dashboard = () => {
       .then((res) => {
         if (res) {
           if (res.success) {
-            useSocket().emit("pre connect", "Pre Connect");
             setGlobalMessage(res.message);
             setPost(res.post);
             setPostLike(res.post_like);
@@ -83,6 +83,25 @@ const Dashboard = () => {
         setGlobalMessage(err.message);
         useNotify(err.message, "success");
       });
+    // @TODO: Fetch notifications
+    useFetch(null, "GET", "notification", setGlobalMessage, useNotify)
+      .then((res) => {
+        if (res) {
+          if (res.success) {
+            setGlobalMessage(res.message);
+            setNotification(res.notification);
+          } else {
+            setGlobalMessage(res.message);
+            return;
+          }
+        } else {
+          throw new Error("Somthing went wrong. Please try again or later");
+        }
+      })
+      .catch((err) => {
+        setGlobalMessage(err.message);
+        useNotify(err.message, "error");
+      });
   }, [postReloader]);
 
   React.useEffect(() => {
@@ -96,39 +115,6 @@ const Dashboard = () => {
       post_comment: filterComment,
     });
   }, [showPostReloader]);
-
-  // @TODO: register socket Listener
-  React.useEffect(() => {
-    useSocket().on("pre connect", (value) => {});
-    useSocket().on("new post", (value) => {
-      newPostNotifyRef.current.openToast();
-      newPostNotifyRef.current.toggleDataReloader();
-    });
-    useSocket().on("edit post", (value) => {
-      newPostNotifyRef.current.toggleDataReloader();
-    });
-    useSocket().on("delete post", (value) => {
-      newPostNotifyRef.current.toggleDataReloader();
-    });
-    useSocket().on("like post", (value) => {
-      newPostNotifyRef.current.toggleDataReloader();
-    });
-    useSocket().on("add comment", (value) => {
-      newPostNotifyRef.current.toggleDataReloader();
-    });
-    useSocket().on("edit comment", (value) => {
-      newPostNotifyRef.current.toggleDataReloader();
-    });
-    useSocket().on("delete comment", (value) => {
-      newPostNotifyRef.current.toggleDataReloader();
-    });
-    useSocket().on("connect again", (value) => {
-      useSocket().on("connect", () => {
-        return;
-      });
-    });
-  }, []);
-
   return (
     <Fragment>
       <section

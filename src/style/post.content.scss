@@ -1,0 +1,53 @@
+@use "root" as root;
+
+.post-content-wrapper {
+  margin: root.$spacing-5 * 5 0;
+}
+
+.post-content-nav-wrapper {
+  background-color: root.$body-color;
+  padding: root.$spacing-3;
+  top: 4.1rem;
+}
+
+.post-content-active {
+  cursor: pointer;
+}
+
+.post-content-article-wrapper {
+  margin: root.$spacing-5 * 4 0 0 0;
+}
+.post-content-write-comment-wrapper {
+  bottom: -7px;
+  left: 0;
+  right: 0;
+}
+.post-content-comment-wrapper {
+  margin-top: root.$spacing-5 * 3.5 !important;
+}
+
+.post-content-like-list {
+  margin: root.$spacing-5 * 4 0 0 0;
+}
+@mixin post-content-down-48rem {
+  .post-content-wrapper {
+    margin: root.$spacing-5 * 3 0 root.$spacing-5 * 5 0;
+  }
+  .post-content-nav-wrapper {
+    top: 2.5rem;
+  }
+  .post-content-article-wrapper {
+    margin: root.$spacing-5 * 3 0 0 0;
+  }
+  .post-content-comment-wrapper {
+    margin-top: root.$spacing-5 * 3 !important;
+  }
+  .post-content-write-comment-wrapper {
+    bottom: 2rem;
+    left: 0;
+    right: 0;
+  }
+  .post-content-like-list {
+    margin: root.$spacing-5 * 3 0 0 0;
+  }
+}

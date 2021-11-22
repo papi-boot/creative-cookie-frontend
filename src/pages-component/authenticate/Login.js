@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { Fragment } from "react";
-import { GlobalDataContext } from "../../context/GlobalData";
+import { GlobalDataContext } from "context/GlobalData";
 import { Form, FloatingLabel, Button } from "react-bootstrap";
-import { useFetch } from "../../api/useFetch";
+import { useFetch } from "api/useFetch";
 import { useHistory } from "react-router-dom";
-import SpinnerLoad from "../../component/global/SpinnerLoad";
-import ToolTip from "../../component/global/ToolTip";
+import SpinnerLoad from "component/global/SpinnerLoad";
+import ToolTip from "component/global/ToolTip";
 const Login = () => {
   const {
     userEmail,
@@ -15,7 +15,6 @@ const Login = () => {
     setDataReloader,
     setUserInfo,
     dataReloader,
-    postLimit,
   } = React.useContext(GlobalDataContext);
   const [showPassword, setShowPassword] = React.useState(false);
   const history = useHistory();
@@ -31,7 +30,6 @@ const Login = () => {
     };
     useFetch(params, "POST", "login", setGlobalMessage, useNotify)
       .then((res) => {
-        console.log(res);
         if (res) {
           if (res.success) {
             setGlobalMessage(res.message);

@@ -1,0 +1,35 @@
+@use "root" as root;
+
+.notification-section {
+  margin: 5rem 0 0 0;
+}
+
+.notification-card-wrapper {
+  background-color: root.$white;
+  border-radius: root.$spacing-2;
+  margin: root.$spacing-5 auto;
+  width: 50%;
+}
+
+.notif-active {
+  cursor: pointer;
+}
+
+.notif-not-open {
+  background-color: root.$yellow-light !important;
+}
+@mixin notification-down-48rem {
+  .notification-section {
+    margin: 4rem 0;
+  }
+  .notification-card-wrapper {
+    width: 100%;
+  }
+  .notif-nav {
+    background-color: root.$body-color;
+    width: 100%;
+  }
+  .notif-all-pane {
+    padding: root.$spacing-5 * 2 0 root.$spacing-5 * 3 0 ;
+  }
+}

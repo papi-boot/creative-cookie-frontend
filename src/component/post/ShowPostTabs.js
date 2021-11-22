@@ -5,7 +5,7 @@ import PostContentTab from "./PostContentTab";
 import LikeTab from "./LikeTab";
 import CommentTab from "./CommentTab";
 const ShowPostTabs = () => {
-  const { showPostDetail } = React.useContext(GlobalDataContext);
+  const { showPostDetail, commentModalRef } = React.useContext(GlobalDataContext);
   const [currentTab, setCurrentTab] = React.useState("post-thread");
 
   return (
@@ -18,10 +18,10 @@ const ShowPostTabs = () => {
       >
         <Nav
           variant="pills"
-          className="position-fixed d-flex align-item-center justify-content-center py-1 border-bottom"
+          className="position-sticky d-flex align-item-center justify-content-center py-1 border-bottom"
           style={{
             backgroundColor: "#fff",
-            top: "4rem",
+            top: "0",
             width: "100%",
             zIndex: "1",
           }}
@@ -50,12 +50,12 @@ const ShowPostTabs = () => {
             </Nav.Link>
           </Nav.Item>
         </Nav>
-        <Tab.Content className="mt-5">
-          <Tab.Pane eventKey="post-thread" className="py-2">
+        <Tab.Content className="mt-2">
+          <Tab.Pane eventKey="post-thread" className="py-2 px-3">
             <PostContentTab />
           </Tab.Pane>
           <Tab.Pane eventKey="comment" style={{ overflow: "hidden" }}>
-            <CommentTab />
+            <CommentTab ref={commentModalRef} />
           </Tab.Pane>
           <Tab.Pane eventKey="like" className="py-3">
             <LikeTab />

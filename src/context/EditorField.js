@@ -127,7 +127,7 @@ const EditorField = React.forwardRef((props, ref) => {
         }}
         init={{
           plugins:
-            "quickbars autosave autoresize blockquote anchor code emoticons charmap wordcount codesample lists advlist table hr pagebreak nonbreaking print image media imagetools autolink link preview fullscreen visualblocks spellchecker visualchars help searchreplace paste",
+            "quickbars autoresize blockquote anchor code emoticons charmap wordcount codesample lists advlist table hr pagebreak nonbreaking print image media imagetools autolink link preview fullscreen visualblocks spellchecker visualchars help searchreplace paste",
           menubar: "file insert view format",
           menu: {
             file: { title: "File", items: "newdocument restoredraft" },
@@ -147,11 +147,10 @@ const EditorField = React.forwardRef((props, ref) => {
                 "bold italic underline strikethrough superscript subscript codeformat | formats blockformats fontsizes align lineheight | forecolor backcolor | removeformat",
             },
           },
-          autosave_restore_when_empty: true,
           min_height: 400,
           max_width: "50%",
           toolbar:
-            "fullscreen undo redo restoredraft pastetext paste | bold italic blockquote forecolor backcolor | alignleft aligncenter alignright alignjustify bullist numlist table outdent indent image media codesample emoticons charmap link anchor hr",
+            "fullscreen undo redo pastetext paste | bold italic blockquote forecolor backcolor | alignleft aligncenter alignright alignjustify bullist numlist table outdent indent image media codesample emoticons charmap link anchor hr",
           toolbar_mode: "sliding",
           quickbars_selection_toolbar:
             "bold italic forecolor backcolor formatselect quicklink blockquote",

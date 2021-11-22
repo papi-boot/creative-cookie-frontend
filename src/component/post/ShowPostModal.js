@@ -1,12 +1,13 @@
 import React, { Fragment } from "react";
 import { Modal, Button } from "react-bootstrap";
-import { GlobalDataContext } from "../../context/GlobalData";
+import { GlobalDataContext } from "context/GlobalData";
 import { formatDistanceToNow } from "date-fns";
-import ToolTip from "../../component/global/ToolTip";
+import ToolTip from "component/global/ToolTip";
 import ShowPostTabs from "./ShowPostTabs";
 const ShowPostModal = React.forwardRef((props, ref) => {
-  const { showPostDetail, setPostReloader, postReloader} =
-    React.useContext(GlobalDataContext);
+  const { showPostDetail, setPostReloader, postReloader, commentModalRef } = React.useContext(
+    GlobalDataContext
+  );
   const [show, setShow] = React.useState(false);
   const close = () => setShow(!show);
   React.useImperativeHandle(ref, () => ({
@@ -22,7 +23,7 @@ const ShowPostModal = React.forwardRef((props, ref) => {
         onHide={close}
         backdrop="static"
         keyboard={false}
-        fullscreen
+        size="xl"
         enforceFocus={false}
         onEnter={(e) => {
           document.querySelector("html").style.overflowY = "hidden";
@@ -30,6 +31,7 @@ const ShowPostModal = React.forwardRef((props, ref) => {
         onExit={(e) => {
           document.querySelector("html").style.overflowY = "auto";
         }}
+        scrollable
       >
         <Modal.Header closeButton className="py-3 px-3">
           <Modal.Title>
@@ -83,6 +85,13 @@ const ShowPostModal = React.forwardRef((props, ref) => {
           <ShowPostTabs />
         </Modal.Body>
         <Modal.Footer className="py-1 px-2">
+          <Button
+            variant="success"
+            size="sm"
+            onClick={() => commentModalRef.current.toggleModal()}
+          >
+            Add Comment
+          </Button>
           <Button variant="dark" size="sm" onClick={() => close()}>
             Close
           </Button>

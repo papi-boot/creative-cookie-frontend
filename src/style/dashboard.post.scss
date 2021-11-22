@@ -3,16 +3,19 @@
 .post-card-wrapper {
   background-color: root.$solid-white;
   border-radius: root.$spacing-2;
-  height: 15rem;
+  height: 12rem;
   margin: root.$spacing-5 * 2 auto;
   overflow: hidden;
-  padding: root.$spacing-3;
   position: relative;
   width: 50%;
   > .post-header {
     align-items: center;
+    background: #fff;
     display: flex;
     justify-content: space-between;
+    padding: root.$spacing-4;
+    position: sticky;
+    top: 0;
     > .post-created-by-wrapper {
       overflow: hidden;
       text-overflow: ellipsis;
@@ -34,6 +37,7 @@
   }
   > .post-body-wrapper {
     > .post-content {
+      padding: root.$spacing-5;
     }
   }
   > .post-content-fade-wrapper {
@@ -56,8 +60,12 @@
     display: flex;
     justify-content: space-between;
     left: 0;
-    position: absolute;
+    position: sticky;
     right: 0;
+  }
+
+  &.post-wrapper-max-height{
+    height: 18rem;
   }
 }
 .post-menu-btn {

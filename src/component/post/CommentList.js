@@ -5,9 +5,7 @@ import { formatDistanceToNow } from "date-fns";
 import EditCommentModal from "component/comment/EditCommentModal";
 import CommentDeleteModal from "component/comment/CommentDeleteModal";
 const CommentList = () => {
-  const { showPostDetail, userInfo, postReloader } = React.useContext(
-    GlobalDataContext
-  );
+  const { showPostDetail, userInfo, postReloader } = React.useContext(GlobalDataContext);
   const commentMenuBtnRef = React.useRef(null);
   const editCommentModalRef = React.useRef(null);
   const commentDeleteModalRef = React.useRef(null);
@@ -20,10 +18,7 @@ const CommentList = () => {
 
   // @TODO: submit update comment
   const openCommentEditorModal = (item) => {
-    editCommentModalRef.current.getCommentInfo(
-      item.comment_id,
-      item.comment_content
-    );
+    editCommentModalRef.current.getCommentInfo(item.comment_id, item.comment_content);
     editCommentModalRef.current.toggleModal();
   };
 
@@ -78,20 +73,15 @@ const CommentList = () => {
                     <Fragment>
                       <Dropdown.Header>
                         <span>
-                          <i className="bi bi-gear-fill"></i>&nbsp;Comment
-                          Options
+                          <i className="bi bi-gear-fill"></i>&nbsp;Comment Options
                         </span>
                       </Dropdown.Header>
-                      <Dropdown.Item
-                        onClick={() => openCommentEditorModal(item)}
-                      >
+                      <Dropdown.Item onClick={() => openCommentEditorModal(item)}>
                         <span>
                           <i className="bi bi-pencil-square"></i>&nbsp;Edit
                         </span>
                       </Dropdown.Item>
-                      <Dropdown.Item
-                        onClick={() => openDeleteCommentModal(item)}
-                      >
+                      <Dropdown.Item onClick={() => openDeleteCommentModal(item)}>
                         <span>
                           <i className="bi bi-trash-fill"></i>&nbsp;Delete
                         </span>
@@ -115,8 +105,7 @@ const CommentList = () => {
                   addSuffix: true,
                 })}
                 &nbsp;
-                {new Date(item.comment_created_at) <
-                new Date(item.comment_updated_at) ? (
+                {new Date(item.comment_created_at) < new Date(item.comment_updated_at) ? (
                   <span>
                     <i className="bi bi-dot"></i>Edited
                   </span>
@@ -125,10 +114,7 @@ const CommentList = () => {
                 )}
               </span>
             </div>
-            <div
-              className="comment-content my-2"
-              dangerouslySetInnerHTML={{ __html: item.comment_content }}
-            ></div>
+            <div className="comment-content my-2" dangerouslySetInnerHTML={{ __html: item.comment_content }}></div>
           </div>
         ))
       ) : (

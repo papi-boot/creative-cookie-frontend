@@ -2,20 +2,19 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React from "react";
 import { useFetch } from "./useFetch";
-import { GlobalDataContext } from "../context/GlobalData";
+import { GlobalDataContext } from "context/GlobalData";
 import { useHistory } from "react-router-dom";
 export const usePreFetch = () => {
   const {
     dataReloader,
-    setDataReloader,
     setIsAuthenticated,
     setUserInfo,
     setGlobalMessage,
     useNotify,
-    postLimit,
   } = React.useContext(GlobalDataContext);
   const history = useHistory();
   React.useLayoutEffect(() => {
+    // localStorage.setItem("URL", `${window.location.pathname}${window.location.search}`);
     // @TODO: Check authentication for saving cookies
     useFetch(null, "GET", "authenticate", setGlobalMessage, useNotify)
       .then((res) => {
@@ -25,7 +24,7 @@ export const usePreFetch = () => {
             useNotify(res.message, "success");
             setIsAuthenticated(res.isAuthenticated);
             setUserInfo(res.user);
-            history.replace("dashboard");
+            history.replace(localStorage.getItem("URL"));
           } else {
             history.replace("/authenticate");
           }

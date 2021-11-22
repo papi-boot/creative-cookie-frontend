@@ -17,6 +17,7 @@ import DeletePostModal from "component/global/DeletePostModal";
 import ShowPostModal from "component/post/ShowPostModal";
 import SpinnerLoad from "component/global/SpinnerLoad";
 import ToolTip from "component/global/ToolTip";
+import MenuOtherCanvas from "component/post/MenuOtherCanvas";
 const DashboardPost = () => {
   const {
     post,
@@ -24,7 +25,6 @@ const DashboardPost = () => {
     postComment,
     userInfo,
     setShowPostDetail,
-    showPostDetail,
     setPostOneItem,
     setEditPostDetail,
     postReloader,
@@ -36,24 +36,13 @@ const DashboardPost = () => {
     setGlobalMessage,
     useNotify,
     likeSpinnerLoadRef,
+    setSharePostDetail,
   } = React.useContext(GlobalDataContext);
   const removeArrowDropdownRef = React.useRef(null);
   const showPostModalRef = React.useRef(null);
   const editPostModalRef = React.useRef(null);
   const deletePostModalRef = React.useRef(null);
-  React.useEffect(() => {
-    if (removeArrowDropdownRef.current) {
-      removeArrowDropdownRef.current.firstChild.classList.remove(
-        "dropdown-toggle"
-      );
-      removeArrowDropdownRef.current.firstChild.classList.add("post-menu-btn");
-      const menuBtn = document.querySelectorAll(".dropdown-toggle");
-      menuBtn.forEach((item, i) => {
-        item.classList.remove("dropdown-toggle");
-        item.classList.add("post-menu-btn");
-      });
-    }
-  }, [post, postReloader]);
+  const menuOtherCanvasRef = React.useRef(null);
 
   // @TODO: show post modal
   const openShowPostModal = (postItem) => {
@@ -145,11 +134,22 @@ const DashboardPost = () => {
       return "bi bi-hand-thumbs-up";
     }
   };
+
+  // @TODO: open menu other canvas
+  const openMenuOtherCanvas = (item) => {
+    menuOtherCanvasRef.current.toggleCanvas();
+    setSharePostDetail(item);
+  };
   // @TODO: iterate post;
   const dashboardPostList = () => {
     return post.map((item, index) => (
-      <div className="post-card-wrapper border" key={item.post_id}>
-        <div className="post-header border-bottom py-1">
+      <div
+        className={`post-card-wrapper border ${
+          item.post_content.length > 200 ? "post-wrapper-max-height" : ""
+        }`}
+        key={item.post_id}
+      >
+        <div className="post-header border-bottom">
           <div className="post-created-by-wrapper me-1">
             <h6
               className="m-0 post-created-by"
@@ -168,6 +168,7 @@ const DashboardPost = () => {
           <div className="post-menu-btn-wrapper ms-1">
             <DropdownButton
               ref={removeArrowDropdownRef}
+              bsPrefix="comment-menu-btn"
               drop="start"
               size="sm"
               menuVariant="dark"
@@ -176,15 +177,10 @@ const DashboardPost = () => {
                   <i className="bi bi-three-dots-vertical"></i>
                 </span>
               }
+              style={{ zIndex: "3" }}
             >
               {userInfo.user_id === item.post_created_by ? (
                 <Fragment>
-                  <Dropdown.Header>
-                    <span>
-                      <i className="bi bi-gear"></i>
-                    </span>
-                    &nbsp;Post Options
-                  </Dropdown.Header>
                   <Dropdown.Item
                     onClick={() =>
                       openEditPostModal(
@@ -194,30 +190,34 @@ const DashboardPost = () => {
                       )
                     }
                   >
-                    <span>
+                    <span style={{ fontSize: ".9rem" }}>
                       <i className="bi bi-pencil-square"></i>&nbsp;Edit
                     </span>
                   </Dropdown.Item>
                   <Dropdown.Item
                     onClick={() => openDeletePostModal(item.post_id)}
                   >
-                    <span>
+                    <span style={{ fontSize: ".9rem" }}>
                       <i className="bi bi-trash-fill"></i>&nbsp;Delete
+                    </span>
+                  </Dropdown.Item>
+                  <Dropdown.Item onClick={() => openMenuOtherCanvas(item)}>
+                    <span style={{ fontSize: ".9rem" }}>
+                      <i className="bi bi-reply-fill"></i>&nbsp;Others
                     </span>
                   </Dropdown.Item>
                 </Fragment>
               ) : (
-                <Dropdown.Item>
-                  <span>
-                    <i className="bi bi-exclamation-circle-fill"></i>
-                    &nbsp;Report
+                <Dropdown.Item onClick={() => openMenuOtherCanvas(item)}>
+                  <span style={{ fontSize: ".9rem" }}>
+                    <i className="bi bi-reply-fill"></i>&nbsp;Others
                   </span>
                 </Dropdown.Item>
               )}
             </DropdownButton>
           </div>
         </div>
-        <div className="post-date my-2">
+        <div className="post-date my-2 px-2">
           <span style={{ fontSize: ".8rem" }}>
             <i className="bi bi-clock"></i>&nbsp;
             {formatDistanceToNow(new Date(item.post_created_at), {
@@ -234,7 +234,7 @@ const DashboardPost = () => {
             )}
           </span>
         </div>
-        <div className="post-tag-wrapper d-flex align-items-center flex-wrap">
+        <div className="post-tag-wrapper d-flex align-items-center flex-wrap px-2">
           {JSON.parse(item.post_tag).map((tag_item) => (
             <Badge className="mx-1 my-1" size="sm" bg="dark" key={tag_item.seq}>
               {tag_item.tag_text}
@@ -302,6 +302,7 @@ const DashboardPost = () => {
       <ShowPostModal ref={showPostModalRef} />
       <EditPostModal ref={editPostModalRef} />
       <DeletePostModal ref={deletePostModalRef} />
+      <MenuOtherCanvas ref={menuOtherCanvasRef} />
       {dashboardPostList()}
       <div className="d-flex align-items-center justify-content-center">
         {post.length > 0 ? (
