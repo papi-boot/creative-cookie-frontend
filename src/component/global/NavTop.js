@@ -149,33 +149,48 @@ const NavTop = () => {
               <NavDropdown
                 bsPrefix="profile-dropdown"
                 menuVariant="dark"
-                className="ms-3"
+                className=""
                 title={
-                  <ToolTip placement="bottom" text={userInfo.user_full_name}>
-                    <div className="d-flex align-items-center">
-                      <span className="d-flex align-items-center fw-bold">
-                        <i className="bi bi-person-circle"></i>&nbsp;
-                        <div
-                          style={{
-                            overflow: "hidden",
-                            width: "max-content",
-                            maxWidth: "3.5rem",
-                            textOverflow: "ellipsis",
-                            whiteSpace: "nowrap",
-                          }}
-                        >
-                          {userInfo.user_full_name}
+                  <div className="d-flex align-items-center">
+                    <span className="d-flex align-items-center fw-bold">
+                      <ToolTip
+                        placement="bottom"
+                        text={userInfo.user_full_name + "\n" +userInfo.user_email}
+                      >
+                        <div className="nav-top-profile-img-wrapper me-1">
+                          <img
+                            src={userInfo.prof_info_image_link}
+                            className="nav-top-profile-img-src"
+                            alt={userInfo.user_full_name}
+                            loading="lazy"
+                          />
                         </div>
-                        <i className="bi bi-chevron-down"></i>
-                      </span>
-                    </div>
-                  </ToolTip>
+                      </ToolTip>
+                      <div
+                        style={{
+                          overflow: "hidden",
+                          width: "max-content",
+                          maxWidth: "3.5rem",
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        {userInfo.user_full_name}
+                      </div>
+                      <i className="bi bi-chevron-down"></i>
+                    </span>
+                  </div>
                 }
               >
                 <NavDropdown.Item>
-                  <span>
-                    &nbsp;Profile&nbsp;<i className="bi bi-gear"></i>
-                  </span>
+                  <NavLink
+                    className="text-white text-decoration-none"
+                    to="/profile"
+                  >
+                    <span>
+                      &nbsp;Profile&nbsp;<i className="bi bi-gear"></i>
+                    </span>
+                  </NavLink>
                 </NavDropdown.Item>
                 <NavDropdown.Item>
                   <button

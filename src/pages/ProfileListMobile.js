@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { Fragment } from "react";
-import { withRouter, useHistory } from "react-router-dom";
+import { withRouter, useHistory, Link } from "react-router-dom";
 import { useFetch } from "api/useFetch";
 import { ListGroup } from "react-bootstrap";
 import { GlobalDataContext } from "context/GlobalData";
@@ -45,11 +45,13 @@ const ProfileListMobile = () => {
     <Fragment>
       <div className="profile-mob-list-settings">
         <ListGroup>
-          <ListGroup.Item action className="py-3">
-            <span className="fw-bold">
-              <i className="bi bi-gear-fill"></i>&nbsp;Profile
-            </span>
-          </ListGroup.Item>
+          <Link to="/profile" className="text-decoration-none">
+            <ListGroup.Item action className="py-3">
+              <span className="fw-bold">
+                <i className="bi bi-gear-fill"></i>&nbsp;Profile
+              </span>
+            </ListGroup.Item>
+          </Link>
           <ListGroup.Item action className="py-3" onClick={logOutRequest}>
             <span className="fw-bold">
               <i className="bi bi-box-arrow-left"></i>&nbsp;Logout

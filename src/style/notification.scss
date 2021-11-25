@@ -18,6 +18,22 @@
 .notif-not-open {
   background-color: root.$yellow-light !important;
 }
+
+.notif-profile-img-wrapper {
+  background-color: rgba(70, 70, 70, 0.4);
+  display: inline-block;
+  clip-path: circle(50% at 50% 50%);
+  height: 1.7rem;
+  width: 1.7rem;
+  > .notif-profile-src {
+    display: inline !important;
+    object-fit: scale-down;
+    height: 100%;
+    width: 100%;
+  }
+}
+
+
 @mixin notification-down-48rem {
   .notification-section {
     margin: 4rem 0;

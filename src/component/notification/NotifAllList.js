@@ -3,11 +3,9 @@ import { GlobalDataContext } from "context/GlobalData";
 import { formatDistanceToNow } from "date-fns";
 import { Link } from "react-router-dom";
 const NotifAllList = () => {
-  const {
-    notification,
-    userInfo,
-    setNotifID,
-  } = React.useContext(GlobalDataContext);
+  const { notification, userInfo, setNotifID } = React.useContext(
+    GlobalDataContext
+  );
   // @get notification
   const getNotification = () =>
     notification.filter(
@@ -36,7 +34,7 @@ const NotifAllList = () => {
               <div className="notif-header-wrapper overflow-hidden d-flex align-items-center justify-content-between">
                 <div className="notif-header-title">
                   <h6 className="std-black">
-                    <span>
+                    <span className="">
                       <i
                         className={`${
                           item.notif_type === "Like"
@@ -45,7 +43,21 @@ const NotifAllList = () => {
                         }`}
                       ></i>
                       &nbsp;
-                      <span className="fw-bold">{item.user_full_name}</span>
+                      <span className="notif-profile-img-wrapper me-1">
+                        <img
+                          src={
+                            item.prof_info_image_link
+                              ? item.prof_info_image_link
+                              : `https://avatars.dicebear.com/api/identicon/${Math.random()}.svg`
+                          }
+                          loading="lazy"
+                          className="notif-profile-src"
+                          alt={item.user_full_name}
+                        />
+                      </span>
+                      <span className="fw-bold">
+                        &nbsp;{item.user_full_name}
+                      </span>
                       &nbsp;
                       {`${
                         item.notif_type === "Like"
@@ -54,7 +66,8 @@ const NotifAllList = () => {
                       }`}
                       &nbsp;Post&nbsp;
                       <span style={{ fontSize: ".8rem", whiteSpace: "nowrap" }}>
-                        <i className="bi bi-clock-fill text-primary"></i>&nbsp;
+                        <i className="bi bi-clock-fill text-primary"></i>
+                        &nbsp;
                         {formatDistanceToNow(new Date(item.notif_created_at), {
                           addSuffix: true,
                         })}
