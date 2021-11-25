@@ -1,0 +1,68 @@
+@use "root" as root;
+
+.section-profile {
+  margin: root.$spacing-5 * 6 0;
+}
+.profile-grid-wrapper {
+  // align-items: center;
+  display: grid;
+  grid-gap: root.$spacing-5;
+  grid-template-areas:
+    "pi pf pf pf pf pf pf pf pf pf"
+    "pi pf pf pf pf pf pf pf pf pf"
+    "pi pf pf pf pf pf pf pf pf pf";
+  > .profile-information-section {
+    background-color: root.$white;
+    border-top: root.$spacing-2 solid root.$primary-color !important;
+    border-radius: root.$spacing-1;
+    grid-area: pi;
+  }
+  > .profile-feed-section {
+    background-color: root.$white;
+    border-radius: root.$spacing-1;
+    grid-area: pf;
+  }
+}
+
+.profile-image-wrapper {
+  background-color: rgba(70, 70, 70, 0.4);
+  height: 12rem;
+  clip-path: circle(44% at 50% 50%);
+  margin: 0 auto;
+  width: 12rem;
+  > .profile-image-src {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.profile-btn-pick-wrapper {
+  bottom: root.$spacing-3;
+}
+.profile-btn-pick-img {
+}
+.pick-img-icon {
+  background-color: root.$primary-color;
+  border: none;
+  clip-path: circle(38% at 54% 50%);
+  color: root.$white;
+  outline: none;
+  padding: root.$spacing-3;
+  &::after {
+    content: none;
+  }
+}
+.profile-about-me {
+  width: 18rem;
+}
+@mixin profile-down-48rem() {
+  .section-profile {
+    margin: root.$spacing-5 * 4 0 root.$spacing-5 * 3 0;
+  }
+  .profile-grid-wrapper {
+    grid-template-areas:
+      "pi pi pi"
+      "pf pf pf";
+  }
+}

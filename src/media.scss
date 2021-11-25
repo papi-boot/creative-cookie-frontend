@@ -19,6 +19,7 @@
   @include comment-card-wrapper-down-48rem();
   @include notification-down-48rem();
   @include post-content-down-48rem();
+  @include profile-down-48rem();
 }
 // > 768px
 @media screen and (min-width: 48rem) {

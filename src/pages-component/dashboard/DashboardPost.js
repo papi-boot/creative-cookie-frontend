@@ -151,6 +151,14 @@ const DashboardPost = () => {
       >
         <div className="post-header border-bottom">
           <div className="post-created-by-wrapper me-1">
+            <div className="post-profile-img-wrapper me-1" role="button">
+              <img
+                src={item.prof_info_image_link ? item.prof_info_image_link : `https://avatars.dicebear.com/api/identicon/${Math.random()}.svg`}
+                className="post-profile-img-src"
+                alt={item.user_full_name}
+                loading="lazy"
+              />
+            </div>
             <h6
               className="m-0 post-created-by"
               style={{
@@ -159,10 +167,7 @@ const DashboardPost = () => {
                 whiteSpace: "nowrap",
               }}
             >
-              <span className="fw-bold">
-                <i className="bi bi-check-circle-fill text-primary"></i>&nbsp;
-                {item.user_full_name}&nbsp;
-              </span>
+              <span className="fw-bold">{item.user_full_name}&nbsp;</span>
             </h6>
           </div>
           <div className="post-menu-btn-wrapper ms-1">

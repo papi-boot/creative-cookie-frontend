@@ -27,7 +27,7 @@ const Dashboard = () => {
     likeSpinnerLoadRef,
     setNotification,
     setShowCreatePostBtnMob,
-    setCurrentURL
+    setCurrentURL,
   } = React.useContext(GlobalDataContext);
   const [showPlaceholder, setShowPlaceholder] = React.useState(true);
   const [showPostReloader, setShowPostReloader] = React.useState(false);
@@ -102,6 +102,21 @@ const Dashboard = () => {
         setGlobalMessage(err.message);
         useNotify(err.message, "error");
       });
+
+    // @TODO: pre set profile Information
+    useFetch({check: true}, "POST", "profile", setGlobalMessage, useNotify)
+      .then((res) => {
+        if (res) {
+          if (res.success) {
+            return;
+          } else {
+            return;
+          }
+        } else {
+          throw new Error("Something went wrong. Please try again or later");
+        }
+      })
+      .catch((err) => {});
   }, [postReloader]);
 
   React.useEffect(() => {

@@ -10,3 +10,27 @@
   right: 0;
   width: 100%;
 }
+
+.comment-profile-img-wrapper {
+  background-color: rgba(70, 70, 70, 0.4);
+  clip-path: circle(50% at 50% 50%);
+  height: 1.7rem;
+  width: 1.7rem;
+  > .comment-profile-src {
+    object-fit: scale-down;
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.like-profile-img-wrapper {
+  background-color: rgba(70, 70, 70, 0.4);
+  clip-path: circle(50% at 50% 50%);
+  height: 1.7rem;
+  width: 1.7rem;
+  > .like-profile-src {
+    object-fit: scale-down;
+    height: 100%;
+    width: 100%;
+  }
+}

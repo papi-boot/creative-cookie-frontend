@@ -70,16 +70,32 @@ const PostContentComment = ({ onePostDetail }) => {
           ) : (
             <Fragment>
               {onePostDetail.post_comment.map((item) => (
-                <div className="comment-card-wrapper up" key={item.comment_id} style={{background: "#fff"}}>
-                  <div className="comment-header d-flex align-items-center justify-content-between border-bottom" >
+                <div
+                  className="comment-card-wrapper up"
+                  key={item.comment_id}
+                  style={{ background: "#fff" }}
+                >
+                  <div className="comment-header d-flex align-items-center justify-content-between border-bottom">
                     <div
-                      className="comment-user-name"
+                      className="comment-user-name d-flex align-items-center pb-2"
                       style={{
                         overflow: "hidden",
                         textOverflow: "ellipsis",
                         whiteSpace: "nowrap",
                       }}
                     >
+                      <div className="comment-profile-img-wrapper me-1">
+                        <img
+                          src={
+                            item.prof_info_image_link
+                              ? item.prof_info_image_link
+                              : `https://avatars.dicebear.com/api/identicon/${Math.random()}.svg`
+                          }
+                          loading="lazy"
+                          className="comment-profile-src"
+                          alt={item.user_full_name}
+                        />
+                      </div>
                       <h6
                         className="m-0"
                         style={{
@@ -88,10 +104,7 @@ const PostContentComment = ({ onePostDetail }) => {
                           whiteSpace: "nowrap",
                         }}
                       >
-                        <span>
-                          <i className="bi bi-person-circle"></i>&nbsp;
-                          {item.user_full_name}
-                        </span>
+                        <span>{item.user_full_name}</span>
                       </h6>
                     </div>
                     <div className="comment-menu-dropdown-wrapper">
