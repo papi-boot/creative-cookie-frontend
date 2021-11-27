@@ -8,14 +8,15 @@ import SpinnerLoad from "component/global/SpinnerLoad";
 const ProfileListMobile = () => {
   const history = useHistory();
   const {
-    userInfo,
     setGlobalMessage,
     useNotify,
     setIsAuthenticated,
     setUserInfo,
+    splashScreenRef
   } = React.useContext(GlobalDataContext);
   const nvBottomSpinnerLoadRef = React.useRef(null);
   const logOutRequest = (e) => {
+    splashScreenRef.current.classList.remove("d-none");
     nvBottomSpinnerLoadRef.current.toggleSpinner();
     useFetch(null, "GET", "logout", setGlobalMessage, useNotify)
       .then((res) => {
@@ -26,6 +27,7 @@ const ProfileListMobile = () => {
             useNotify(res.message, "success");
             setIsAuthenticated(res.isAuthenticated);
             setUserInfo(res.user);
+            splashScreenRef.current.classList.add("d-none");
             history.replace("/authenticate");
           } else {
             nvBottomSpinnerLoadRef.current.toggleSpinner();

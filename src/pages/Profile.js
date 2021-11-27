@@ -12,6 +12,7 @@ const Profile = () => {
     postReloader,
     setIsAuthenticated,
     setUserInfo,
+    splashScreenRef
   } = React.useContext(GlobalDataContext);
   React.useEffect(() => {
     // @TODO: pre set profile Information
@@ -36,6 +37,7 @@ const Profile = () => {
             setGlobalMessage(res.message);
             setIsAuthenticated(res.isAuthenticated);
             setUserInfo(res.user);
+            splashScreenRef.current.classList.add("d-none");
           } else {
             return;
           }

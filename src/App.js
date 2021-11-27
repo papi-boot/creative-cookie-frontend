@@ -7,7 +7,6 @@ import { Container } from "react-bootstrap";
 import { usePreFetch } from "./api/usePreFetch";
 import { useSocket } from "api/useSocket";
 import ProtectedRoute from "./pages/ProtectedRoute";
-import EditorField from "context/EditorField";
 import Dashboard from "./pages/Dashboard";
 import Authenticate from "./pages/Authenticate";
 import ToastMessage from "./component/global/ToastMessage";
@@ -18,8 +17,14 @@ import PostContent from "./pages/PostContent";
 import NavTop from "./component/global/NavTop";
 import NavBottom from "./component/global/NavBottom";
 import NewPostNotify from "component/socket/NewPostNotify";
+import SplashScreen from "component/global/SplashScreen";
 const App = () => {
-  const { newPostNotifyRef, postReloader } = React.useContext(GlobalDataContext);
+  const {
+    newPostNotifyRef,
+    postReloader,
+    isAuthenticated,
+    splashScreenRef,
+  } = React.useContext(GlobalDataContext);
   usePreFetch();
   React.useEffect(() => {
     useSocket().emit("pre connect", "Pre Connect");
@@ -58,23 +63,38 @@ const App = () => {
   return (
     <Fragment>
       <ToastMessage />
-      <Switch>
-        <Route exact path="/authenticate" component={Authenticate} />
-        <div className="main">
-          <NewPostNotify ref={newPostNotifyRef} />
-          <header className="main-header">
-            <NavTop />
-          </header>
-          <Container>
-            <ProtectedRoute exact path="/dashboard" component={Dashboard} />
-            <ProtectedRoute exact path="/notification" component={NotificationPage} />
-            <ProtectedRoute exact path="/post" component={PostContent} />
-            <ProtectedRoute exact path="/profile" component={Profile} />
-            <ProtectedRoute exact path="/profile-mob" component={ProfileListMobile} />
-          </Container>
-          <NavBottom />
-        </div>
-      </Switch>
+      <SplashScreen />
+      {isAuthenticated ? (
+        <Switch>
+          <Route exact path="/authenticate" component={Authenticate} />
+          <div className="main">
+            <NewPostNotify ref={newPostNotifyRef} />
+            <header className="main-header">
+              <NavTop />
+            </header>
+            <Container>
+              <ProtectedRoute exact path="/dashboard" component={Dashboard} />
+              <ProtectedRoute
+                exact
+                path="/notification"
+                component={NotificationPage}
+              />
+              <ProtectedRoute exact path="/post" component={PostContent} />
+              <ProtectedRoute exact path="/profile" component={Profile} />
+              <ProtectedRoute
+                exact
+                path="/profile-mob"
+                component={ProfileListMobile}
+              />
+            </Container>
+            <NavBottom />
+          </div>
+        </Switch>
+      ) : (
+        <Switch>
+          <Route exact path="/authenticate" component={Authenticate} />
+        </Switch>
+      )}
     </Fragment>
   );
 };

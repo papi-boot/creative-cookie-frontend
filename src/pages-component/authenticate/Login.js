@@ -15,6 +15,7 @@ const Login = () => {
     setDataReloader,
     setUserInfo,
     dataReloader,
+    splashScreenRef
   } = React.useContext(GlobalDataContext);
   const [showPassword, setShowPassword] = React.useState(false);
   const history = useHistory();
@@ -22,6 +23,7 @@ const Login = () => {
   const emailRef = React.useRef(null);
   const passwordRef = React.useRef(null);
   const sendLoginRequest = (e) => {
+    splashScreenRef.current.classList.remove("d-none");
     logSpinnerLoadRef.current.toggleSpinner();
     e.preventDefault();
     const params = {

@@ -14,6 +14,7 @@ const NotificationPage = () => {
     useNotify,
     setShowCreatePostBtnMob,
     setCurrentURL,
+    splashScreenRef
   } = React.useContext(GlobalDataContext);
   React.useEffect(() => {
     setCurrentURL(window.location.pathname);
@@ -28,6 +29,7 @@ const NotificationPage = () => {
             setGlobalMessage(res.message);
             setNotification(res.notification);
             Prism.highlightAll();
+            splashScreenRef.current.classList.add("d-none");
           } else {
             setGlobalMessage(res.message);
             return;

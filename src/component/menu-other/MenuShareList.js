@@ -1,10 +1,13 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { Fragment } from "react";
+import { isMobile } from "react-device-detect";
 import {
   EmailShareButton,
   EmailIcon,
   FacebookShareButton,
   FacebookIcon,
+  FacebookMessengerShareButton,
+  FacebookMessengerIcon,
   LinkedinShareButton,
   LinkedinIcon,
   PinterestShareButton,
@@ -23,11 +26,12 @@ import { Button } from "react-bootstrap";
 import ToolTip from "component/global/ToolTip";
 const MenuShareList = () => {
   const { sharePostDetail, useNotify } = React.useContext(GlobalDataContext);
+  const FACEBOOK_APP_ID = "1686894018180067";
   const [url, setUrl] = React.useState(
-    `https://www.creative-cookie.studio/post?pid=${sharePostDetail.post_id}&ct="Post"`
+    `https://www.creative-cookie.studio/post?pid=${sharePostDetail.post_id}&ct=Post`
   );
   const [quote, setQuote] = React.useState(
-    `Thread post by ${sharePostDetail.user_full_name}`
+    `A Thread post by ${sharePostDetail.user_full_name} from Creative Cookie Studio`
   );
   const copyPostLinkTextAreaRef = React.useRef(null);
 
@@ -37,6 +41,15 @@ const MenuShareList = () => {
     copyPostLinkTextAreaRef.current.select();
     window.document.execCommand("copy");
     useNotify("Link copy to clipboard", "info");
+  };
+
+  // @TODO: share on native messenger app;
+  const sharePostMessengerMobile = () => {
+    window.open(
+      `fb-messenger://share/?link=${encodeURIComponent(
+        url
+      )}&app_id=${encodeURIComponent(FACEBOOK_APP_ID)}`
+    );
   };
   return (
     <Fragment>
@@ -50,6 +63,29 @@ const MenuShareList = () => {
           >
             <FacebookIcon size={40} round />
           </FacebookShareButton>
+        </ToolTip>
+        <ToolTip placement="top" text="Messenger">
+          {isMobile ? (
+            <div
+              style={{ clipPath: "circle(40% at 50% 50%)", overflow: "hidden" }}
+            >
+              <Button onClick={() => sharePostMessengerMobile()}>
+                <span style={{ fontSize: "1.5rem" }}>
+                  <i className="bi bi-messenger"></i>
+                </span>
+              </Button>
+            </div>
+          ) : (
+            <FacebookMessengerShareButton
+              className="m-1"
+              appId={FACEBOOK_APP_ID}
+              url={url}
+              to=""
+              redirectUri={url}
+            >
+              <FacebookMessengerIcon size={40} round />
+            </FacebookMessengerShareButton>
+          )}
         </ToolTip>
         <ToolTip placement="top" text="Twitter">
           <TwitterShareButton title={quote} url={url} className="mx-1 my-1">

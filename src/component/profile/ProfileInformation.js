@@ -188,7 +188,9 @@ const ProfileInformation = () => {
             style={{ fontSize: ".9rem" }}
           >
             Joined&nbsp;
-            {format(new Date(userInfo.user_created_at), "MMMM yyyy")}
+            {userInfo.user_created_at
+              ? format(new Date(userInfo.user_created_at), "MMMM yyyy")
+              : ""}
           </h6>
         </div>
         <div
@@ -207,9 +209,7 @@ const ProfileInformation = () => {
             style={{ borderLeft: ".3rem solid rgba(70,70,70,.1)" }}
           >
             {userInfo.prof_info_about_me ? (
-              <p className="fw-bold my-3 ps-2">
-                {userInfo.prof_info_about_me}
-              </p>
+              <p className="fw-bold my-3 ps-2">{userInfo.prof_info_about_me}</p>
             ) : (
               <p className="text-center my-3 text-black-50">
                 Share a little bit background about yourself.

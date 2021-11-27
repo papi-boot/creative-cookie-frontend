@@ -3,11 +3,19 @@
 .post-card-wrapper {
   background-color: root.$solid-white;
   border-radius: root.$spacing-2;
-  height: 12rem;
+  height: max-content;
   margin: root.$spacing-5 * 2 auto;
   overflow: hidden;
   position: relative;
+  transition: root.$transition-1;
   width: 50%;
+  > .post-viewer-btn {
+    clip-path: circle(40% at 51% 45%);
+    overflow: hidden;
+    position: absolute;
+    right: .5rem;
+    top: 4rem;
+  }
   > .post-header {
     align-items: center;
     background: #fff;
@@ -66,8 +74,11 @@
     right: 0;
   }
 
-  &.post-wrapper-max-height{
+  &.post-wrapper-max-height {
     height: 18rem;
+  }
+  &.post-wrapper-full-height {
+    height: 100%;
   }
 }
 .post-menu-btn {
@@ -105,7 +116,7 @@
 
 @mixin dashboard-post-down-48rem {
   .post-card-wrapper {
-    margin: root.$spacing-5 * 2  0 root.$spacing-5 * 2 0;
+    margin: root.$spacing-5 * 2 0 root.$spacing-5 * 2 0;
     width: 100%;
   }
   .mobile-navbar {
