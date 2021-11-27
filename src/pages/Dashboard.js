@@ -28,6 +28,7 @@ const Dashboard = () => {
     setNotification,
     setShowCreatePostBtnMob,
     setCurrentURL,
+    splashScreenRef
   } = React.useContext(GlobalDataContext);
   const [showPlaceholder, setShowPlaceholder] = React.useState(true);
   const [showPostReloader, setShowPostReloader] = React.useState(false);
@@ -58,6 +59,7 @@ const Dashboard = () => {
             setPostComment(res.post_comment);
             setShowPlaceholder(false);
             Prism.highlightAll();
+            splashScreenRef.current.classList.add("d-none");
             const likeSpinner = document.querySelectorAll(".like-spinner");
             likeSpinnerLoadRef.current = likeSpinner;
             if (res.post.length > lastPostLimit) {

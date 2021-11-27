@@ -17,6 +17,7 @@ const PostContent = () => {
     useNotify,
     notifID,
     setCurrentURL,
+    splashScreenRef
   } = React.useContext(GlobalDataContext);
   const [onePostDetail, setOnePostDetail] = React.useState({});
   // @TODO: Fetch Data;
@@ -37,6 +38,7 @@ const PostContent = () => {
             setGlobalMessage(res.message);
             setOnePostDetail(res);
             Prism.highlightAll();
+            splashScreenRef.current.classList.add("d-none");
           } else {
             useNotify(res.message, "error");
             // Should render 404 page not found

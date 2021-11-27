@@ -1,16 +1,39 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, { Fragment } from "react";
 import { GlobalDataContext } from "../context/GlobalData";
 import { Tabs, Tab } from "react-bootstrap";
+import {useFetch} from "api/useFetch";
 import Register from "../pages-component/authenticate/Register";
 import Login from "../pages-component/authenticate/Login";
 import CookieLogo from "assets/logo/creativecookie.png";
 import CookieBanner from "assets/banner/creative-cookie-banner.jpg";
 const Authenticate = () => {
-  const { authenticateTab, dataReloader } = React.useContext(GlobalDataContext);
+  const {
+    authenticateTab,
+    dataReloader,
+    splashScreenRef,
+    setGlobalMessage,
+    useNotify
+  } = React.useContext(GlobalDataContext);
   const [currentTab, setCurrentTab] = React.useState("Login");
   React.useEffect(() => {
     // @TODO: change authenticate tab
     setCurrentTab(authenticateTab);
+    useFetch({check: true}, "POST", "profile", setGlobalMessage, useNotify)
+      .then((res) => {
+        if (res) {
+          if (res.success) {
+            return;
+          } else {
+            splashScreenRef.current.classList.add("d-none");
+            return;
+          }
+        } else {
+          throw new Error("Something went wrong. Please try again or later");
+        }
+      })
+      .catch((err) => {});
   }, [authenticateTab, dataReloader]);
   return (
     <Fragment>

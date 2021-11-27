@@ -8,6 +8,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "react-toastify/dist/ReactToastify.css";
 import "./main.scss";
+require("dotenv").config("../.env");
 const root = document.querySelector("#root");
 ReactDOM.render(
   <React.StrictMode>

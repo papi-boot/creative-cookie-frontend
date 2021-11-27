@@ -17,11 +17,13 @@ const NavTop = () => {
     setIsAuthenticated,
     setUserInfo,
     notification,
+    splashScreenRef
   } = React.useContext(GlobalDataContext);
   const writePostModalRef = React.useRef(null);
   const nvTopSpinnerLoadRef = React.useRef(null);
   const logOutRequest = (e) => {
     nvTopSpinnerLoadRef.current.toggleSpinner();
+    splashScreenRef.current.classList.remove("d-none");
     useFetch(null, "GET", "logout", setGlobalMessage, useNotify)
       .then((res) => {
         if (res) {

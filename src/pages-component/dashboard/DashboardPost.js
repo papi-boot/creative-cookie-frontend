@@ -38,6 +38,7 @@ const DashboardPost = () => {
     likeSpinnerLoadRef,
     setSharePostDetail,
   } = React.useContext(GlobalDataContext);
+  const [postCollapseID, setPostCollapseID] = React.useState("");
   const removeArrowDropdownRef = React.useRef(null);
   const showPostModalRef = React.useRef(null);
   const editPostModalRef = React.useRef(null);
@@ -135,6 +136,12 @@ const DashboardPost = () => {
     }
   };
 
+  // @TODO: collapse post view
+  const collapsePostView = (item) => {
+    setPostCollapseID(item.post_id);
+    if (postCollapseID === item.post_id) return setPostCollapseID("");
+  };
+
   // @TODO: open menu other canvas
   const openMenuOtherCanvas = (item) => {
     menuOtherCanvasRef.current.toggleCanvas();
@@ -145,15 +152,36 @@ const DashboardPost = () => {
     return post.map((item, index) => (
       <div
         className={`post-card-wrapper border ${
-          item.post_content.length > 200 ? "post-wrapper-max-height" : ""
-        }`}
+          item.post_content.length > 500 ? "post-wrapper-max-height" : ""
+        } ${item.post_id === postCollapseID ? "post-wrapper-full-height" : ""}`}
         key={item.post_id}
       >
+        {item.post_content.length > 500 ? (
+          <ToolTip placement="top" text="Collapse Post">
+            <div className="post-viewer-btn">
+              <Button
+                size="sm"
+                variant="secondary"
+                onClick={() => collapsePostView(item)}
+              >
+                <span>
+                  <i className="bi bi-chevron-down"></i>
+                </span>
+              </Button>
+            </div>
+          </ToolTip>
+        ) : (
+          ""
+        )}
         <div className="post-header border-bottom">
           <div className="post-created-by-wrapper me-1">
             <div className="post-profile-img-wrapper me-1" role="button">
               <img
-                src={item.prof_info_image_link ? item.prof_info_image_link : `https://avatars.dicebear.com/api/identicon/${Math.random()}.svg`}
+                src={
+                  item.prof_info_image_link
+                    ? item.prof_info_image_link
+                    : `https://avatars.dicebear.com/api/identicon/${Math.random()}.svg`
+                }
                 className="post-profile-img-src"
                 alt={item.user_full_name}
                 loading="lazy"
@@ -304,6 +332,26 @@ const DashboardPost = () => {
   };
   return (
     <Fragment>
+      {postCollapseID ? (
+        <ToolTip placement="top" text="Uncollapse Post">
+          <div
+            className="post-viewer-btn position-fixed"
+            style={{
+              zIndex: "10",
+              right: ".5rem",
+              clipPath: "circle(40% at 51% 45%)",
+            }}
+          >
+            <Button size="sm" variant="secondary" onClick={() => setPostCollapseID("")}>
+              <span>
+                <i className="bi bi-chevron-up"></i>
+              </span>
+            </Button>
+          </div>
+        </ToolTip>
+      ) : (
+        ""
+      )}
       <ShowPostModal ref={showPostModalRef} />
       <EditPostModal ref={editPostModalRef} />
       <DeletePostModal ref={deletePostModalRef} />
