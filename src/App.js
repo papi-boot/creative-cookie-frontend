@@ -7,6 +7,7 @@ import { Container } from "react-bootstrap";
 import { usePreFetch } from "./api/usePreFetch";
 import { useSocket } from "api/useSocket";
 import ProtectedRoute from "./pages/ProtectedRoute";
+import ProfileInformationModal from "component/profile-modal/ProfileInformationModal";
 import Dashboard from "./pages/Dashboard";
 import Authenticate from "./pages/Authenticate";
 import ToastMessage from "./component/global/ToastMessage";
@@ -24,6 +25,7 @@ const App = () => {
     postReloader,
     isAuthenticated,
     splashScreenRef,
+    profInfoModalRef
   } = React.useContext(GlobalDataContext);
   usePreFetch();
   React.useEffect(() => {
@@ -69,6 +71,7 @@ const App = () => {
           <Route exact path="/authenticate" component={Authenticate} />
           <div className="main">
             <NewPostNotify ref={newPostNotifyRef} />
+            <ProfileInformationModal ref={profInfoModalRef} />
             <header className="main-header">
               <NavTop />
             </header>

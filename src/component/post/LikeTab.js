@@ -14,7 +14,11 @@ const LikeTab = () => {
                 <div className="fw-bold d-flex align-items-center">
                   <div className="like-profile-img-wrapper me-1">
                     <img
-                      src={item.prof_info_image_link ? item.prof_info_image_link : `https://avatars.dicebear.com/api/identicon/${Math.random()}.svg`}
+                      src={
+                        item.prof_info_image_link
+                          ? item.prof_info_image_link
+                          : `https://avatars.dicebear.com/api/identicon/${Math.random()}.svg`
+                      }
                       loading="lazy"
                       className="like-profile-src"
                       alt={item.user_full_name}

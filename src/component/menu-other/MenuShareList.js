@@ -22,7 +22,7 @@ import {
   TwitterIcon,
 } from "react-share";
 import { GlobalDataContext } from "context/GlobalData";
-import { Button } from "react-bootstrap";
+import { Button, ListGroup } from "react-bootstrap";
 import ToolTip from "component/global/ToolTip";
 const MenuShareList = () => {
   const { sharePostDetail, useNotify } = React.useContext(GlobalDataContext);
@@ -50,6 +50,29 @@ const MenuShareList = () => {
         url
       )}&app_id=${encodeURIComponent(FACEBOOK_APP_ID)}`
     );
+  };
+
+  // @TODO: opens native share selection
+  const toggleNativeShareSelection = () => {
+    if (navigator.share) {
+      navigator
+        .share({
+          title: "Creative Cookie Studio Thread.",
+          text: quote,
+          url: url,
+        })
+        .then(() => {
+          useNotify("Sharing Success", "success");
+        })
+        .catch((err) => {
+          useNotify("Something went wrong. Please try again or later", "error");
+        });
+    } else {
+      useNotify(
+        "Your device is not supported native sharing interface",
+        "error"
+      );
+    }
   };
   return (
     <Fragment>
@@ -157,6 +180,24 @@ const MenuShareList = () => {
           ></textarea>
         </div>
       </section>
+      {!isMobile ? (
+        <div className="mobile-choose-application">
+          <ListGroup>
+            <ListGroup.Item
+              action
+              onClick={() => toggleNativeShareSelection()}
+              className="text-center"
+            >
+              Share post via&nbsp;
+              <span>
+                <i className="bi bi-share-fill"></i>
+              </span>
+            </ListGroup.Item>
+          </ListGroup>
+        </div>
+      ) : (
+        ""
+      )}
     </Fragment>
   );
 };

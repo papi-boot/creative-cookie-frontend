@@ -37,6 +37,7 @@ const DashboardPost = () => {
     useNotify,
     likeSpinnerLoadRef,
     setSharePostDetail,
+    profInfoModalRef
   } = React.useContext(GlobalDataContext);
   const [postCollapseID, setPostCollapseID] = React.useState("");
   const removeArrowDropdownRef = React.useRef(null);
@@ -44,6 +45,7 @@ const DashboardPost = () => {
   const editPostModalRef = React.useRef(null);
   const deletePostModalRef = React.useRef(null);
   const menuOtherCanvasRef = React.useRef(null);
+
 
   // @TODO: show post modal
   const openShowPostModal = (postItem) => {
@@ -136,6 +138,11 @@ const DashboardPost = () => {
     }
   };
 
+  // @TODO: open user profile information
+  const openProfileInformationModal = (item) => {
+    profInfoModalRef.current.toggleModal(item);
+  };
+
   // @TODO: collapse post view
   const collapsePostView = (item) => {
     setPostCollapseID(item.post_id);
@@ -174,7 +181,11 @@ const DashboardPost = () => {
           ""
         )}
         <div className="post-header border-bottom">
-          <div className="post-created-by-wrapper me-1">
+          <div
+            className="post-created-by-wrapper me-1"
+            role="button"
+            onClick={() => openProfileInformationModal(item)}
+          >
             <div className="post-profile-img-wrapper me-1" role="button">
               <img
                 src={
@@ -342,7 +353,11 @@ const DashboardPost = () => {
               clipPath: "circle(40% at 51% 45%)",
             }}
           >
-            <Button size="sm" variant="secondary" onClick={() => setPostCollapseID("")}>
+            <Button
+              size="sm"
+              variant="secondary"
+              onClick={() => setPostCollapseID("")}
+            >
               <span>
                 <i className="bi bi-chevron-up"></i>
               </span>
