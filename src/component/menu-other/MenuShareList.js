@@ -65,7 +65,6 @@ const MenuShareList = () => {
           useNotify("Sharing Success", "success");
         })
         .catch((err) => {
-          useNotify("Something went wrong. Please try again or later", "error");
         });
     } else {
       useNotify(

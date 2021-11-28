@@ -3,6 +3,7 @@ import React, { Fragment } from "react";
 import { GlobalDataContext } from "context/GlobalData";
 import { Form, FloatingLabel, Button } from "react-bootstrap";
 import { useFetch } from "api/useFetch";
+import { useSocket } from "api/useSocket";
 import { useHistory } from "react-router-dom";
 import SpinnerLoad from "component/global/SpinnerLoad";
 import ToolTip from "component/global/ToolTip";
@@ -15,7 +16,7 @@ const Login = () => {
     setDataReloader,
     setUserInfo,
     dataReloader,
-    splashScreenRef
+    splashScreenRef,
   } = React.useContext(GlobalDataContext);
   const [showPassword, setShowPassword] = React.useState(false);
   const history = useHistory();
@@ -34,6 +35,7 @@ const Login = () => {
       .then((res) => {
         if (res) {
           if (res.success) {
+            useSocket().emit("user login", "user login");
             setGlobalMessage(res.message);
             useNotify(res.message, "success");
             setUserInfo(res.user);

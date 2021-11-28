@@ -37,7 +37,7 @@ const DashboardPost = () => {
     useNotify,
     likeSpinnerLoadRef,
     setSharePostDetail,
-    profInfoModalRef
+    profInfoModalRef,
   } = React.useContext(GlobalDataContext);
   const [postCollapseID, setPostCollapseID] = React.useState("");
   const removeArrowDropdownRef = React.useRef(null);
@@ -45,7 +45,6 @@ const DashboardPost = () => {
   const editPostModalRef = React.useRef(null);
   const deletePostModalRef = React.useRef(null);
   const menuOtherCanvasRef = React.useRef(null);
-
 
   // @TODO: show post modal
   const openShowPostModal = (postItem) => {
@@ -186,17 +185,32 @@ const DashboardPost = () => {
             role="button"
             onClick={() => openProfileInformationModal(item)}
           >
-            <div className="post-profile-img-wrapper me-1" role="button">
-              <img
-                src={
-                  item.prof_info_image_link
-                    ? item.prof_info_image_link
-                    : `https://avatars.dicebear.com/api/identicon/${Math.random()}.svg`
-                }
-                className="post-profile-img-src"
-                alt={item.user_full_name}
-                loading="lazy"
-              />
+            <div className="position-relative">
+              <div className="post-profile-img-wrapper me-1" role="button">
+                <img
+                  src={
+                    item.prof_info_image_link
+                      ? item.prof_info_image_link
+                      : `https://avatars.dicebear.com/api/identicon/${Math.random()}.svg`
+                  }
+                  className="post-profile-img-src"
+                  alt={item.user_full_name}
+                  loading="lazy"
+                />
+              </div>
+              <div
+                className="active-status-indicator position-absolute"
+                style={{
+                  clipPath: "circle(50% at 50% 50%)",
+                  backgroundColor: item.status_is_active ? "#00ff00" : "#ff0000",
+                  border: "2px solid #fff",
+                  borderRadius: "50%",
+                  bottom: "0",
+                  height: ".7rem",
+                  right: ".2rem",
+                  width: ".7rem",
+                }}
+              ></div>
             </div>
             <h6
               className="m-0 post-created-by"

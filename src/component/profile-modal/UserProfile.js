@@ -1,17 +1,51 @@
 import React, { Fragment } from "react";
-import { format } from "date-fns";
+import { format, formatDistanceToNow } from "date-fns";
 import { Badge } from "react-bootstrap";
 const UserProfile = ({ user }) => {
   return (
     <Fragment>
       <section className="user-profile-wrapper py-3">
         <div className="user-basic-info">
-          <h6 className="text-primary">
-            <span>
-              <i className="bi bi-info-circle-fill"></i>
-            </span>
-            &nbsp;Basic Info
-          </h6>
+          <div className="d-flex align-items-center justify-content-between">
+            <h6 className="text-primary m-0">
+              <span>
+                <i className="bi bi-info-circle-fill"></i>
+              </span>
+              &nbsp;Basic Info
+            </h6>
+            <div className="status-indicator d-flex align-items-center">
+              <div
+                style={{
+                  clipPath: "circle(50% at 50% 50%)",
+                  backgroundColor: user.status_is_active
+                    ? "#00ff00"
+                    : "#ff0000",
+                  borderRadius: "50%",
+                  height: ".7rem",
+                  width: ".7rem",
+                }}
+              ></div>
+              &nbsp;
+              <h6 className="m-0 status-text" style={{ fontSize: ".8rem" }}>
+                {user.status_socket_id && user.status_user_ref && user.status_is_active ? (
+                  <span>Active Now</span>
+                ) : (
+                  <span>
+                    {user.status_socket_id && user.status_user_ref ? (
+                      <span>
+                        Active&nbsp;
+                        {formatDistanceToNow(new Date(user.status_updated_at), {
+                          addSuffix: true,
+                        })}
+                      </span>
+                    ) : (
+                      "Not Validated"
+                    )}
+                  </span>
+                )}
+              </h6>
+            </div>
+          </div>
           <div className="user-profile-img-wrapper">
             <img
               className="user-profile-img"

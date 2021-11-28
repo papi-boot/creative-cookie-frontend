@@ -25,7 +25,7 @@ const App = () => {
     postReloader,
     isAuthenticated,
     splashScreenRef,
-    profInfoModalRef
+    profInfoModalRef,
   } = React.useContext(GlobalDataContext);
   usePreFetch();
   React.useEffect(() => {
@@ -33,28 +33,63 @@ const App = () => {
   }, [postReloader]);
   // @TODO: register socket Listener
   React.useEffect(() => {
+    useSocket().emit("user connected", "user connected");
     useSocket().on("pre connect", (value) => {});
     useSocket().on("new post", (value) => {
       newPostNotifyRef.current.openToast();
-      newPostNotifyRef.current.toggleDataReloader();
+      if (newPostNotifyRef.current) {
+        newPostNotifyRef.current.toggleDataReloader();
+      }
     });
     useSocket().on("edit post", (value) => {
-      newPostNotifyRef.current.toggleDataReloader();
+      if (newPostNotifyRef.current) {
+        newPostNotifyRef.current.toggleDataReloader();
+      }
     });
     useSocket().on("delete post", (value) => {
-      newPostNotifyRef.current.toggleDataReloader();
+      if (newPostNotifyRef.current) {
+        newPostNotifyRef.current.toggleDataReloader();
+      }
     });
     useSocket().on("like post", (value) => {
-      newPostNotifyRef.current.toggleDataReloader();
+      if (newPostNotifyRef.current) {
+        newPostNotifyRef.current.toggleDataReloader();
+      }
     });
     useSocket().on("add comment", (value) => {
-      newPostNotifyRef.current.toggleDataReloader();
+      if (newPostNotifyRef.current) {
+        newPostNotifyRef.current.toggleDataReloader();
+      }
     });
     useSocket().on("edit comment", (value) => {
-      newPostNotifyRef.current.toggleDataReloader();
+      if (newPostNotifyRef.current) {
+        newPostNotifyRef.current.toggleDataReloader();
+      }
     });
     useSocket().on("delete comment", (value) => {
-      newPostNotifyRef.current.toggleDataReloader();
+      if (newPostNotifyRef.current) {
+        newPostNotifyRef.current.toggleDataReloader();
+      }
+    });
+    useSocket().on("user connected", (value) => {
+      if (newPostNotifyRef.current) {
+        newPostNotifyRef.current.toggleDataReloader();
+      }
+    });
+    useSocket().on("user disconnected", (value) => {
+      if (newPostNotifyRef.current) {
+        newPostNotifyRef.current.toggleDataReloader();
+      }
+    });
+    useSocket().on("user login", (value) => {
+      if (newPostNotifyRef.current) {
+        newPostNotifyRef.current.toggleDataReloader();
+      }
+    });
+    useSocket().on("user logout", (value) => {
+      if (newPostNotifyRef.current) {
+        newPostNotifyRef.current.toggleDataReloader();
+      }
     });
     useSocket().on("connect again", (value) => {
       useSocket().on("connect", () => {
