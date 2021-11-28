@@ -180,7 +180,7 @@ const MenuShareList = () => {
           ></textarea>
         </div>
       </section>
-      {!isMobile ? (
+      {isMobile ? (
         <div className="mobile-choose-application">
           <ListGroup>
             <ListGroup.Item
