@@ -7,6 +7,7 @@ import { useSocket } from "api/useSocket";
 import { useHistory } from "react-router-dom";
 import SpinnerLoad from "component/global/SpinnerLoad";
 import ToolTip from "component/global/ToolTip";
+import ForgotPasswordModal from "component/authenticate/ForgotPasswordModal";
 const Login = () => {
   const {
     userEmail,
@@ -23,6 +24,7 @@ const Login = () => {
   const logSpinnerLoadRef = React.useRef(null);
   const emailRef = React.useRef(null);
   const passwordRef = React.useRef(null);
+  const forgotPasswordModalRef = React.useRef(null);
   const sendLoginRequest = (e) => {
     splashScreenRef.current.classList.remove("d-none");
     logSpinnerLoadRef.current.toggleSpinner();
@@ -70,6 +72,7 @@ const Login = () => {
   };
   return (
     <Fragment>
+      <ForgotPasswordModal ref={forgotPasswordModalRef} />
       <Form onSubmit={(e) => sendLoginRequest(e)}>
         <Form.Group controlId="logInputEmail">
           <FloatingLabel
@@ -126,6 +129,15 @@ const Login = () => {
           </Button>
         </div>
       </Form>
+      <div className="d-flex align-items-center justify-content-center my-3">
+        <a
+          href="#fp"
+          role="button"
+          onClick={() => forgotPasswordModalRef.current.toggleModal()}
+        >
+          Forgot password?
+        </a>
+      </div>
     </Fragment>
   );
 };

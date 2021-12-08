@@ -15,6 +15,7 @@ import NotificationPage from "./pages/NotificationPage";
 import Profile from "./pages/Profile";
 import ProfileListMobile from "./pages/ProfileListMobile";
 import PostContent from "./pages/PostContent";
+import ResetPassword from "./pages/ResetPassword";
 import NavTop from "./component/global/NavTop";
 import NavBottom from "./component/global/NavBottom";
 import NewPostNotify from "component/socket/NewPostNotify";
@@ -104,6 +105,7 @@ const App = () => {
       {isAuthenticated ? (
         <Switch>
           <Route exact path="/authenticate" component={Authenticate} />
+          <Route exact path="/reset-password" component={ResetPassword} />
           <div className="main">
             <NewPostNotify ref={newPostNotifyRef} />
             <ProfileInformationModal ref={profInfoModalRef} />
@@ -131,6 +133,7 @@ const App = () => {
       ) : (
         <Switch>
           <Route exact path="/authenticate" component={Authenticate} />
+          <Route exact path="/reset-password" component={ResetPassword} />
         </Switch>
       )}
     </Fragment>

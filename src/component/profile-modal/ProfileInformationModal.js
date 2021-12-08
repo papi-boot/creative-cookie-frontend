@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { Modal } from "react-bootstrap";
-import ProfileInformationTab from "./ProfileInformationTab";
+import UserProfile from "./UserProfile";
 const ProfileInformationModal = React.forwardRef((props, ref) => {
   const [show, setShow] = React.useState(false);
   const [user, setUser] = React.useState({});
@@ -20,7 +20,7 @@ const ProfileInformationModal = React.forwardRef((props, ref) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <ProfileInformationTab user={user} />
+          <UserProfile user={user}/>
         </Modal.Body>
       </Modal>
     </Fragment>
