@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { Fragment } from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import { GlobalDataContext } from "./context/GlobalData";
 import { Container } from "react-bootstrap";
 import { usePreFetch } from "./api/usePreFetch";

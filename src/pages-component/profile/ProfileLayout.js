@@ -6,7 +6,6 @@ const ProfileLayout = () => {
     <Fragment>
       <div className="profile-grid-wrapper">
         <ProfileInformation />
-        <ProfileFeed />
       </div>
     </Fragment>
   );

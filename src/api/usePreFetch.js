@@ -24,12 +24,15 @@ export const usePreFetch = () => {
             useNotify(res.message, "success");
             setIsAuthenticated(res.isAuthenticated);
             setUserInfo(res.user);
-            return history.replace(localStorage.getItem("URL"));
+            history.replace(localStorage.getItem("URL"));
           } else {
             localStorage.setItem(
               "URL",
               `${window.location.pathname}${window.location.search}`
             );
+            if (localStorage.getItem("URL") === "/") {
+              return history.replace("/authenticate");
+            }
             if (
               localStorage.getItem("URL") ===
               `${window.location.pathname}${window.location.search}`

@@ -30,6 +30,7 @@ const ProfileListMobile = () => {
             setIsAuthenticated(res.isAuthenticated);
             setUserInfo(res.user);
             splashScreenRef.current.classList.add("d-none");
+            localStorage.setItem("URL", "/authenticate");
             history.replace("/authenticate");
           } else {
             nvBottomSpinnerLoadRef.current.toggleSpinner();

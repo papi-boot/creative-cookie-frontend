@@ -35,6 +35,7 @@ const NavTop = () => {
             setIsAuthenticated(res.isAuthenticated);
             setUserInfo(res.user);
             useSocket().emit("user logout", "user logout");
+            localStorage.setItem("URL", "/authenticate");
             history.replace("/authenticate");
           } else {
             nvTopSpinnerLoadRef.current.toggleSpinner();
