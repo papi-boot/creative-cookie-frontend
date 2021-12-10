@@ -2,6 +2,7 @@
 import React, { Fragment } from "react";
 import { withRouter, useHistory, Link } from "react-router-dom";
 import { useFetch } from "api/useFetch";
+import { useSocket } from "api/useSocket";
 import { ListGroup } from "react-bootstrap";
 import { GlobalDataContext } from "context/GlobalData";
 import SpinnerLoad from "component/global/SpinnerLoad";
@@ -12,7 +13,7 @@ const ProfileListMobile = () => {
     useNotify,
     setIsAuthenticated,
     setUserInfo,
-    splashScreenRef
+    splashScreenRef,
   } = React.useContext(GlobalDataContext);
   const nvBottomSpinnerLoadRef = React.useRef(null);
   const logOutRequest = (e) => {
@@ -22,12 +23,14 @@ const ProfileListMobile = () => {
       .then((res) => {
         if (res) {
           if (res.success) {
+            useSocket().emit("user logout", "user logout");
             nvBottomSpinnerLoadRef.current.toggleSpinner();
             setGlobalMessage(res.message);
             useNotify(res.message, "success");
             setIsAuthenticated(res.isAuthenticated);
             setUserInfo(res.user);
             splashScreenRef.current.classList.add("d-none");
+            localStorage.setItem("URL", "/authenticate");
             history.replace("/authenticate");
           } else {
             nvBottomSpinnerLoadRef.current.toggleSpinner();

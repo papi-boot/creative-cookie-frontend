@@ -16,14 +16,6 @@ const MenuOtherTab = ({postDetail}) => {
         >
           <MenuShareList />
         </Tab>
-        <Tab
-          eventKey="Report"
-          title={
-            <span className="fw-bold">
-              <i className="bi bi-exclamation-circle-fill"></i>&nbsp;Report
-            </span>
-          }
-        ></Tab>
       </Tabs>
     </Fragment>
   );

@@ -37,6 +37,7 @@ const DashboardPost = () => {
     useNotify,
     likeSpinnerLoadRef,
     setSharePostDetail,
+    profInfoModalRef,
   } = React.useContext(GlobalDataContext);
   const [postCollapseID, setPostCollapseID] = React.useState("");
   const removeArrowDropdownRef = React.useRef(null);
@@ -136,6 +137,11 @@ const DashboardPost = () => {
     }
   };
 
+  // @TODO: open user profile information
+  const openProfileInformationModal = (item) => {
+    profInfoModalRef.current.toggleModal(item);
+  };
+
   // @TODO: collapse post view
   const collapsePostView = (item) => {
     setPostCollapseID(item.post_id);
@@ -174,18 +180,37 @@ const DashboardPost = () => {
           ""
         )}
         <div className="post-header border-bottom">
-          <div className="post-created-by-wrapper me-1">
-            <div className="post-profile-img-wrapper me-1" role="button">
-              <img
-                src={
-                  item.prof_info_image_link
-                    ? item.prof_info_image_link
-                    : `https://avatars.dicebear.com/api/identicon/${Math.random()}.svg`
-                }
-                className="post-profile-img-src"
-                alt={item.user_full_name}
-                loading="lazy"
-              />
+          <div
+            className="post-created-by-wrapper me-1"
+            role="button"
+            onClick={() => openProfileInformationModal(item)}
+          >
+            <div className="position-relative">
+              <div className="post-profile-img-wrapper me-1" role="button">
+                <img
+                  src={
+                    item.prof_info_image_link
+                      ? item.prof_info_image_link
+                      : `https://avatars.dicebear.com/api/identicon/${Math.random()}.svg`
+                  }
+                  className="post-profile-img-src"
+                  alt={item.user_full_name}
+                  loading="lazy"
+                />
+              </div>
+              <div
+                className="active-status-indicator position-absolute"
+                style={{
+                  clipPath: "circle(50% at 50% 50%)",
+                  backgroundColor: item.status_is_active ? "#00ff00" : "#ff0000",
+                  border: "2px solid #fff",
+                  borderRadius: "50%",
+                  bottom: "0",
+                  height: ".7rem",
+                  right: ".2rem",
+                  width: ".7rem",
+                }}
+              ></div>
             </div>
             <h6
               className="m-0 post-created-by"
@@ -342,7 +367,11 @@ const DashboardPost = () => {
               clipPath: "circle(40% at 51% 45%)",
             }}
           >
-            <Button size="sm" variant="secondary" onClick={() => setPostCollapseID("")}>
+            <Button
+              size="sm"
+              variant="secondary"
+              onClick={() => setPostCollapseID("")}
+            >
               <span>
                 <i className="bi bi-chevron-up"></i>
               </span>

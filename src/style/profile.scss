@@ -8,9 +8,9 @@
   display: grid;
   grid-gap: root.$spacing-5;
   grid-template-areas:
-    "pi pf pf pf pf pf pf pf pf pf"
-    "pi pf pf pf pf pf pf pf pf pf"
-    "pi pf pf pf pf pf pf pf pf pf";
+    "pi"
+    "pi"
+    "pi";
   > .profile-information-section {
     background-color: root.$white;
     border-top: root.$spacing-2 solid root.$primary-color !important;
@@ -54,7 +54,7 @@
   }
 }
 .profile-about-me {
-  width: 18rem;
+  // width: 18rem;
 }
 @mixin profile-down-48rem() {
   .section-profile {

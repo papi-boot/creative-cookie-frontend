@@ -3,9 +3,11 @@ import React, { Fragment } from "react";
 import { GlobalDataContext } from "context/GlobalData";
 import { Form, FloatingLabel, Button } from "react-bootstrap";
 import { useFetch } from "api/useFetch";
+import { useSocket } from "api/useSocket";
 import { useHistory } from "react-router-dom";
 import SpinnerLoad from "component/global/SpinnerLoad";
 import ToolTip from "component/global/ToolTip";
+import ForgotPasswordModal from "component/authenticate/ForgotPasswordModal";
 const Login = () => {
   const {
     userEmail,
@@ -15,13 +17,14 @@ const Login = () => {
     setDataReloader,
     setUserInfo,
     dataReloader,
-    splashScreenRef
+    splashScreenRef,
   } = React.useContext(GlobalDataContext);
   const [showPassword, setShowPassword] = React.useState(false);
   const history = useHistory();
   const logSpinnerLoadRef = React.useRef(null);
   const emailRef = React.useRef(null);
   const passwordRef = React.useRef(null);
+  const forgotPasswordModalRef = React.useRef(null);
   const sendLoginRequest = (e) => {
     splashScreenRef.current.classList.remove("d-none");
     logSpinnerLoadRef.current.toggleSpinner();
@@ -34,6 +37,7 @@ const Login = () => {
       .then((res) => {
         if (res) {
           if (res.success) {
+            useSocket().emit("user login", "user login");
             setGlobalMessage(res.message);
             useNotify(res.message, "success");
             setUserInfo(res.user);
@@ -68,6 +72,7 @@ const Login = () => {
   };
   return (
     <Fragment>
+      <ForgotPasswordModal ref={forgotPasswordModalRef} />
       <Form onSubmit={(e) => sendLoginRequest(e)}>
         <Form.Group controlId="logInputEmail">
           <FloatingLabel
@@ -124,6 +129,15 @@ const Login = () => {
           </Button>
         </div>
       </Form>
+      <div className="d-flex align-items-center justify-content-center my-3">
+        <a
+          href="#fp"
+          role="button"
+          onClick={() => forgotPasswordModalRef.current.toggleModal()}
+        >
+          Forgot password?
+        </a>
+      </div>
     </Fragment>
   );
 };

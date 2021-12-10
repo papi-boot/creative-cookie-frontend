@@ -1,0 +1,16 @@
+@use "root" as root;
+
+.user-profile-wrapper {
+}
+.user-profile-img-wrapper {
+  background-color: rgba(70, 70, 70, 0.4);
+  height: 12rem;
+  clip-path: circle(50% at 50% 50%);
+  margin: 0 auto;
+  width: 12rem;
+  > .user-profile-img {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+  }
+}

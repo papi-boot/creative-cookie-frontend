@@ -5,9 +5,12 @@ import { formatDistanceToNow } from "date-fns";
 import EditCommentModal from "component/comment/EditCommentModal";
 import CommentDeleteModal from "component/comment/CommentDeleteModal";
 const CommentList = () => {
-  const { showPostDetail, userInfo, postReloader } = React.useContext(
-    GlobalDataContext
-  );
+  const {
+    showPostDetail,
+    userInfo,
+    postReloader,
+    profInfoModalRef,
+  } = React.useContext(GlobalDataContext);
   const commentMenuBtnRef = React.useRef(null);
   const editCommentModalRef = React.useRef(null);
   const commentDeleteModalRef = React.useRef(null);
@@ -31,6 +34,11 @@ const CommentList = () => {
   const openDeleteCommentModal = (item) => {
     commentDeleteModalRef.current.toggleModal(item.comment_id);
   };
+
+  //@TODO :open profile infotrmation modal;
+  const openProfileInformationModal = (item) => {
+    profInfoModalRef.current.toggleModal(item);
+  };
   return (
     <Fragment>
       <EditCommentModal ref={editCommentModalRef} />
@@ -46,14 +54,37 @@ const CommentList = () => {
                   textOverflow: "ellipsis",
                   whiteSpace: "nowrap",
                 }}
+                role="button"
+                onClick={() => openProfileInformationModal(item)}
               >
-                <div className="comment-profile-img-wrapper me-1">
-                  <img
-                    src={item.prof_info_image_link ? item.prof_info_image_link : `https://avatars.dicebear.com/api/identicon/${Math.random()}.svg`}
-                    loading="lazy"
-                    className="comment-profile-src"
-                    alt={item.user_full_name}
-                  />
+                <div className="position-relative">
+                  <div className="comment-profile-img-wrapper me-1">
+                    <img
+                      src={
+                        item.prof_info_image_link
+                          ? item.prof_info_image_link
+                          : `https://avatars.dicebear.com/api/identicon/${Math.random()}.svg`
+                      }
+                      loading="lazy"
+                      className="comment-profile-src"
+                      alt={item.user_full_name}
+                    />
+                  </div>
+                  <div
+                    className="active-status-indicator position-absolute"
+                    style={{
+                      clipPath: "circle(50% at 50% 50%)",
+                      backgroundColor: item.status_is_active
+                        ? "#00ff00"
+                        : "#ff0000",
+                      border: "2px solid #fff",
+                      borderRadius: "50%",
+                      bottom: "0",
+                      height: ".7rem",
+                      right: ".2rem",
+                      width: ".7rem",
+                    }}
+                  ></div>
                 </div>
                 <h6
                   className="m-0"

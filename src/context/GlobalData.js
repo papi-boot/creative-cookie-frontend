@@ -39,6 +39,7 @@ const GlobalDataProvider = (props) => {
   const newPostNotifyRef = React.useRef(null);
   const commentModalRef = React.useRef(null);
   const splashScreenRef = React.useRef(null);
+  const profInfoModalRef = React.useRef(null);
   const likeSpinnerLoadRef = React.useRef([]);
   const [currentURL, setCurrentURL] = React.useState("/dashboard");
   const [showCreatePostBtnMob, setShowCreatePostBtnMob] = React.useState(true);
@@ -97,7 +98,8 @@ const GlobalDataProvider = (props) => {
     newPostNotifyRef,
     likeSpinnerLoadRef,
     commentModalRef,
-    splashScreenRef
+    splashScreenRef,
+    profInfoModalRef
   };
   return (
     <GlobalDataContext.Provider value={value}>

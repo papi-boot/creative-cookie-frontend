@@ -2,9 +2,10 @@
 import React, { Fragment } from "react";
 import { NavLink, useHistory } from "react-router-dom";
 import { Navbar, NavDropdown, Badge } from "react-bootstrap";
-import { GlobalDataContext } from "../../context/GlobalData";
-import { useFetch } from "../../api/useFetch";
-import CreativeCookieLogo from "../../assets/logo/creativecookie.png";
+import { GlobalDataContext } from "context/GlobalData";
+import { useFetch } from "api/useFetch";
+import { useSocket } from "api/useSocket";
+import CreativeCookieLogo from "assets/logo/creativecookie.png";
 import SpinnerLoad from "./SpinnerLoad";
 import WritePostModal from "./WritePostModal";
 import ToolTip from "./ToolTip";
@@ -17,7 +18,7 @@ const NavTop = () => {
     setIsAuthenticated,
     setUserInfo,
     notification,
-    splashScreenRef
+    splashScreenRef,
   } = React.useContext(GlobalDataContext);
   const writePostModalRef = React.useRef(null);
   const nvTopSpinnerLoadRef = React.useRef(null);
@@ -33,6 +34,8 @@ const NavTop = () => {
             useNotify(res.message, "success");
             setIsAuthenticated(res.isAuthenticated);
             setUserInfo(res.user);
+            useSocket().emit("user logout", "user logout");
+            localStorage.setItem("URL", "/authenticate");
             history.replace("/authenticate");
           } else {
             nvTopSpinnerLoadRef.current.toggleSpinner();
@@ -157,7 +160,9 @@ const NavTop = () => {
                     <span className="d-flex align-items-center fw-bold">
                       <ToolTip
                         placement="bottom"
-                        text={userInfo.user_full_name + "\n" +userInfo.user_email}
+                        text={
+                          userInfo.user_full_name + "\n" + userInfo.user_email
+                        }
                       >
                         <div className="nav-top-profile-img-wrapper me-1">
                           <img

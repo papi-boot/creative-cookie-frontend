@@ -26,7 +26,21 @@ export const usePreFetch = () => {
             setUserInfo(res.user);
             history.replace(localStorage.getItem("URL"));
           } else {
-            history.replace("/authenticate");
+            localStorage.setItem(
+              "URL",
+              `${window.location.pathname}${window.location.search}`
+            );
+            if (localStorage.getItem("URL") === "/") {
+              return history.replace("/authenticate");
+            }
+            if (
+              localStorage.getItem("URL") ===
+              `${window.location.pathname}${window.location.search}`
+            ) {
+              return history.replace(localStorage.getItem("URL"));
+            } else {
+              return history.replace("/authenticate");
+            }
           }
         } else {
           throw new Error(
