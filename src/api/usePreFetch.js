@@ -21,7 +21,7 @@ export const usePreFetch = () => {
         if (res) {
           if (res.success) {
             setGlobalMessage(res.message);
-            useNotify(res.message, "success");
+            // useNotify(res.message, "success");
             setIsAuthenticated(res.isAuthenticated);
             setUserInfo(res.user);
             history.replace(localStorage.getItem("URL"));
